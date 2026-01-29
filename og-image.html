@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BONKERS.WEBSITE - OpenGraph Image</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Press+Start+2P&family=VT323&family=Silkscreen&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a2e;
+      font-family: system-ui, sans-serif;
+    }
+
+    .og-container {
+      width: 1200px;
+      height: 630px;
+      position: relative;
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          #000033 0px,
+          #000033 10px,
+          #000066 10px,
+          #000066 20px
+        );
+    }
+
+    /* Starfield background dots */
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(2px 2px at 100px 50px, white, transparent),
+        radial-gradient(2px 2px at 200px 150px, white, transparent),
+        radial-gradient(3px 3px at 300px 80px, #ffff00, transparent),
+        radial-gradient(2px 2px at 400px 200px, white, transparent),
+        radial-gradient(2px 2px at 500px 120px, #ff00ff, transparent),
+        radial-gradient(3px 3px at 650px 50px, white, transparent),
+        radial-gradient(2px 2px at 750px 180px, #00ffff, transparent),
+        radial-gradient(2px 2px at 850px 90px, white, transparent),
+        radial-gradient(3px 3px at 950px 200px, #ffff00, transparent),
+        radial-gradient(2px 2px at 1050px 60px, white, transparent),
+        radial-gradient(2px 2px at 1150px 150px, #ff00ff, transparent),
+        radial-gradient(2px 2px at 80px 400px, white, transparent),
+        radial-gradient(3px 3px at 180px 500px, #00ffff, transparent),
+        radial-gradient(2px 2px at 320px 450px, white, transparent),
+        radial-gradient(2px 2px at 480px 550px, white, transparent),
+        radial-gradient(3px 3px at 620px 420px, #ffff00, transparent),
+        radial-gradient(2px 2px at 780px 530px, white, transparent),
+        radial-gradient(2px 2px at 920px 480px, #ff00ff, transparent),
+        radial-gradient(3px 3px at 1080px 550px, white, transparent),
+        radial-gradient(2px 2px at 1140px 400px, #00ffff, transparent);
+      opacity: 0.6;
+    }
+
+    /* Construction tape top */
+    .construction-tape {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background: repeating-linear-gradient(
+        45deg,
+        #000,
+        #000 10px,
+        #ffcc00 10px,
+        #ffcc00 20px
+      );
+    }
+
+    /* Construction tape bottom */
+    .construction-tape-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #000,
+        #000 10px,
+        #ffcc00 10px,
+        #ffcc00 20px
+      );
+    }
+
+    /* Main content area */
+    .content {
+      position: absolute;
+      inset: 24px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    /* Spinning decoration elements */
+    .deco-circle-1 {
+      position: absolute;
+      top: 60px;
+      left: 60px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+      opacity: 0.4;
+      filter: blur(2px);
+    }
+
+    .deco-circle-2 {
+      position: absolute;
+      top: 80px;
+      right: 80px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: conic-gradient(from 90deg, #00ff00, #ff0000, #0000ff, #00ff00);
+      opacity: 0.4;
+      filter: blur(2px);
+    }
+
+    .deco-circle-3 {
+      position: absolute;
+      bottom: 80px;
+      left: 100px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: conic-gradient(from 180deg, #ff6600, #ff00ff, #00ffff, #ff6600);
+      opacity: 0.35;
+      filter: blur(2px);
+    }
+
+    .deco-circle-4 {
+      position: absolute;
+      bottom: 100px;
+      right: 120px;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: conic-gradient(from 270deg, #ffff00, #00ff00, #ff00ff, #ffff00);
+      opacity: 0.35;
+      filter: blur(2px);
+    }
+
+    /* Floating emojis */
+    .emoji {
+      position: absolute;
+      font-size: 48px;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+    }
+
+    .emoji-1 { top: 140px; left: 200px; }
+    .emoji-2 { top: 120px; right: 220px; }
+    .emoji-3 { bottom: 140px; left: 180px; }
+    .emoji-4 { bottom: 120px; right: 200px; }
+    .emoji-5 { top: 280px; left: 80px; font-size: 36px; }
+    .emoji-6 { top: 300px; right: 100px; font-size: 36px; }
+
+    /* Main title */
+    .title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 72px;
+      background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow:
+        4px 4px 0 rgba(255, 0, 0, 0.5),
+        8px 8px 0 rgba(255, 127, 0, 0.4),
+        12px 12px 0 rgba(255, 255, 0, 0.3);
+      letter-spacing: 4px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* .WEBSITE subtitle */
+    .subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 42px;
+      color: #00ffff;
+      text-shadow:
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff,
+        0 0 80px #00ffff;
+      margin-top: 10px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Tagline */
+    .tagline {
+      font-family: 'Comic Neue', cursive;
+      font-size: 32px;
+      color: #ffff00;
+      margin-top: 30px;
+      text-shadow:
+        2px 2px 0 #ff00ff,
+        -2px -2px 0 #00ffff;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Decorative stars around tagline */
+    .tagline::before,
+    .tagline::after {
+      content: '✨';
+      margin: 0 15px;
+      font-size: 28px;
+    }
+
+    /* Visitor counter */
+    .visitor-counter {
+      margin-top: 35px;
+      background: #1a1a1a;
+      border: 4px inset #333;
+      padding: 12px 25px;
+      border-radius: 8px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      position: relative;
+      z-index: 10;
+    }
+
+    .visitor-label {
+      font-family: 'Silkscreen', monospace;
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .counter-digits {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+    }
+
+    .digit {
+      background: #000;
+      border: 2px inset #222;
+      color: #00ff00;
+      font-family: 'VT323', monospace;
+      font-size: 32px;
+      padding: 4px 10px;
+      min-width: 28px;
+      text-align: center;
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    /* Fire divider */
+    .fire-divider {
+      position: absolute;
+      bottom: 85px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 25px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Cdefs%3E%3ClinearGradient id='fire' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff0000'/%3E%3Cstop offset='50%25' style='stop-color:%23ff6600'/%3E%3Cstop offset='100%25' style='stop-color:%23ffff00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23fire)' d='M0,30 Q10,15 20,25 Q30,10 40,20 Q50,5 60,25 Q70,15 80,22 Q90,10 100,30 Z'/%3E%3C/svg%3E") repeat-x;
+      opacity: 0.9;
+    }
+
+    /* Badge row */
+    .badges {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .badge {
+      font-family: 'Silkscreen', monospace;
+      font-size: 10px;
+      padding: 6px 12px;
+      border: 2px solid;
+    }
+
+    .badge-1 {
+      background: linear-gradient(180deg, #dfdfdf 0%, #c0c0c0 50%, #a0a0a0 100%);
+      border-color: #fff #888 #888 #fff;
+      color: #000;
+    }
+
+    .badge-2 {
+      background: #000;
+      border-color: #00ff00;
+      color: #00ff00;
+    }
+
+    .badge-3 {
+      background: linear-gradient(90deg, #ff0080, #8000ff);
+      border-color: #fff;
+      color: #fff;
+    }
+
+    .badge-4 {
+      background: #000080;
+      border-color: #0080ff;
+      color: #00ffff;
+    }
+
+    /* Corner decorations */
+    .corner {
+      position: absolute;
+      font-size: 28px;
+    }
+
+    .corner-tl { top: 35px; left: 20px; }
+    .corner-tr { top: 35px; right: 20px; }
+    .corner-bl { bottom: 35px; left: 20px; }
+    .corner-br { bottom: 35px; right: 20px; }
+
+    /* NEW badge */
+    .new-badge {
+      position: absolute;
+      top: 50px;
+      right: 50px;
+      background: #ff0000;
+      color: #ffff00;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 14px;
+      padding: 8px 16px;
+      border: 3px solid #ffff00;
+      transform: rotate(12deg);
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+      z-index: 20;
+    }
+
+    /* Webring style box */
+    .webring-text {
+      position: absolute;
+      bottom: 115px;
+      font-family: 'Silkscreen', monospace;
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="og-container">
+    <!-- Stars background -->
+    <div class="stars"></div>
+
+    <!-- Construction tapes -->
+    <div class="construction-tape"></div>
+    <div class="construction-tape-bottom"></div>
+
+    <!-- Decorative circles -->
+    <div class="deco-circle-1"></div>
+    <div class="deco-circle-2"></div>
+    <div class="deco-circle-3"></div>
+    <div class="deco-circle-4"></div>
+
+    <!-- Floating emojis -->
+    <span class="emoji emoji-1">&#128308;</span>
+    <span class="emoji emoji-2">&#11088;</span>
+    <span class="emoji emoji-3">&#129412;</span>
+    <span class="emoji emoji-4">&#128126;</span>
+    <span class="emoji emoji-5">&#127744;</span>
+    <span class="emoji emoji-6">&#10024;</span>
+
+    <!-- Corner decorations -->
+    <span class="corner corner-tl">&#127775;</span>
+    <span class="corner corner-tr">&#127775;</span>
+    <span class="corner corner-bl">&#128190;</span>
+    <span class="corner corner-br">&#128187;</span>
+
+    <!-- NEW badge -->
+    <div class="new-badge">&#9733; NEW &#9733;</div>
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="title">BONKERS</div>
+      <div class="subtitle">.WEBSITE</div>
+      <div class="tagline">The Internet Was A Mistake</div>
+
+      <!-- Visitor counter -->
+      <div class="visitor-counter">
+        <div class="visitor-label">You are visitor #</div>
+        <div class="counter-digits">
+          <span class="digit">0</span>
+          <span class="digit">1</span>
+          <span class="digit">3</span>
+          <span class="digit">3</span>
+          <span class="digit">7</span>
+          <span class="digit">4</span>
+          <span class="digit">2</span>
+          <span class="digit">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fire divider -->
+    <div class="fire-divider"></div>
+
+    <!-- Webring text -->
+    <div class="webring-text">&#127760; THE BONKERS WEBRING &#127760;</div>
+
+    <!-- Badge row -->
+    <div class="badges">
+      <div class="badge badge-1">MADE WITH NOTEPAD</div>
+      <div class="badge badge-2">JAVASCRIPT ENABLED</div>
+      <div class="badge badge-3">Y2K READY</div>
+      <div class="badge badge-4">NETSCAPE NOW!</div>
+    </div>
+  </div>
+</body>
+</html>
