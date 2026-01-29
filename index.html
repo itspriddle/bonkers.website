@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>~*~ BONKERS.WEBSITE ~*~ U R VISITOR #</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Press+Start+2P&family=VT323&family=Silkscreen&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'comic': ['"Comic Neue"', 'cursive'],
+            'pixel': ['"Press Start 2P"', 'monospace'],
+            'vt': ['"VT323"', 'monospace'],
+            'silk': ['"Silkscreen"', 'monospace'],
+          },
+          animation: {
+            'marquee': 'marquee 15s linear infinite',
+            'marquee-reverse': 'marquee-reverse 20s linear infinite',
+            'spin-slow': 'spin 8s linear infinite',
+            'spin-reverse': 'spin-reverse 6s linear infinite',
+            'bounce-slow': 'bounce 2s infinite',
+            'wiggle': 'wiggle 0.5s ease-in-out infinite',
+            'rainbow': 'rainbow 3s linear infinite',
+            'float': 'float 3s ease-in-out infinite',
+            'shake': 'shake 0.5s ease-in-out infinite',
+            'pulse-fast': 'pulse 0.5s ease-in-out infinite',
+            'skew': 'skew 2s ease-in-out infinite',
+            'blink': 'blink 1s step-end infinite',
+            'disco': 'disco 0.5s ease-in-out infinite',
+            'grow': 'grow 1s ease-in-out infinite',
+            'swing': 'swing 1s ease-in-out infinite',
+            'jello': 'jello 1s ease-in-out infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(100%)' },
+              '100%': { transform: 'translateX(-100%)' },
+            },
+            'marquee-reverse': {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(100%)' },
+            },
+            'spin-reverse': {
+              '0%': { transform: 'rotate(360deg)' },
+              '100%': { transform: 'rotate(0deg)' },
+            },
+            wiggle: {
+              '0%, 100%': { transform: 'rotate(-5deg)' },
+              '50%': { transform: 'rotate(5deg)' },
+            },
+            rainbow: {
+              '0%': { filter: 'hue-rotate(0deg)' },
+              '100%': { filter: 'hue-rotate(360deg)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            shake: {
+              '0%, 100%': { transform: 'translateX(0)' },
+              '25%': { transform: 'translateX(-5px)' },
+              '75%': { transform: 'translateX(5px)' },
+            },
+            skew: {
+              '0%, 100%': { transform: 'skewX(0deg)' },
+              '50%': { transform: 'skewX(5deg)' },
+            },
+            blink: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0' },
+            },
+            disco: {
+              '0%': { backgroundColor: '#ff0000' },
+              '20%': { backgroundColor: '#ff00ff' },
+              '40%': { backgroundColor: '#0000ff' },
+              '60%': { backgroundColor: '#00ffff' },
+              '80%': { backgroundColor: '#00ff00' },
+              '100%': { backgroundColor: '#ffff00' },
+            },
+            grow: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.1)' },
+            },
+            swing: {
+              '0%, 100%': { transform: 'rotate(0deg)', transformOrigin: 'top center' },
+              '25%': { transform: 'rotate(15deg)' },
+              '75%': { transform: 'rotate(-15deg)' },
+            },
+            jello: {
+              '0%, 100%': { transform: 'skewX(0deg) skewY(0deg)' },
+              '25%': { transform: 'skewX(-5deg) skewY(-5deg)' },
+              '50%': { transform: 'skewX(5deg) skewY(5deg)' },
+              '75%': { transform: 'skewX(-5deg) skewY(-5deg)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    /* THE SACRED TILED BACKGROUND */
+    body {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='8' fill='%23ff00ff'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%2300ffff'/%3E%3C/svg%3E"), auto;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          #000033 0px,
+          #000033 10px,
+          #000066 10px,
+          #000066 20px
+        ),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* CURSOR TRAIL MAGIC */
+    .cursor-trail {
+      position: fixed;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff00ff, #00ffff);
+      animation: rainbow 1s linear infinite, grow 0.5s ease-out forwards;
+      z-index: 9999;
+    }
+
+    /* GLITTER TEXT EFFECT */
+    .glitter {
+      background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: rainbow 2s ease infinite;
+    }
+
+    /* BEVEL EFFECT FOR BUTTONS */
+    .bevel {
+      border: 3px outset #c0c0c0;
+      background: linear-gradient(180deg, #dfdfdf 0%, #c0c0c0 50%, #a0a0a0 100%);
+    }
+    .bevel:active {
+      border-style: inset;
+    }
+
+    /* WEB RING FRAME */
+    .webring-frame {
+      border: 4px ridge #gold;
+      background: linear-gradient(135deg, #2a0845, #6441A5);
+    }
+
+    /* GUESTBOOK TEXTAREA */
+    .guestbook-input {
+      background: #000;
+      border: 2px inset #00ff00;
+      color: #00ff00;
+      font-family: 'VT323', monospace;
+    }
+
+    /* UNDER CONSTRUCTION TAPE */
+    .construction-tape {
+      background: repeating-linear-gradient(
+        45deg,
+        #000,
+        #000 10px,
+        #ffcc00 10px,
+        #ffcc00 20px
+      );
+    }
+
+    /* SCROLLING MARQUEE CONTAINER */
+    .marquee-container {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    /* GEOCITIES STYLE HR */
+    .hr-fire {
+      height: 30px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Cdefs%3E%3ClinearGradient id='fire' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff0000'/%3E%3Cstop offset='50%25' style='stop-color:%23ff6600'/%3E%3Cstop offset='100%25' style='stop-color:%23ffff00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23fire)' d='M0,30 Q10,15 20,25 Q30,10 40,20 Q50,5 60,25 Q70,15 80,22 Q90,10 100,30 Z'/%3E%3C/svg%3E") repeat-x;
+      border: none;
+      animation: rainbow 2s linear infinite;
+    }
+
+    /* 3D TEXT SHADOW */
+    .text-3d {
+      text-shadow:
+        1px 1px 0 #ff0000,
+        2px 2px 0 #ff7f00,
+        3px 3px 0 #ffff00,
+        4px 4px 0 #00ff00,
+        5px 5px 0 #0000ff,
+        6px 6px 0 #4b0082,
+        7px 7px 0 #9400d3;
+    }
+
+    /* VISITOR COUNTER DISPLAY */
+    .counter-digit {
+      background: #000;
+      border: 2px inset #333;
+      color: #00ff00;
+      font-family: 'VT323', monospace;
+      padding: 5px 8px;
+      display: inline-block;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    /* SPARKLE EFFECT */
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    .sparkle::before, .sparkle::after {
+      content: '✨';
+      position: absolute;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+    .sparkle::before { top: -10px; left: -10px; animation-delay: 0s; }
+    .sparkle::after { bottom: -10px; right: -10px; animation-delay: 0.75s; }
+
+    /* NEON GLOW */
+    .neon-pink {
+      text-shadow:
+        0 0 5px #ff00ff,
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 40px #ff00ff;
+    }
+    .neon-cyan {
+      text-shadow:
+        0 0 5px #00ffff,
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff;
+    }
+    .neon-green {
+      text-shadow:
+        0 0 5px #00ff00,
+        0 0 10px #00ff00,
+        0 0 20px #00ff00,
+        0 0 40px #00ff00;
+    }
+
+    /* DROPDOWN MENU 90s STYLE */
+    .dropdown-90s {
+      background: #c0c0c0;
+      border: 2px outset #fff;
+      box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf;
+    }
+
+    /* MIDI PLAYER FAKE */
+    .midi-player {
+      background: linear-gradient(180deg, #c0c0c0, #808080);
+      border: 2px outset #dfdfdf;
+    }
+
+    /* HIT COUNTER ODOMETER */
+    .odometer {
+      background: #1a1a1a;
+      border: 3px inset #333;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+    }
+
+    /* WEIRDCORE GRADIENT */
+    .weirdcore-bg {
+      background: linear-gradient(
+        135deg,
+        #ff006e 0%,
+        #8338ec 25%,
+        #3a86ff 50%,
+        #06ffa5 75%,
+        #ffbe0b 100%
+      );
+      background-size: 400% 400%;
+      animation: rainbow 5s ease infinite;
+    }
+
+    /* AOL INSTANT MESSENGER VIBES */
+    .aim-window {
+      background: linear-gradient(180deg, #ffffcc 0%, #ffff99 100%);
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 #000;
+    }
+    .aim-titlebar {
+      background: linear-gradient(90deg, #000080, #1084d0);
+      color: white;
+      padding: 2px 5px;
+    }
+
+    /* BLESSED DANCING BABY ENERGY */
+    @keyframes dance {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-5px) rotate(-5deg); }
+      50% { transform: translateY(0) rotate(0deg); }
+      75% { transform: translateY(-5px) rotate(5deg); }
+    }
+    .dance {
+      animation: dance 0.5s ease-in-out infinite;
+    }
+
+    /* STARFIELD */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="min-h-screen overflow-x-hidden" x-data="bonkers()">
+  <!-- CURSOR TRAIL -->
+  <template x-for="(trail, index) in cursorTrail" :key="index">
+    <div
+      class="cursor-trail"
+      :style="`left: ${trail.x}px; top: ${trail.y}px; opacity: ${trail.opacity}; transform: scale(${trail.scale});`"
+    ></div>
+  </template>
+
+  <!-- TOP MARQUEE - THE SACRED SCROLLING TEXT -->
+  <div class="construction-tape py-1">
+    <div class="marquee-container">
+      <div class="animate-marquee inline-block font-pixel text-xs text-black">
+        <span class="mx-4">&#9888; WELCOME TO BONKERS.WEBSITE &#9888;</span>
+        <span class="mx-4">&#127775; BEST VIEWED WITH NETSCAPE NAVIGATOR 4.0 &#127775;</span>
+        <span class="mx-4">&#128190; 800x600 RESOLUTION RECOMMENDED &#128190;</span>
+        <span class="mx-4">&#127925; TURN ON YOUR SPEAKERS &#127925;</span>
+        <span class="mx-4">&#9888; WELCOME TO BONKERS.WEBSITE &#9888;</span>
+        <span class="mx-4">&#127775; BEST VIEWED WITH NETSCAPE NAVIGATOR 4.0 &#127775;</span>
+        <span class="mx-4">&#128190; 800x600 RESOLUTION RECOMMENDED &#128190;</span>
+        <span class="mx-4">&#127925; TURN ON YOUR SPEAKERS &#127925;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container mx-auto px-4 py-8 relative">
+
+    <!-- FLOATING DECORATIONS -->
+    <div class="fixed top-20 left-4 text-6xl animate-float" style="animation-delay: 0s;">&#128308;</div>
+    <div class="fixed top-40 right-8 text-5xl animate-float" style="animation-delay: 0.5s;">&#11088;</div>
+    <div class="fixed top-60 left-12 text-4xl animate-spin-slow">&#127744;</div>
+    <div class="fixed bottom-40 right-4 text-6xl animate-wiggle">&#129412;</div>
+    <div class="fixed bottom-20 left-8 text-5xl animate-bounce-slow">&#128126;</div>
+    <div class="fixed top-32 right-1/4 text-4xl animate-spin-reverse">&#9733;</div>
+
+    <!-- HERO SECTION -->
+    <header class="text-center mb-8 relative">
+      <!-- SPINNING CD -->
+      <div class="absolute -top-4 -left-4 w-24 h-24 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 animate-spin-slow opacity-80 blur-sm"></div>
+      <div class="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 animate-spin-reverse opacity-80 blur-sm"></div>
+
+      <div class="relative z-10">
+        <!-- MAIN TITLE -->
+        <h1 class="font-pixel text-4xl md:text-6xl text-white text-3d mb-4 animate-jello">
+          <span class="glitter">BONKERS</span>
+        </h1>
+        <div class="font-pixel text-2xl md:text-4xl text-cyan-400 neon-cyan animate-pulse-fast">
+          .WEBSITE
+        </div>
+
+        <!-- SUBTITLE WITH SPINNING STARS -->
+        <div class="mt-6 flex items-center justify-center gap-4">
+          <span class="text-3xl animate-spin-slow">&#10024;</span>
+          <p class="font-comic text-xl md:text-2xl text-yellow-300 animate-wiggle">
+            &#126;&#42;&#126; The Internet Was A Mistake &#126;&#42;&#126;
+          </p>
+          <span class="text-3xl animate-spin-reverse">&#10024;</span>
+        </div>
+
+        <!-- BLINKING "NEW" GIF ENERGY -->
+        <div class="mt-4 inline-block">
+          <span class="bg-red-600 text-yellow-300 font-pixel text-xs px-3 py-1 animate-blink border-2 border-yellow-300">
+            &#9733; NEW &#9733;
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- FIRE HR -->
+    <div class="hr-fire my-8"></div>
+
+    <!-- VISITOR COUNTER SECTION -->
+    <section class="text-center mb-12">
+      <div class="inline-block p-4 odometer rounded-lg">
+        <p class="font-silk text-xs text-gray-400 mb-2">YOU ARE VISITOR NUMBER:</p>
+        <div class="flex justify-center gap-1">
+          <template x-for="digit in visitorCount.toString().padStart(8, '0').split('')" :key="Math.random()">
+            <span class="counter-digit text-2xl" x-text="digit"></span>
+          </template>
+        </div>
+        <p class="font-silk text-xs text-gray-500 mt-2">SINCE JANUARY 1999</p>
+      </div>
+    </section>
+
+    <!-- CONTENT SECTIONS IN GEOCITIES TABLE STYLE -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+
+      <!-- ABOUT ME SECTION -->
+      <div class="webring-frame p-4 rounded-lg relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-16 h-16">
+          <div class="w-full h-full bg-yellow-400 rotate-45 transform origin-top-right animate-swing"></div>
+        </div>
+        <h2 class="font-pixel text-sm text-pink-400 neon-pink mb-4">&#128100; ABOUT ME &#128100;</h2>
+        <div class="font-comic text-white space-y-2">
+          <p class="animate-rainbow">&#127752; Name: Webmaster Supreme</p>
+          <p>&#128197; Age: Older than Google</p>
+          <p>&#127968; Location: The Information Superhighway</p>
+          <p class="text-cyan-300">&#128154; Status: EXTREMELY ONLINE</p>
+        </div>
+        <div class="mt-4 text-4xl text-center dance">&#128131;</div>
+      </div>
+
+      <!-- LINKS SECTION -->
+      <div class="webring-frame p-4 rounded-lg">
+        <h2 class="font-pixel text-sm text-green-400 neon-green mb-4">&#128279; COOL LINKS &#128279;</h2>
+        <ul class="font-comic space-y-2">
+          <li>
+            <a href="#" class="text-cyan-300 hover:text-pink-400 transition-all hover:animate-shake inline-block" @mouseenter="playHoverSound">
+              &#127758; Hamster Dance (RIP)
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-yellow-300 hover:text-cyan-400 transition-all hover:animate-wiggle inline-block" @mouseenter="playHoverSound">
+              &#128190; Download More RAM
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-pink-300 hover:text-green-400 transition-all hover:animate-grow inline-block" @mouseenter="playHoverSound">
+              &#127775; Cool ASCII Art
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-green-300 hover:text-yellow-400 transition-all hover:animate-jello inline-block" @mouseenter="playHoverSound">
+              &#128293; Flame War Archive
+            </a>
+          </li>
+        </ul>
+        <div class="mt-4 text-center">
+          <span class="text-3xl animate-bounce-slow">&#128065;</span>
+        </div>
+      </div>
+
+      <!-- GUESTBOOK SECTION -->
+      <div class="webring-frame p-4 rounded-lg">
+        <h2 class="font-pixel text-sm text-yellow-400 mb-4 animate-blink">&#128221; SIGN MY GUESTBOOK &#128221;</h2>
+        <div class="space-y-3">
+          <input
+            type="text"
+            placeholder="Your name, stranger..."
+            class="guestbook-input w-full px-3 py-2 text-sm rounded"
+            x-model="guestbookName"
+          >
+          <textarea
+            placeholder="Leave me a message! (be nice)"
+            class="guestbook-input w-full px-3 py-2 text-sm rounded h-20 resize-none"
+            x-model="guestbookMessage"
+          ></textarea>
+          <button
+            class="bevel font-comic text-black text-sm px-4 py-2 w-full hover:animate-shake"
+            @click="signGuestbook"
+          >
+            &#9998; SIGN IT! &#9998;
+          </button>
+        </div>
+        <p class="text-xs text-gray-400 font-silk mt-2 text-center" x-show="guestbookSigned" x-transition>
+          &#10004; Thanks for signing!
+        </p>
+      </div>
+    </div>
+
+    <!-- ANIMATED MARQUEE SECTION -->
+    <div class="bg-black/50 border-4 border-double border-cyan-400 p-4 mb-12 rounded">
+      <div class="marquee-container">
+        <div class="animate-marquee-reverse inline-block">
+          <span class="font-vt text-2xl text-green-400">
+            &#9734; WELCOME TO MY CORNER OF THE WORLD WIDE WEB &#9734;
+            THIS SITE IS FOREVER UNDER CONSTRUCTION &#9734;
+            EMAIL ME AT webmaster@bonkers.website &#9734;
+            AOL INSTANT MESSENGER: xX_B0NK3RS_Xx &#9734;
+            ICQ: 8675309 &#9734;
+            &#9734; WELCOME TO MY CORNER OF THE WORLD WIDE WEB &#9734;
+            THIS SITE IS FOREVER UNDER CONSTRUCTION &#9734;
+            EMAIL ME AT webmaster@bonkers.website &#9734;
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEBRING NAVIGATION -->
+    <section class="text-center mb-12">
+      <div class="inline-block bg-gradient-to-r from-purple-900 via-pink-900 to-purple-900 p-6 rounded-lg border-4 border-double border-yellow-400">
+        <h3 class="font-pixel text-xs text-yellow-300 mb-4">&#127760; THE BONKERS WEBRING &#127760;</h3>
+        <div class="flex items-center justify-center gap-4 font-comic">
+          <button class="bevel px-4 py-2 text-black hover:animate-wiggle text-sm">
+            &#9664;&#9664; PREV
+          </button>
+          <div class="text-white">
+            <span class="text-pink-400">&#91;</span>
+            <span class="animate-rainbow">RANDOM</span>
+            <span class="text-pink-400">&#93;</span>
+          </div>
+          <button class="bevel px-4 py-2 text-black hover:animate-wiggle text-sm">
+            NEXT &#9654;&#9654;
+          </button>
+        </div>
+        <p class="font-silk text-xs text-gray-400 mt-3">
+          Site 47 of 2,847 in the ring
+        </p>
+      </div>
+    </section>
+
+    <!-- MIDI PLAYER FAKE -->
+    <section class="text-center mb-12">
+      <div class="inline-block midi-player p-3 rounded">
+        <div class="flex items-center gap-2">
+          <span class="font-silk text-xs text-black">&#127925; NOW PLAYING:</span>
+          <span class="font-comic text-sm text-purple-800 animate-pulse">hampsterdance.mid</span>
+        </div>
+        <div class="flex justify-center gap-1 mt-2">
+          <button class="bevel px-2 py-1 text-xs" @click="toggleMusic">
+            <span x-text="musicPlaying ? '&#9632; STOP' : '&#9654; PLAY'"></span>
+          </button>
+          <button class="bevel px-2 py-1 text-xs">&#9198; REW</button>
+          <button class="bevel px-2 py-1 text-xs">FF &#9197;</button>
+        </div>
+        <div class="w-full bg-gray-700 h-2 mt-2 rounded">
+          <div
+            class="bg-green-500 h-full rounded transition-all duration-300"
+            :style="`width: ${musicProgress}%`"
+            x-show="musicPlaying"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AWARDS SECTION -->
+    <section class="text-center mb-12">
+      <h3 class="font-pixel text-sm text-cyan-400 neon-cyan mb-6">&#127942; AWARDS I DEFINITELY WON &#127942;</h3>
+      <div class="flex flex-wrap justify-center gap-6">
+        <div class="text-center animate-float" style="animation-delay: 0s;">
+          <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center text-3xl border-4 border-yellow-300 shadow-lg animate-spin-slow">
+            &#127942;
+          </div>
+          <p class="font-silk text-xs text-yellow-300 mt-2">BEST SITE<br>1999</p>
+        </div>
+        <div class="text-center animate-float" style="animation-delay: 0.3s;">
+          <div class="w-20 h-20 bg-gradient-to-br from-gray-300 to-gray-500 rounded-full flex items-center justify-center text-3xl border-4 border-gray-200 shadow-lg animate-wiggle">
+            &#11088;
+          </div>
+          <p class="font-silk text-xs text-gray-300 mt-2">COOL SITE<br>OF THE DAY</p>
+        </div>
+        <div class="text-center animate-float" style="animation-delay: 0.6s;">
+          <div class="w-20 h-20 bg-gradient-to-br from-orange-400 to-red-600 rounded-full flex items-center justify-center text-3xl border-4 border-orange-300 shadow-lg animate-bounce-slow">
+            &#128293;
+          </div>
+          <p class="font-silk text-xs text-orange-300 mt-2">HOT SITE<br>AWARD</p>
+        </div>
+        <div class="text-center animate-float" style="animation-delay: 0.9s;">
+          <div class="w-20 h-20 bg-gradient-to-br from-purple-400 to-pink-600 rounded-full flex items-center justify-center text-3xl border-4 border-purple-300 shadow-lg animate-jello">
+            &#129412;
+          </div>
+          <p class="font-silk text-xs text-purple-300 mt-2">WEIRDEST<br>PAGE 2001</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNDER CONSTRUCTION SECTION -->
+    <section class="text-center mb-12 relative">
+      <div class="inline-block relative">
+        <div class="absolute -top-8 -left-8 text-5xl animate-wiggle">&#128679;</div>
+        <div class="absolute -top-8 -right-8 text-5xl animate-wiggle" style="animation-delay: 0.25s;">&#128679;</div>
+        <div class="aim-window p-4 relative">
+          <div class="aim-titlebar -mx-4 -mt-4 mb-3 font-silk text-xs">
+            &#128187; Important Notice
+          </div>
+          <p class="font-comic text-black text-lg">
+            &#9888; THIS PAGE IS UNDER CONSTRUCTION &#9888;
+          </p>
+          <p class="font-comic text-gray-600 text-sm mt-2">
+            Check back soon for more EPIC content!
+          </p>
+          <div class="text-4xl mt-3 dance">&#128119;</div>
+        </div>
+        <div class="absolute -bottom-8 -left-8 text-5xl animate-wiggle" style="animation-delay: 0.5s;">&#128679;</div>
+        <div class="absolute -bottom-8 -right-8 text-5xl animate-wiggle" style="animation-delay: 0.75s;">&#128679;</div>
+      </div>
+    </section>
+
+    <!-- FIRE HR -->
+    <div class="hr-fire my-8"></div>
+
+    <!-- BUTTONS AND BADGES -->
+    <section class="text-center mb-12">
+      <h3 class="font-pixel text-xs text-pink-400 neon-pink mb-6">&#127991; BUTTONS & BADGES &#127991;</h3>
+      <div class="flex flex-wrap justify-center gap-3">
+        <div class="bevel px-3 py-1 font-silk text-xs text-black animate-pulse">MADE WITH NOTEPAD</div>
+        <div class="bg-blue-600 px-3 py-1 font-silk text-xs text-white border-2 border-white animate-wiggle">BEST VIEWED IN 800x600</div>
+        <div class="bg-black px-3 py-1 font-silk text-xs text-green-400 border-2 border-green-400 animate-blink">JAVASCRIPT ENABLED</div>
+        <div class="bg-gradient-to-r from-red-500 to-yellow-500 px-3 py-1 font-silk text-xs text-black animate-shake">NO FRAMES!</div>
+        <div class="bg-purple-800 px-3 py-1 font-silk text-xs text-cyan-300 border-2 border-cyan-300 animate-float">NETSCAPE NOW!</div>
+        <div class="bg-gradient-to-r from-pink-500 to-purple-500 px-3 py-1 font-silk text-xs text-white animate-jello">Y2K READY</div>
+        <div class="bg-black px-3 py-1 font-silk text-xs text-red-500 border-2 border-red-500 animate-grow">ANTI-IE CLUB</div>
+        <div class="bevel px-3 py-1 font-silk text-xs text-black">FREE SPEECH ONLINE</div>
+      </div>
+    </section>
+
+    <!-- EMAIL ME SECTION -->
+    <section class="text-center mb-12">
+      <a href="mailto:webmaster@bonkers.website" class="inline-block group">
+        <div class="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 p-1 rounded-lg animate-rainbow">
+          <div class="bg-black px-8 py-4 rounded-lg">
+            <div class="font-pixel text-sm text-white group-hover:animate-shake">
+              &#128231; EMAIL THE WEBMASTER &#128231;
+            </div>
+            <div class="font-vt text-xl text-cyan-400 mt-2 group-hover:neon-cyan">
+              webmaster@bonkers.website
+            </div>
+          </div>
+        </div>
+      </a>
+    </section>
+
+  </div>
+
+  <!-- BOTTOM MARQUEE -->
+  <div class="weirdcore-bg py-2">
+    <div class="marquee-container">
+      <div class="animate-marquee inline-block font-comic text-black text-lg font-bold">
+        <span class="mx-8">&#128126; THANKS FOR VISITING &#128126;</span>
+        <span class="mx-8">&#127775; COME BACK SOON &#127775;</span>
+        <span class="mx-8">&#128150; YOU'RE VISITOR #<span x-text="visitorCount"></span> &#128150;</span>
+        <span class="mx-8">&#127925; DON'T FORGET TO SIGN THE GUESTBOOK &#127925;</span>
+        <span class="mx-8">&#128126; THANKS FOR VISITING &#128126;</span>
+        <span class="mx-8">&#127775; COME BACK SOON &#127775;</span>
+        <span class="mx-8">&#128150; YOU'RE VISITOR #<span x-text="visitorCount"></span> &#128150;</span>
+        <span class="mx-8">&#127925; DON'T FORGET TO SIGN THE GUESTBOOK &#127925;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-black/80 border-t-4 border-double border-purple-500 py-6 text-center">
+    <p class="font-vt text-lg text-gray-400">
+      &#169; 1999-2026 BONKERS.WEBSITE
+    </p>
+    <p class="font-silk text-xs text-gray-600 mt-2">
+      Made with &#128150; and way too much &#9749;
+    </p>
+    <p class="font-silk text-xs text-gray-700 mt-4">
+      "The web used to be fun. Let's make it fun again."
+    </p>
+    <div class="mt-4 flex justify-center gap-2">
+      <span class="text-2xl animate-spin-slow">&#127760;</span>
+      <span class="text-2xl animate-bounce-slow">&#128187;</span>
+      <span class="text-2xl animate-wiggle">&#128190;</span>
+      <span class="text-2xl animate-float">&#127775;</span>
+      <span class="text-2xl animate-spin-reverse">&#127760;</span>
+    </div>
+  </footer>
+
+  <script>
+    function bonkers() {
+      return {
+        // Visitor counter (random big number for authenticity)
+        visitorCount: Math.floor(Math.random() * 900000) + 1000000,
+
+        // Cursor trail
+        cursorTrail: [],
+        maxTrailLength: 20,
+
+        // Guestbook
+        guestbookName: '',
+        guestbookMessage: '',
+        guestbookSigned: false,
+
+        // Music player
+        musicPlaying: false,
+        musicProgress: 0,
+        musicInterval: null,
+
+        init() {
+          // Initialize cursor trail
+          document.addEventListener('mousemove', (e) => this.updateCursorTrail(e));
+
+          // Increment visitor count occasionally for fun
+          setInterval(() => {
+            if (Math.random() > 0.7) {
+              this.visitorCount++;
+            }
+          }, 5000);
+
+          // Add random sparkles
+          this.addRandomSparkles();
+        },
+
+        updateCursorTrail(e) {
+          this.cursorTrail.push({
+            x: e.clientX - 10,
+            y: e.clientY - 10,
+            opacity: 1,
+            scale: 1
+          });
+
+          if (this.cursorTrail.length > this.maxTrailLength) {
+            this.cursorTrail.shift();
+          }
+
+          // Update trail opacity and scale
+          this.cursorTrail.forEach((trail, index) => {
+            trail.opacity = (index + 1) / this.cursorTrail.length;
+            trail.scale = (index + 1) / this.cursorTrail.length;
+          });
+        },
+
+        signGuestbook() {
+          if (this.guestbookName && this.guestbookMessage) {
+            this.guestbookSigned = true;
+            this.guestbookName = '';
+            this.guestbookMessage = '';
+
+            // Reset after 3 seconds
+            setTimeout(() => {
+              this.guestbookSigned = false;
+            }, 3000);
+          }
+        },
+
+        toggleMusic() {
+          this.musicPlaying = !this.musicPlaying;
+
+          if (this.musicPlaying) {
+            this.musicProgress = 0;
+            this.musicInterval = setInterval(() => {
+              this.musicProgress += 0.5;
+              if (this.musicProgress >= 100) {
+                this.musicProgress = 0;
+              }
+            }, 100);
+          } else {
+            clearInterval(this.musicInterval);
+            this.musicProgress = 0;
+          }
+        },
+
+        playHoverSound() {
+          // Visual feedback instead of sound (keeping it accessible)
+          document.body.style.filter = 'hue-rotate(20deg)';
+          setTimeout(() => {
+            document.body.style.filter = '';
+          }, 100);
+        },
+
+        addRandomSparkles() {
+          setInterval(() => {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = ['✨', '⭐', '💫', '🌟'][Math.floor(Math.random() * 4)];
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '9998';
+            sparkle.style.animation = 'sparkle 1s ease-out forwards';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => sparkle.remove(), 1000);
+          }, 500);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
