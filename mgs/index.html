@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <title>!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --alert-orange: #ff6b00;
+      --alert-red: #ff0040;
+      --codec-green: #00ff41;
+      --codec-dark: #003311;
+      --radar-blue: #00d4ff;
+      --vhs-magenta: #ff00ff;
+      --scan-line: rgba(0, 255, 65, 0.03);
+      --crt-curve: 2px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* CRT OVERLAY */
+    .crt-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .crt-overlay::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        var(--scan-line) 2px,
+        var(--scan-line) 4px
+      );
+      animation: scanlines 0.1s linear infinite;
+    }
+
+    .crt-overlay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 60%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+    }
+
+    @keyframes scanlines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
+
+    /* VHS TRACKING GLITCH */
+    .vhs-tracking {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0;
+      mix-blend-mode: screen;
+    }
+
+    .vhs-tracking.glitch {
+      animation: vhsGlitch 0.15s steps(2) forwards;
+    }
+
+    @keyframes vhsGlitch {
+      0%, 100% { opacity: 0; }
+      10% {
+        opacity: 1;
+        clip-path: polygon(0 15%, 100% 15%, 100% 20%, 0 20%);
+        transform: translateX(-10px);
+      }
+      20% {
+        clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%);
+        transform: translateX(15px);
+      }
+      30% {
+        clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%);
+        transform: translateX(-5px);
+      }
+      40% { opacity: 0; }
+    }
+
+    .vhs-tracking::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        var(--vhs-magenta) 0%,
+        var(--radar-blue) 50%,
+        var(--codec-green) 100%
+      );
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 50% 50%, #001a00 0%, #000 70%),
+        repeating-conic-gradient(from 0deg at 50% 50%, #000 0deg, #001100 1deg, #000 2deg);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .container.alert-active {
+      animation: screenShake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+    }
+
+    @keyframes screenShake {
+      0%, 100% { transform: translate(0, 0) rotate(0); }
+      10% { transform: translate(-8px, -6px) rotate(-1deg); }
+      20% { transform: translate(8px, 4px) rotate(1deg); }
+      30% { transform: translate(-6px, 8px) rotate(0deg); }
+      40% { transform: translate(6px, -4px) rotate(1deg); }
+      50% { transform: translate(-4px, 6px) rotate(-1deg); }
+      60% { transform: translate(4px, -8px) rotate(0deg); }
+      70% { transform: translate(-8px, 4px) rotate(-1deg); }
+      80% { transform: translate(6px, 6px) rotate(1deg); }
+      90% { transform: translate(-4px, -6px) rotate(0deg); }
+    }
+
+    /* RADAR BACKGROUND */
+    .radar {
+      position: absolute;
+      width: 300vmin;
+      height: 300vmin;
+      border-radius: 50%;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .radar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        repeating-radial-gradient(
+          circle at center,
+          transparent 0px,
+          transparent 30px,
+          rgba(0, 255, 65, 0.1) 30px,
+          rgba(0, 255, 65, 0.1) 32px
+        );
+    }
+
+    .radar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        var(--codec-green) 5deg,
+        transparent 60deg
+      );
+      border-radius: 50%;
+      animation: radarSweep 4s linear infinite;
+    }
+
+    @keyframes radarSweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* CROSSHAIRS */
+    .crosshairs {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+    }
+
+    .crosshairs::before,
+    .crosshairs::after {
+      content: '';
+      position: absolute;
+      background: var(--codec-green);
+    }
+
+    .crosshairs::before {
+      left: 50%;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+
+    .crosshairs::after {
+      top: 50%;
+      left: 0;
+      height: 1px;
+      width: 100%;
+      transform: translateY(-50%);
+    }
+
+    /* EXCLAMATION MARK */
+    .exclamation-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .exclamation {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(180px, 45vw, 400px);
+      font-weight: 900;
+      color: var(--alert-orange);
+      text-shadow:
+        0 0 20px var(--alert-orange),
+        0 0 40px var(--alert-orange),
+        0 0 80px var(--alert-red),
+        0 0 120px var(--alert-red),
+        4px 4px 0 #000,
+        -2px -2px 0 #000;
+      animation: pulse 1.2s ease-in-out infinite, float 3s ease-in-out infinite;
+      transition: all 0.1s;
+      position: relative;
+      z-index: 10;
+    }
+
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      50% {
+        transform: scale(1.05);
+        filter: brightness(1.3);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .container:active .exclamation {
+      transform: scale(0.95);
+      filter: brightness(2);
+    }
+
+    .alert-active .exclamation {
+      animation: alertPulse 0.1s ease-in-out 6, pulse 1.2s ease-in-out infinite 0.6s;
+      color: #fff;
+      text-shadow:
+        0 0 30px #fff,
+        0 0 60px var(--alert-orange),
+        0 0 100px var(--alert-orange),
+        0 0 150px var(--alert-red),
+        0 0 200px var(--alert-red);
+    }
+
+    @keyframes alertPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.15);
+        opacity: 0.8;
+      }
+    }
+
+    /* ALERT RING BURST */
+    .ring-burst {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 4px solid var(--alert-orange);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .alert-active .ring-burst {
+      animation: ringExpand 0.8s ease-out forwards;
+    }
+
+    .ring-burst:nth-child(2) { animation-delay: 0.1s; }
+    .ring-burst:nth-child(3) { animation-delay: 0.2s; }
+
+    @keyframes ringExpand {
+      0% {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(8);
+        opacity: 0;
+      }
+    }
+
+    /* CORNER BRACKETS */
+    .corner {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--codec-green);
+      opacity: 0.6;
+      z-index: 100;
+    }
+
+    .corner--tl {
+      top: env(safe-area-inset-top, 20px);
+      left: 20px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .corner--tr {
+      top: env(safe-area-inset-top, 20px);
+      right: 20px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .corner--bl {
+      bottom: env(safe-area-inset-bottom, 20px);
+      left: 20px;
+      border-right: none;
+      border-top: none;
+    }
+
+    .corner--br {
+      bottom: env(safe-area-inset-bottom, 20px);
+      right: 20px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .alert-active .corner {
+      border-color: var(--alert-orange);
+      animation: cornerFlash 0.1s ease-in-out 6;
+    }
+
+    @keyframes cornerFlash {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; border-color: #fff; }
+    }
+
+    /* STATUS DISPLAY */
+    .status {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 20px) + 50px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--codec-green);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      opacity: 0.7;
+      text-align: center;
+      z-index: 100;
+    }
+
+    .status::before {
+      content: '[ ';
+    }
+
+    .status::after {
+      content: ' ]';
+    }
+
+    .alert-active .status {
+      color: var(--alert-orange);
+      animation: statusBlink 0.2s steps(1) 3;
+    }
+
+    @keyframes statusBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* CODEC FRAME */
+    .codec-frame {
+      position: fixed;
+      top: env(safe-area-inset-top, 20px);
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 20px;
+      background: rgba(0, 51, 17, 0.8);
+      border: 2px solid var(--codec-green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      color: var(--codec-green);
+      letter-spacing: 2px;
+      z-index: 100;
+    }
+
+    .codec-frame::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      background: var(--codec-green);
+    }
+
+    .codec-frame::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      background: var(--codec-green);
+    }
+
+    .alert-active .codec-frame {
+      background: rgba(255, 0, 64, 0.3);
+      border-color: var(--alert-orange);
+      color: var(--alert-orange);
+      animation: codecAlert 0.15s ease-in-out 4;
+    }
+
+    .alert-active .codec-frame::before,
+    .alert-active .codec-frame::after {
+      background: var(--alert-orange);
+    }
+
+    @keyframes codecAlert {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+    }
+
+    /* FREQUENCY DISPLAY */
+    .frequency {
+      position: fixed;
+      top: calc(env(safe-area-inset-top, 20px) + 60px);
+      right: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--codec-green);
+      opacity: 0.5;
+      text-align: right;
+      z-index: 100;
+    }
+
+    .frequency span {
+      display: block;
+    }
+
+    /* WAVEFORM */
+    .waveform {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 20px) + 90px);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 3px;
+      height: 30px;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .waveform-bar {
+      width: 4px;
+      background: var(--codec-green);
+      border-radius: 2px;
+      opacity: 0.4;
+      transition: height 0.05s, opacity 0.05s;
+    }
+
+    .alert-active .waveform-bar {
+      background: var(--alert-orange);
+      opacity: 1;
+      animation: waveformPulse 0.08s ease-in-out infinite alternate;
+    }
+
+    @keyframes waveformPulse {
+      from { transform: scaleY(0.3); }
+      to { transform: scaleY(1); }
+    }
+
+    /* STATIC NOISE OVERLAY */
+    .static-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 998;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    .alert-active .static-overlay {
+      animation: staticFlash 0.6s steps(4) forwards;
+    }
+
+    @keyframes staticFlash {
+      0% { opacity: 0.4; }
+      100% { opacity: 0; }
+    }
+
+    /* FLASH OVERLAY */
+    .flash-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--alert-orange);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 997;
+    }
+
+    .alert-active .flash-overlay {
+      animation: flashBang 0.6s ease-out forwards;
+    }
+
+    @keyframes flashBang {
+      0% { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+
+    /* INTERLACE EFFECT */
+    .interlace {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1001;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+    }
+
+    /* TAP RIPPLE */
+    .tap-ripple {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--codec-green);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: rippleExpand 0.6s ease-out forwards;
+    }
+
+    @keyframes rippleExpand {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(15);
+        opacity: 0;
+      }
+    }
+
+    /* STEALTH INDICATOR */
+    .stealth-bar {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 120px;
+      background: rgba(0, 51, 17, 0.5);
+      border: 1px solid var(--codec-green);
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .stealth-bar::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: var(--codec-green);
+      transition: height 0.3s, background 0.3s;
+    }
+
+    .alert-active .stealth-bar::after {
+      height: 100%;
+      background: var(--alert-red);
+      animation: stealthDrain 0.6s ease-out forwards;
+    }
+
+    @keyframes stealthDrain {
+      0% { height: 100%; background: var(--alert-red); }
+      100% { height: 0%; background: var(--alert-red); }
+    }
+
+    /* EVASION PERCENTAGE */
+    .evasion {
+      position: fixed;
+      left: 35px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 8px;
+      color: var(--codec-green);
+      letter-spacing: 2px;
+      white-space: nowrap;
+      z-index: 100;
+      transform-origin: left center;
+    }
+
+    .alert-active .evasion {
+      color: var(--alert-red);
+    }
+
+    /* LOADING STATE (initial) */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      color: var(--codec-green);
+      letter-spacing: 4px;
+      animation: loadBlink 1s steps(1) infinite;
+    }
+
+    @keyframes loadBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .loading-bar {
+      width: 200px;
+      height: 4px;
+      background: var(--codec-dark);
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .loading-bar::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: var(--codec-green);
+      animation: loadProgress 1.5s ease-out forwards;
+    }
+
+    @keyframes loadProgress {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* TACTICAL INFO */
+    .tactical-info {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 20px) + 130px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: var(--codec-green);
+      opacity: 0.4;
+      text-align: center;
+      letter-spacing: 1px;
+      z-index: 100;
+    }
+
+    /* ENEMY BLIPS */
+    .enemy-blips {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .enemy {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.5s ease-out;
+    }
+
+    .enemy.hidden {
+      opacity: 0;
+    }
+
+    .enemy-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--codec-green);
+      border-radius: 50%;
+      box-shadow:
+        0 0 6px var(--codec-green),
+        0 0 12px var(--codec-green);
+      animation: enemyPulse 1s ease-in-out infinite;
+    }
+
+    .enemy-cone {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 35px solid rgba(0, 255, 65, 0.15);
+      transform-origin: center top;
+      transform: translateX(-50%) translateY(4px);
+      filter: blur(1px);
+    }
+
+    @keyframes enemyPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+    }
+
+    .alert-active .enemy-dot {
+      background: var(--alert-orange);
+      box-shadow:
+        0 0 6px var(--alert-orange),
+        0 0 12px var(--alert-orange);
+    }
+
+    .alert-active .enemy-cone {
+      border-bottom-color: rgba(255, 107, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-text">INITIALIZING CODEC</div>
+    <div class="loading-bar"></div>
+  </div>
+
+  <!-- CRT Effects -->
+  <div class="crt-overlay"></div>
+  <div class="interlace"></div>
+  <div class="vhs-tracking" id="vhsTracking"></div>
+  <div class="static-overlay"></div>
+  <div class="flash-overlay"></div>
+
+  <!-- Corner Brackets -->
+  <div class="corner corner--tl"></div>
+  <div class="corner corner--tr"></div>
+  <div class="corner corner--bl"></div>
+  <div class="corner corner--br"></div>
+
+  <!-- Codec Frame -->
+  <div class="codec-frame" id="codecFrame">SHADOW MOSES</div>
+
+  <!-- Frequency Display -->
+  <div class="frequency">
+    <span>140.85</span>
+    <span>MHz</span>
+  </div>
+
+  <!-- Stealth Indicator -->
+  <div class="stealth-bar"></div>
+  <div class="evasion">CAUTION</div>
+
+  <!-- Main Container -->
+  <div class="container" id="container">
+    <div class="radar"></div>
+    <div class="crosshairs"></div>
+    <div class="enemy-blips" id="enemyBlips"></div>
+
+    <div class="exclamation-container" id="trigger">
+      <div class="ring-burst"></div>
+      <div class="ring-burst"></div>
+      <div class="ring-burst"></div>
+      <div class="exclamation">!</div>
+    </div>
+  </div>
+
+  <!-- Waveform Display -->
+  <div class="waveform" id="waveform"></div>
+
+  <!-- Tactical Info -->
+  <div class="tactical-info">ENEMY DETECTION PROTOCOL v1.98</div>
+
+  <!-- Status Display -->
+  <div class="status" id="status">STANDING BY</div>
+
+  <!-- Audio -->
+  <audio id="alertSound" preload="auto">
+    <source src="mgs.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const container = document.getElementById('container');
+    const trigger = document.getElementById('trigger');
+    const alertSound = document.getElementById('alertSound');
+    const status = document.getElementById('status');
+    const codecFrame = document.getElementById('codecFrame');
+    const vhsTracking = document.getElementById('vhsTracking');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const waveform = document.getElementById('waveform');
+
+    let isPlaying = false;
+    let audioContext = null;
+    let analyser = null;
+    let animationId = null;
+
+    // Create waveform bars
+    for (let i = 0; i < 20; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'waveform-bar';
+      bar.style.height = `${Math.random() * 15 + 5}px`;
+      waveform.appendChild(bar);
+    }
+    const waveformBars = waveform.querySelectorAll('.waveform-bar');
+
+    // Hide loading screen
+    setTimeout(() => {
+      loadingScreen.classList.add('hidden');
+    }, 1800);
+
+    // Create tap ripple effect
+    function createRipple(x, y) {
+      const ripple = document.createElement('div');
+      ripple.className = 'tap-ripple';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      container.appendChild(ripple);
+
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    // Update waveform visualization
+    function updateWaveform() {
+      if (!analyser || !isPlaying) {
+        waveformBars.forEach(bar => {
+          bar.style.height = `${Math.random() * 10 + 5}px`;
+        });
+        return;
+      }
+
+      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(dataArray);
+
+      const step = Math.floor(dataArray.length / waveformBars.length);
+      waveformBars.forEach((bar, i) => {
+        const value = dataArray[i * step];
+        const height = (value / 255) * 25 + 5;
+        bar.style.height = `${height}px`;
+      });
+
+      animationId = requestAnimationFrame(updateWaveform);
+    }
+
+    // Initialize audio context and analyser
+    function initAudioContext() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 64;
+
+        const source = audioContext.createMediaElementSource(alertSound);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+      }
+
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+    }
+
+    // Trigger the alert
+    async function triggerAlert(event) {
+      if (isPlaying) return;
+
+      // Create ripple at touch/click position
+      const rect = container.getBoundingClientRect();
+      const x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
+      const y = (event.touches ? event.touches[0].clientY : event.clientY) - rect.top;
+      createRipple(x, y);
+
+      isPlaying = true;
+
+      // Initialize audio context on first interaction
+      initAudioContext();
+
+      // Update UI
+      container.classList.add('alert-active');
+      status.textContent = 'ALERT';
+      codecFrame.textContent = 'ENEMY SPOTTED';
+
+      // Trigger VHS glitch
+      vhsTracking.classList.add('glitch');
+      setTimeout(() => vhsTracking.classList.remove('glitch'), 150);
+
+      // Play sound
+      alertSound.currentTime = 0;
+
+      try {
+        await alertSound.play();
+        updateWaveform();
+      } catch (e) {
+        console.log('Audio play failed:', e);
+      }
+
+      // Vibrate if supported
+      if ('vibrate' in navigator) {
+        navigator.vibrate([100, 50, 100, 50, 200]);
+      }
+
+      // Reset after sound
+      alertSound.onended = () => {
+        isPlaying = false;
+        container.classList.remove('alert-active');
+        status.textContent = 'STANDING BY';
+        codecFrame.textContent = 'SHADOW MOSES';
+
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+
+        // Reset waveform
+        waveformBars.forEach(bar => {
+          bar.style.height = `${Math.random() * 10 + 5}px`;
+        });
+      };
+    }
+
+    // Event listeners - whole viewport is clickable
+    container.addEventListener('click', triggerAlert);
+    container.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      triggerAlert(e);
+    }, { passive: false });
+
+    // Ambient waveform animation when not playing
+    function ambientWaveform() {
+      if (!isPlaying) {
+        waveformBars.forEach(bar => {
+          const currentHeight = parseFloat(bar.style.height);
+          const newHeight = currentHeight + (Math.random() - 0.5) * 4;
+          bar.style.height = `${Math.max(5, Math.min(20, newHeight))}px`;
+        });
+      }
+      setTimeout(ambientWaveform, 150);
+    }
+    ambientWaveform();
+
+    // Prevent zoom on double tap
+    document.addEventListener('dblclick', (e) => e.preventDefault());
+
+    // Preload audio
+    alertSound.load();
+
+    // Enemy blips
+    const enemyBlips = document.getElementById('enemyBlips');
+    const enemies = [];
+    const numEnemies = 4;
+
+    function createEnemy() {
+      const enemy = document.createElement('div');
+      enemy.className = 'enemy';
+
+      // Random angle and distance from center
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 80 + Math.random() * 120; // 80-200px from center
+
+      enemy.style.left = `calc(50% + ${Math.cos(angle) * distance}px)`;
+      enemy.style.top = `calc(50% + ${Math.sin(angle) * distance}px)`;
+
+      // Cone faces outward from center
+      const coneAngle = (angle * 180 / Math.PI) + 90;
+
+      enemy.innerHTML = `
+        <div class="enemy-dot"></div>
+        <div class="enemy-cone" style="transform: translateX(-50%) translateY(4px) rotate(${coneAngle}deg);"></div>
+      `;
+
+      enemyBlips.appendChild(enemy);
+
+      return {
+        element: enemy,
+        angle: angle,
+        distance: distance,
+        visible: true,
+        patrolSpeed: 0.002 + Math.random() * 0.003,
+        patrolDirection: Math.random() > 0.5 ? 1 : -1
+      };
+    }
+
+    // Create initial enemies
+    for (let i = 0; i < numEnemies; i++) {
+      enemies.push(createEnemy());
+    }
+
+    // Randomly hide/show enemies
+    function toggleEnemyVisibility() {
+      enemies.forEach(enemy => {
+        if (Math.random() < 0.3) {
+          enemy.visible = !enemy.visible;
+          enemy.element.classList.toggle('hidden', !enemy.visible);
+        }
+      });
+
+      setTimeout(toggleEnemyVisibility, 2000 + Math.random() * 3000);
+    }
+    setTimeout(toggleEnemyVisibility, 3000);
+
+    // Patrol movement
+    function updateEnemyPatrol() {
+      enemies.forEach(enemy => {
+        // Slowly rotate around center
+        enemy.angle += enemy.patrolSpeed * enemy.patrolDirection;
+
+        const x = Math.cos(enemy.angle) * enemy.distance;
+        const y = Math.sin(enemy.angle) * enemy.distance;
+
+        enemy.element.style.left = `calc(50% + ${x}px)`;
+        enemy.element.style.top = `calc(50% + ${y}px)`;
+
+        // Update cone direction
+        const coneAngle = (enemy.angle * 180 / Math.PI) + 90;
+        const cone = enemy.element.querySelector('.enemy-cone');
+        cone.style.transform = `translateX(-50%) translateY(4px) rotate(${coneAngle}deg)`;
+      });
+
+      requestAnimationFrame(updateEnemyPatrol);
+    }
+    updateEnemyPatrol();
+  </script>
+</body>
+</html>
