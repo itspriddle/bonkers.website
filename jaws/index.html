@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🦈 JAWS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Creepster&family=Metal+Mania&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --deep-ocean: #0a0f14;
+      --abyss: #050810;
+      --blood-red: #8B0000;
+      --arterial: #DC143C;
+      --foam-white: #e8f4f8;
+      --bioluminescent: #00ffff;
+      --warning-yellow: #ffd700;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family: 'Metal Mania', cursive;
+      background: var(--abyss);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      position: relative;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23DC143C' d='M16 0 L20 12 L32 16 L20 20 L16 32 L12 20 L0 16 L12 12 Z'/%3E%3C/svg%3E") 16 16, crosshair;
+    }
+
+    /* UNDERWATER ATMOSPHERE */
+    .ocean-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .caustics {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-conic-gradient(
+          from 0deg at 50% 50%,
+          transparent 0deg,
+          rgba(0, 255, 255, 0.03) 1deg,
+          transparent 2deg
+        );
+      animation: causticShift 8s ease-in-out infinite;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes causticShift {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+      50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+    }
+
+    .bubbles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -20px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 70%);
+      border-radius: 50%;
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 0.6; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-110vh) scale(0.5); opacity: 0; }
+    }
+
+    .depth-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 150% 100% at 50% 0%, transparent 30%, var(--abyss) 70%),
+        linear-gradient(to bottom,
+          rgba(10, 60, 80, 0.4) 0%,
+          rgba(5, 30, 50, 0.6) 30%,
+          rgba(0, 10, 20, 0.9) 70%,
+          var(--abyss) 100%
+        );
+    }
+
+    /* BLOOD EFFECT */
+    .blood-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0;
+      background: radial-gradient(circle at center, transparent 0%, var(--blood-red) 100%);
+      transition: opacity 0.1s;
+    }
+
+    .blood-overlay.active {
+      animation: bloodPulse 0.5s ease-out;
+    }
+
+    @keyframes bloodPulse {
+      0% { opacity: 0; }
+      20% { opacity: 0.6; }
+      100% { opacity: 0; }
+    }
+
+    .blood-drips {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      pointer-events: none;
+      z-index: 99;
+      overflow: hidden;
+    }
+
+    .drip {
+      position: absolute;
+      top: -100px;
+      width: 8px;
+      background: linear-gradient(to bottom, var(--arterial), transparent);
+      border-radius: 0 0 4px 4px;
+      opacity: 0;
+      filter: blur(0.5px);
+    }
+
+    .drip.falling {
+      animation: drip 2s ease-in forwards;
+    }
+
+    @keyframes drip {
+      0% { transform: translateY(0) scaleY(0.5); opacity: 0.9; }
+      100% { transform: translateY(120vh) scaleY(3); opacity: 0; }
+    }
+
+    /* TITLE */
+    .title-container {
+      position: relative;
+      z-index: 10;
+      margin-bottom: 2rem;
+      perspective: 1000px;
+    }
+
+    .title {
+      font-family: 'Nosifer', cursive;
+      font-size: clamp(4rem, 20vw, 8rem);
+      color: transparent;
+      background: linear-gradient(
+        180deg,
+        var(--foam-white) 0%,
+        var(--bioluminescent) 30%,
+        var(--arterial) 60%,
+        var(--blood-red) 100%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5))
+              drop-shadow(0 0 40px rgba(139, 0, 0, 0.5));
+      animation: titleFloat 4s ease-in-out infinite, titleGlow 2s ease-in-out infinite alternate;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .title.attack {
+      animation: titleAttack 0.3s ease-out;
+    }
+
+    @keyframes titleFloat {
+      0%, 100% { transform: translateY(0) rotateX(5deg); }
+      50% { transform: translateY(-10px) rotateX(-5deg); }
+    }
+
+    @keyframes titleGlow {
+      0% { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3)) drop-shadow(0 0 40px rgba(139, 0, 0, 0.3)); }
+      100% { filter: drop-shadow(0 0 40px rgba(0, 255, 255, 0.8)) drop-shadow(0 0 60px rgba(220, 20, 60, 0.8)); }
+    }
+
+    @keyframes titleAttack {
+      0% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.3) rotate(-5deg); }
+      50% { transform: scale(0.9) rotate(5deg); }
+      75% { transform: scale(1.1) rotate(-2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* THE BUTTON - A PORTAL TO TERROR */
+    .button-arena {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .shark-button {
+      position: relative;
+      width: min(85vw, 320px);
+      height: min(85vw, 320px);
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      outline: none;
+      transform-style: preserve-3d;
+      transition: transform 0.1s;
+    }
+
+    .shark-button:active {
+      transform: scale(0.95);
+    }
+
+    .button-glow {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--bioluminescent) 0%, transparent 70%);
+      opacity: 0.3;
+      animation: pulseGlow 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.1); opacity: 0.6; }
+    }
+
+    .button-ring {
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 4px solid var(--arterial);
+      animation: ringRotate 10s linear infinite;
+      box-shadow:
+        0 0 20px var(--arterial),
+        inset 0 0 20px rgba(220, 20, 60, 0.3);
+    }
+
+    .button-ring::before,
+    .button-ring::after {
+      content: '🦈';
+      position: absolute;
+      font-size: 1.5rem;
+      animation: emojiOrbit 10s linear infinite reverse;
+    }
+
+    .button-ring::before {
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .button-ring::after {
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes ringRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes emojiOrbit {
+      from { transform: translateX(-50%) rotate(0deg); }
+      to { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    .shark-image-container {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 5px var(--blood-red),
+        0 0 30px rgba(220, 20, 60, 0.5),
+        0 0 60px rgba(0, 255, 255, 0.3),
+        inset 0 0 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .shark-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      filter: saturate(1.2) contrast(1.1);
+    }
+
+    .shark-button:hover .shark-image {
+      transform: scale(1.1);
+    }
+
+    .shark-button.biting .shark-image {
+      animation: sharkBite 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes sharkBite {
+      0% { transform: scale(1) translateY(0); }
+      30% { transform: scale(1.3) translateY(-20px); }
+      50% { transform: scale(1.5) translateY(-30px); filter: saturate(2) brightness(1.2); }
+      70% { transform: scale(1.2) translateY(-10px); }
+      100% { transform: scale(1) translateY(0); }
+    }
+
+    .teeth-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 70%, transparent 30%, rgba(139, 0, 0, 0.4) 100%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .shark-button:active .teeth-overlay {
+      opacity: 1;
+    }
+
+    /* DANGER TEXT */
+    .danger-text {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      color: var(--warning-yellow);
+      text-shadow:
+        0 0 10px var(--arterial),
+        0 0 20px var(--blood-red),
+        2px 2px 0 var(--blood-red);
+      animation: dangerFlicker 0.5s ease-in-out infinite;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    @keyframes dangerFlicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* ATTACK COUNTER */
+    .attack-counter {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 50;
+      font-family: 'Metal Mania', cursive;
+      font-size: 1rem;
+      color: var(--arterial);
+      text-shadow: 0 0 10px var(--blood-red);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .counter-value {
+      font-size: 1.5rem;
+      color: var(--warning-yellow);
+      text-shadow: 0 0 15px var(--warning-yellow);
+    }
+
+    /* SONAR PING */
+    .sonar-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .sonar-ping {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid var(--bioluminescent);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sonar-ping.active {
+      animation: sonarExpand 1.5s ease-out forwards;
+    }
+
+    @keyframes sonarExpand {
+      0% {
+        width: 0;
+        height: 0;
+        opacity: 0.8;
+        border-width: 3px;
+      }
+      100% {
+        width: 300vmax;
+        height: 300vmax;
+        opacity: 0;
+        border-width: 1px;
+      }
+    }
+
+    /* SHARK FIN SWIMMING */
+    .fin-container {
+      position: fixed;
+      bottom: 10%;
+      left: -100px;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .shark-fin {
+      width: 60px;
+      height: 80px;
+      background: linear-gradient(135deg, #2a3a4a 0%, #1a2530 100%);
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+      animation: finBob 1s ease-in-out infinite;
+    }
+
+    @keyframes finBob {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    .fin-container.swimming {
+      animation: finSwim 8s linear;
+    }
+
+    @keyframes finSwim {
+      0% { left: -100px; }
+      100% { left: calc(100% + 100px); }
+    }
+
+    /* SCREEN SHAKE */
+    .shake {
+      animation: screenShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes screenShake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(-10px, -5px) rotate(-1deg); }
+      20% { transform: translate(10px, 5px) rotate(1deg); }
+      30% { transform: translate(-10px, 5px) rotate(0deg); }
+      40% { transform: translate(10px, -5px) rotate(1deg); }
+      50% { transform: translate(-5px, 5px) rotate(-1deg); }
+      60% { transform: translate(5px, -5px) rotate(0deg); }
+      70% { transform: translate(-5px, -5px) rotate(-1deg); }
+      80% { transform: translate(5px, 5px) rotate(1deg); }
+      90% { transform: translate(-2px, 2px) rotate(0deg); }
+    }
+
+    /* VIGNETTE */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 90;
+      box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
+    }
+
+    /* SCAN LINES */
+    .scan-lines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 91;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+        rgba(0, 0, 0, 0.1) 4px
+      );
+      opacity: 0.3;
+    }
+
+    /* PLAYING STATE */
+    body.playing {
+      background: var(--deep-ocean);
+    }
+
+    body.playing .button-glow {
+      animation: pulseGlow 0.5s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
+    body.playing .button-ring {
+      border-color: var(--bioluminescent);
+      animation: ringRotate 2s linear infinite;
+    }
+
+    /* INSTRUCTIONS */
+    .instructions {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      font-family: 'Creepster', cursive;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.1em;
+      animation: fadeInOut 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    /* LOADING STATE */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--abyss);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .loading-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-text {
+      font-family: 'Nosifer', cursive;
+      font-size: 2rem;
+      color: var(--bioluminescent);
+      animation: loadingPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes loadingPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-text">LOADING...</div>
+  </div>
+
+  <!-- Ocean Atmosphere -->
+  <div class="ocean-layer">
+    <div class="depth-gradient"></div>
+    <div class="caustics"></div>
+    <div class="bubbles" id="bubbles"></div>
+  </div>
+
+  <!-- Sonar Effect -->
+  <div class="sonar-container" id="sonarContainer"></div>
+
+  <!-- Blood Effects -->
+  <div class="blood-overlay" id="bloodOverlay"></div>
+  <div class="blood-drips" id="bloodDrips"></div>
+
+  <!-- Swimming Fin -->
+  <div class="fin-container" id="finContainer">
+    <div class="shark-fin"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="title-container">
+    <h1 class="title" id="title">JAWS</h1>
+  </div>
+
+  <div class="button-arena">
+    <button class="shark-button" id="jawsButton" aria-label="Play Jaws Theme">
+      <div class="button-glow"></div>
+      <div class="button-ring"></div>
+      <div class="shark-image-container">
+        <img src="image.png" alt="Terrifying Great White Shark" class="shark-image">
+        <div class="teeth-overlay"></div>
+      </div>
+    </button>
+
+    <div class="danger-text">⚠️ TAP TO ATTACK ⚠️</div>
+  </div>
+
+  <!-- Attack Counter -->
+  <div class="attack-counter">
+    <span>ATTACKS:</span>
+    <span class="counter-value" id="attackCounter">0</span>
+  </div>
+
+  <!-- Effects -->
+  <div class="vignette"></div>
+  <div class="scan-lines"></div>
+
+  <div class="instructions">PRESS THE SHARK... IF YOU DARE</div>
+
+  <audio id="jawsAudio" preload="auto">
+    <source src="jaws.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Elements
+    const jawsButton = document.getElementById('jawsButton');
+    const jawsAudio = document.getElementById('jawsAudio');
+    const bloodOverlay = document.getElementById('bloodOverlay');
+    const bloodDrips = document.getElementById('bloodDrips');
+    const title = document.getElementById('title');
+    const bubbles = document.getElementById('bubbles');
+    const sonarContainer = document.getElementById('sonarContainer');
+    const finContainer = document.getElementById('finContainer');
+    const attackCounter = document.getElementById('attackCounter');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    let attackCount = 0;
+    let isPlaying = false;
+
+    // Create initial bubbles
+    function createBubbles() {
+      for (let i = 0; i < 20; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.style.left = Math.random() * 100 + '%';
+        bubble.style.width = bubble.style.height = (Math.random() * 20 + 5) + 'px';
+        bubble.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        bubble.style.animationDelay = (Math.random() * 10) + 's';
+        bubbles.appendChild(bubble);
+      }
+    }
+
+    // Create blood drips
+    function createBloodDrips() {
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          const drip = document.createElement('div');
+          drip.className = 'drip';
+          drip.style.left = (Math.random() * 100) + '%';
+          drip.style.height = (Math.random() * 100 + 50) + 'px';
+          drip.style.animationDelay = (Math.random() * 0.5) + 's';
+          bloodDrips.appendChild(drip);
+
+          requestAnimationFrame(() => {
+            drip.classList.add('falling');
+          });
+
+          setTimeout(() => drip.remove(), 2500);
+        }, i * 100);
+      }
+    }
+
+    // Create sonar ping
+    function createSonarPing(x, y) {
+      const ping = document.createElement('div');
+      ping.className = 'sonar-ping';
+      ping.style.left = x + 'px';
+      ping.style.top = y + 'px';
+      ping.style.transform = 'translate(-50%, -50%)';
+      sonarContainer.appendChild(ping);
+
+      requestAnimationFrame(() => {
+        ping.classList.add('active');
+      });
+
+      setTimeout(() => ping.remove(), 1500);
+    }
+
+    // Trigger fin swim
+    function triggerFinSwim() {
+      if (Math.random() > 0.7) {
+        finContainer.classList.remove('swimming');
+        void finContainer.offsetWidth; // Reflow
+        finContainer.classList.add('swimming');
+      }
+    }
+
+    // Screen shake
+    function shakeScreen() {
+      document.body.classList.add('shake');
+      setTimeout(() => document.body.classList.remove('shake'), 400);
+    }
+
+    // Main button handler
+    function handleAttack(e) {
+      // Get click/touch position
+      const rect = jawsButton.getBoundingClientRect();
+      const x = e.clientX || (e.touches && e.touches[0].clientX) || rect.left + rect.width / 2;
+      const y = e.clientY || (e.touches && e.touches[0].clientY) || rect.top + rect.height / 2;
+
+      // Increment counter
+      attackCount++;
+      attackCounter.textContent = attackCount;
+
+      // Visual effects
+      jawsButton.classList.add('biting');
+      title.classList.add('attack');
+      bloodOverlay.classList.add('active');
+      document.body.classList.add('playing');
+
+      // Blood and effects
+      createBloodDrips();
+      createSonarPing(x, y);
+      shakeScreen();
+      triggerFinSwim();
+
+      // Audio
+      if (!isPlaying) {
+        jawsAudio.currentTime = 0;
+        jawsAudio.play().catch(e => console.log('Audio play failed:', e));
+        isPlaying = true;
+      }
+
+      // Haptic feedback if available
+      if (navigator.vibrate) {
+        navigator.vibrate([50, 30, 100]);
+      }
+
+      // Reset visual states
+      setTimeout(() => {
+        jawsButton.classList.remove('biting');
+        title.classList.remove('attack');
+        bloodOverlay.classList.remove('active');
+      }, 400);
+    }
+
+    // Audio ended handler
+    jawsAudio.addEventListener('ended', () => {
+      isPlaying = false;
+      document.body.classList.remove('playing');
+    });
+
+    // Event listeners
+    jawsButton.addEventListener('click', handleAttack);
+    jawsButton.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      handleAttack(e);
+    }, { passive: false });
+
+    // Prevent context menu on long press
+    jawsButton.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    // Initialize
+    function init() {
+      createBubbles();
+
+      // Hide loading screen once everything is ready
+      jawsAudio.addEventListener('canplaythrough', () => {
+        loadingOverlay.classList.add('hidden');
+      }, { once: true });
+
+      // Fallback if audio doesn't load
+      setTimeout(() => {
+        loadingOverlay.classList.add('hidden');
+      }, 3000);
+
+      // Periodic fin swimming
+      setInterval(() => {
+        if (Math.random() > 0.8 && !isPlaying) {
+          finContainer.classList.remove('swimming');
+          void finContainer.offsetWidth;
+          finContainer.classList.add('swimming');
+        }
+      }, 15000);
+    }
+
+    init();
+  </script>
+</body>
+</html>
