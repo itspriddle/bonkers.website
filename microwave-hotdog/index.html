@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a0a05">
+
+  <meta property="og:title" content="YOU EARNED A MICROWAVE HOTDOG">
+  <meta property="og:description" content="Great job on that menial task. Here's your reward.">
+  <meta property="og:image" content="https://bonkers.website/microwave-hotdog/og.png">
+  <meta property="og:url" content="https://bonkers.website/microwave-hotdog/">
+
+  <title>YOU EARNED A MICROWAVE HOTDOG</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=VT323&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --mustard: #e8b923;
+      --ketchup: #c41e3a;
+      --relish: #5a8f3e;
+      --bun-light: #e8c170;
+      --bun-dark: #a67c3d;
+      --meat: #8b4538;
+      --microwave-body: #d4d4d4;
+      --microwave-dark: #2a2a2a;
+      --microwave-glow: #4ade80;
+      --kitchen-tile: #f5e6d3;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family: 'Comic Neue', cursive;
+      background: linear-gradient(180deg, #2d1810 0%, #1a0a05 50%, #0d0502 100%);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      position: relative;
+    }
+
+    /* Dirty kitchen tile pattern background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 49px,
+          rgba(139, 90, 43, 0.1) 49px,
+          rgba(139, 90, 43, 0.1) 50px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 49px,
+          rgba(139, 90, 43, 0.1) 49px,
+          rgba(139, 90, 43, 0.1) 50px
+        );
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Grease stain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 20%, rgba(139, 69, 19, 0.2) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(139, 69, 19, 0.15) 0%, transparent 40%),
+                  radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.6) 100%);
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Pre-interaction text */
+    .pre-text {
+      font-family: 'VT323', monospace;
+      font-size: clamp(16px, 4vw, 24px);
+      color: var(--microwave-glow);
+      text-shadow: 0 0 10px var(--microwave-glow), 0 0 20px var(--microwave-glow);
+      text-align: center;
+      animation: flicker 3s infinite;
+      transition: opacity 0.3s;
+    }
+
+    .pre-text.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+      96% { opacity: 0.9; }
+      97% { opacity: 1; }
+    }
+
+    /* THE MICROWAVE */
+    .microwave {
+      width: clamp(280px, 85vw, 400px);
+      height: clamp(200px, 60vw, 280px);
+      background: linear-gradient(180deg, var(--microwave-body) 0%, #b0b0b0 100%);
+      border-radius: 15px;
+      position: relative;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.5),
+        inset 0 2px 0 rgba(255,255,255,0.3),
+        inset 0 -5px 20px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .microwave:active {
+      transform: scale(0.98);
+    }
+
+    .microwave.cooking {
+      animation: microwave-shake 0.1s infinite;
+    }
+
+    @keyframes microwave-shake {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-2px) rotate(-0.5deg); }
+      75% { transform: translateX(2px) rotate(0.5deg); }
+    }
+
+    /* Door window */
+    .door {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      width: 65%;
+      height: calc(100% - 30px);
+      background: var(--microwave-dark);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 4px solid #444;
+    }
+
+    .door-inner {
+      position: absolute;
+      inset: 8px;
+      background: #111;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    /* Microwave interior glow */
+    .interior-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(74, 222, 128, 0.15) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .cooking .interior-glow {
+      opacity: 1;
+      animation: glow-pulse 0.5s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+
+    /* The turntable */
+    .turntable {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 12px;
+      background: linear-gradient(90deg, #333 0%, #555 50%, #333 100%);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .cooking .turntable {
+      animation: spin-turntable 3s linear infinite;
+    }
+
+    @keyframes spin-turntable {
+      from { transform: translateX(-50%) rotateX(70deg) rotateZ(0deg); }
+      to { transform: translateX(-50%) rotateX(70deg) rotateZ(360deg); }
+    }
+
+    /* THE HOTDOG */
+    .hotdog-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 50px;
+    }
+
+    .cooking .hotdog-container {
+      animation: spin-hotdog 2s linear infinite;
+    }
+
+    @keyframes spin-hotdog {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .hotdog {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Bun bottom */
+    .bun-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 25px;
+      background: linear-gradient(180deg, var(--bun-light) 0%, var(--bun-dark) 100%);
+      border-radius: 0 0 55px 55px;
+    }
+
+    /* The wiener */
+    .wiener {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 22px;
+      background: linear-gradient(180deg, #c9735d 0%, var(--meat) 40%, #6d342a 100%);
+      border-radius: 11px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    /* Wiener ends */
+    .wiener::before, .wiener::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 18px;
+      background: linear-gradient(180deg, #b86652 0%, #5c2d23 100%);
+      border-radius: 50%;
+    }
+
+    .wiener::before { left: -3px; }
+    .wiener::after { right: -3px; }
+
+    /* Bun top */
+    .bun-top {
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 22px;
+      background: linear-gradient(180deg, #f0d090 0%, var(--bun-light) 100%);
+      border-radius: 55px 55px 0 0;
+    }
+
+    /* Sesame seeds */
+    .bun-top::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 20px;
+      width: 70px;
+      height: 10px;
+      background-image:
+        radial-gradient(ellipse 4px 3px at 10px 5px, #f5e6c8 50%, transparent 50%),
+        radial-gradient(ellipse 4px 3px at 30px 3px, #f5e6c8 50%, transparent 50%),
+        radial-gradient(ellipse 4px 3px at 50px 6px, #f5e6c8 50%, transparent 50%),
+        radial-gradient(ellipse 4px 3px at 65px 4px, #f5e6c8 50%, transparent 50%);
+    }
+
+    /* Mustard zigzag */
+    .mustard {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 4px,
+        var(--mustard) 4px,
+        var(--mustard) 8px
+      );
+      clip-path: polygon(0% 100%, 5% 0%, 15% 100%, 25% 0%, 35% 100%, 45% 0%, 55% 100%, 65% 0%, 75% 100%, 85% 0%, 95% 100%, 100% 0%, 100% 100%);
+    }
+
+    /* Control panel */
+    .control-panel {
+      position: absolute;
+      right: 10px;
+      top: 15px;
+      width: 22%;
+      height: calc(100% - 30px);
+      background: linear-gradient(180deg, #444 0%, #333 100%);
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 5px;
+      gap: 8px;
+    }
+
+    /* LED display */
+    .led-display {
+      width: 90%;
+      height: 30px;
+      background: #0a0a0a;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      color: var(--microwave-glow);
+      text-shadow: 0 0 5px var(--microwave-glow);
+      border: 2px solid #222;
+    }
+
+    /* Buttons */
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      width: 90%;
+    }
+
+    .btn {
+      aspect-ratio: 1;
+      background: linear-gradient(180deg, #666 0%, #444 100%);
+      border-radius: 3px;
+      border: 1px solid #555;
+    }
+
+    /* Big start button */
+    .start-btn {
+      width: 80%;
+      height: 25px;
+      background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%);
+      border-radius: 4px;
+      margin-top: auto;
+      box-shadow: 0 3px 0 #166534, 0 5px 10px rgba(0,0,0,0.3);
+    }
+
+    .cooking .start-btn {
+      animation: button-glow 0.5s ease-in-out infinite;
+    }
+
+    @keyframes button-glow {
+      0%, 100% { box-shadow: 0 3px 0 #166534, 0 5px 10px rgba(0,0,0,0.3), 0 0 20px rgba(74, 222, 128, 0.5); }
+      50% { box-shadow: 0 3px 0 #166534, 0 5px 10px rgba(0,0,0,0.3), 0 0 30px rgba(74, 222, 128, 0.8); }
+    }
+
+    /* Steam particles */
+    .steam {
+      position: absolute;
+      width: 8px;
+      height: 20px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      filter: blur(3px);
+      pointer-events: none;
+      animation: steam-rise 1.5s ease-out forwards;
+    }
+
+    @keyframes steam-rise {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) scale(2);
+        opacity: 0;
+      }
+    }
+
+    /* CELEBRATION STATE */
+    .celebration-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(232, 185, 35, 0.3) 0%, transparent 70%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s;
+      z-index: 10;
+    }
+
+    .celebration-overlay.active {
+      opacity: 1;
+    }
+
+    .celebration-text {
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .celebration-text.active {
+      animation: text-appear 0.5s ease-out forwards;
+    }
+
+    @keyframes text-appear {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.5);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.2);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+    }
+
+    .great-job {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(48px, 15vw, 80px);
+      color: var(--mustard);
+      text-shadow:
+        3px 3px 0 var(--ketchup),
+        6px 6px 0 var(--relish),
+        0 0 30px rgba(232, 185, 35, 0.8),
+        0 0 60px rgba(232, 185, 35, 0.5);
+      animation: great-job-bounce 0.5s ease-out;
+      letter-spacing: 4px;
+    }
+
+    @keyframes great-job-bounce {
+      0%, 100% { transform: scale(1) rotate(-2deg); }
+      25% { transform: scale(1.1) rotate(2deg); }
+      50% { transform: scale(0.95) rotate(-1deg); }
+      75% { transform: scale(1.05) rotate(1deg); }
+    }
+
+    .you-earned {
+      font-family: 'Comic Neue', cursive;
+      font-size: clamp(20px, 5vw, 32px);
+      color: white;
+      margin-top: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .hotdog-text {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(36px, 10vw, 60px);
+      background: linear-gradient(180deg, var(--bun-light) 0%, var(--mustard) 50%, var(--ketchup) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.5));
+      animation: hotdog-wiggle 0.3s ease-in-out infinite;
+      margin-top: 5px;
+    }
+
+    @keyframes hotdog-wiggle {
+      0%, 100% { transform: rotate(-1deg); }
+      50% { transform: rotate(1deg); }
+    }
+
+    /* Flying hotdogs */
+    .flying-hotdog {
+      position: fixed;
+      font-size: 40px;
+      pointer-events: none;
+      z-index: 15;
+      animation: fly-hotdog 2s ease-out forwards;
+    }
+
+    @keyframes fly-hotdog {
+      0% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5) rotate(var(--rot));
+        opacity: 0;
+      }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      z-index: 15;
+      animation: confetti-fall 3s ease-out forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Ketchup and mustard splats */
+    .splat {
+      position: fixed;
+      width: 50px;
+      height: 50px;
+      pointer-events: none;
+      z-index: 5;
+      animation: splat-appear 0.3s ease-out forwards;
+    }
+
+    @keyframes splat-appear {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+    }
+
+    /* Screen shake */
+    .shaking {
+      animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+      20%, 40%, 60%, 80% { transform: translateX(10px); }
+    }
+
+    /* Flash overlay */
+    .flash {
+      position: fixed;
+      inset: 0;
+      background: white;
+      pointer-events: none;
+      z-index: 100;
+      animation: flash-anim 0.3s ease-out forwards;
+    }
+
+    @keyframes flash-anim {
+      0% { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+
+    /* Tap again text */
+    .tap-again {
+      position: fixed;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      opacity: 0;
+      z-index: 25;
+      animation: fade-in 0.5s ease-out 2s forwards;
+    }
+
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
+
+    /* Giant hotdog that appears */
+    .giant-hotdog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: clamp(100px, 40vw, 200px);
+      z-index: 30;
+      pointer-events: none;
+      filter: drop-shadow(0 0 30px rgba(232, 185, 35, 0.8));
+    }
+
+    .giant-hotdog.active {
+      animation: giant-hotdog-appear 1s ease-out forwards;
+    }
+
+    @keyframes giant-hotdog-appear {
+      0% {
+        transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+      }
+      60% {
+        transform: translate(-50%, -50%) scale(1.3) rotate(10deg);
+      }
+      80% {
+        transform: translate(-50%, -50%) scale(0.9) rotate(-5deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="celebration-overlay" id="celebration-overlay"></div>
+
+  <div class="celebration-text" id="celebration-text">
+    <div class="great-job">GREAT JOB!</div>
+    <div class="you-earned">You earned a</div>
+    <div class="hotdog-text">MICROWAVE HOTDOG</div>
+  </div>
+
+  <div class="giant-hotdog" id="giant-hotdog">🌭</div>
+
+  <div class="container" id="container">
+    <div class="pre-text" id="pre-text">
+      ▶ TAP TO CLAIM YOUR REWARD ◀
+    </div>
+
+    <div class="microwave" id="microwave">
+      <div class="door">
+        <div class="door-inner">
+          <div class="interior-glow"></div>
+          <div class="turntable"></div>
+          <div class="hotdog-container">
+            <div class="hotdog">
+              <div class="bun-top"></div>
+              <div class="mustard"></div>
+              <div class="wiener"></div>
+              <div class="bun-bottom"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="control-panel">
+        <div class="led-display" id="led-display">0:00</div>
+        <div class="buttons">
+          <div class="btn"></div>
+          <div class="btn"></div>
+          <div class="btn"></div>
+          <div class="btn"></div>
+          <div class="btn"></div>
+          <div class="btn"></div>
+        </div>
+        <div class="start-btn"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tap-again" id="tap-again" style="display: none;">
+    [ tap for more hotdog energy ]
+  </div>
+
+  <script>
+    // Audio Context for generating sounds
+    let audioContext;
+
+    function initAudio() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+    }
+
+    // Microwave hum sound
+    function playMicrowaveHum(duration) {
+      initAudio();
+
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.type = 'sawtooth';
+      oscillator.frequency.setValueAtTime(60, audioContext.currentTime);
+
+      // Add some wobble
+      const lfo = audioContext.createOscillator();
+      const lfoGain = audioContext.createGain();
+      lfo.frequency.setValueAtTime(8, audioContext.currentTime);
+      lfoGain.gain.setValueAtTime(3, audioContext.currentTime);
+      lfo.connect(lfoGain);
+      lfoGain.connect(oscillator.frequency);
+      lfo.start();
+
+      gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.start();
+
+      setTimeout(() => {
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+        setTimeout(() => {
+          oscillator.stop();
+          lfo.stop();
+        }, 100);
+      }, duration);
+
+      return { oscillator, gainNode, lfo };
+    }
+
+    // Microwave beep
+    function playBeep(frequency = 1000, duration = 150) {
+      initAudio();
+
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.type = 'square';
+      oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration / 1000);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration / 1000);
+    }
+
+    // Victory fanfare
+    function playFanfare() {
+      initAudio();
+
+      const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
+      const durations = [150, 150, 150, 400];
+
+      notes.forEach((freq, i) => {
+        setTimeout(() => {
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+
+          oscillator.type = 'square';
+          oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+
+          gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + durations[i] / 1000);
+
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + durations[i] / 1000);
+        }, i * 180);
+      });
+    }
+
+    // Sad trombone (for extra comedy)
+    function playSadTrombone() {
+      initAudio();
+
+      const notes = [392, 370, 349, 330]; // G4 descending
+
+      notes.forEach((freq, i) => {
+        setTimeout(() => {
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+
+          oscillator.type = 'sawtooth';
+          oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(freq * 0.95, audioContext.currentTime + 0.3);
+
+          gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.35);
+
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 0.4);
+        }, i * 350);
+      });
+    }
+
+    // DOM elements
+    const microwave = document.getElementById('microwave');
+    const ledDisplay = document.getElementById('led-display');
+    const preText = document.getElementById('pre-text');
+    const celebrationOverlay = document.getElementById('celebration-overlay');
+    const celebrationText = document.getElementById('celebration-text');
+    const giantHotdog = document.getElementById('giant-hotdog');
+    const tapAgain = document.getElementById('tap-again');
+    const container = document.getElementById('container');
+
+    let isCooking = false;
+    let hasFinished = false;
+    let cookingInterval;
+    let timeLeft = 5;
+
+    function startCooking() {
+      if (isCooking) return;
+
+      isCooking = true;
+      timeLeft = 5;
+      microwave.classList.add('cooking');
+      preText.classList.add('hidden');
+
+      // Start the hum
+      playMicrowaveHum(5500);
+
+      // Haptic
+      if (navigator.vibrate) {
+        navigator.vibrate([50]);
+      }
+
+      // Spawn steam
+      const steamInterval = setInterval(() => {
+        if (!isCooking) {
+          clearInterval(steamInterval);
+          return;
+        }
+        spawnSteam();
+      }, 300);
+
+      // Countdown
+      ledDisplay.textContent = `0:0${timeLeft}`;
+
+      cookingInterval = setInterval(() => {
+        timeLeft--;
+        ledDisplay.textContent = `0:0${timeLeft}`;
+        playBeep(800, 50);
+
+        if (timeLeft <= 0) {
+          clearInterval(cookingInterval);
+          clearInterval(steamInterval);
+          finishCooking();
+        }
+      }, 1000);
+    }
+
+    function spawnSteam() {
+      const steam = document.createElement('div');
+      steam.className = 'steam';
+
+      const rect = microwave.getBoundingClientRect();
+      steam.style.left = `${rect.left + rect.width * 0.3 + Math.random() * rect.width * 0.3}px`;
+      steam.style.top = `${rect.top + rect.height * 0.3}px`;
+
+      document.body.appendChild(steam);
+      steam.addEventListener('animationend', () => steam.remove());
+    }
+
+    function finishCooking() {
+      isCooking = false;
+      hasFinished = true;
+      microwave.classList.remove('cooking');
+
+      // DING DING DING!
+      playBeep(1200, 200);
+      setTimeout(() => playBeep(1200, 200), 250);
+      setTimeout(() => playBeep(1200, 200), 500);
+
+      // Haptic burst
+      if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 100, 50, 100]);
+      }
+
+      ledDisplay.textContent = 'DONE';
+
+      // Flash
+      const flash = document.createElement('div');
+      flash.className = 'flash';
+      document.body.appendChild(flash);
+      flash.addEventListener('animationend', () => flash.remove());
+
+      // Screen shake
+      document.body.classList.add('shaking');
+      setTimeout(() => document.body.classList.remove('shaking'), 500);
+
+      // Trigger celebration after a beat
+      setTimeout(() => {
+        triggerCelebration();
+      }, 800);
+    }
+
+    function triggerCelebration() {
+      // Overlay
+      celebrationOverlay.classList.add('active');
+
+      // Text
+      celebrationText.classList.add('active');
+
+      // Giant hotdog
+      setTimeout(() => {
+        giantHotdog.classList.add('active');
+      }, 500);
+
+      // Fanfare then sad trombone (the anti-climax)
+      playFanfare();
+      setTimeout(() => {
+        playSadTrombone();
+      }, 800);
+
+      // Spawn flying hotdogs
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => spawnFlyingHotdog(), i * 100);
+      }
+
+      // Spawn confetti
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => spawnConfetti(), i * 30);
+      }
+
+      // Spawn condiment splats
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => spawnSplat(), i * 150);
+      }
+
+      // Show tap again
+      setTimeout(() => {
+        tapAgain.style.display = 'block';
+      }, 2000);
+    }
+
+    function spawnFlyingHotdog() {
+      const hotdog = document.createElement('div');
+      hotdog.className = 'flying-hotdog';
+      hotdog.textContent = '🌭';
+
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 200 + Math.random() * 300;
+      const tx = Math.cos(angle) * velocity;
+      const ty = Math.sin(angle) * velocity;
+      const rot = (Math.random() - 0.5) * 720;
+
+      hotdog.style.setProperty('--tx', `${tx}px`);
+      hotdog.style.setProperty('--ty', `${ty}px`);
+      hotdog.style.setProperty('--rot', `${rot}deg`);
+      hotdog.style.left = '50%';
+      hotdog.style.top = '50%';
+
+      document.body.appendChild(hotdog);
+      hotdog.addEventListener('animationend', () => hotdog.remove());
+    }
+
+    function spawnConfetti() {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+
+      const colors = ['#e8b923', '#c41e3a', '#5a8f3e', '#e8c170', '#ff6b6b'];
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.left = `${Math.random() * 100}vw`;
+      confetti.style.top = '-20px';
+      confetti.style.width = `${5 + Math.random() * 10}px`;
+      confetti.style.height = `${5 + Math.random() * 10}px`;
+      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      confetti.style.animationDuration = `${2 + Math.random() * 2}s`;
+
+      document.body.appendChild(confetti);
+      confetti.addEventListener('animationend', () => confetti.remove());
+    }
+
+    function spawnSplat() {
+      const splat = document.createElement('div');
+      splat.className = 'splat';
+
+      const isKetchup = Math.random() > 0.5;
+      const color = isKetchup ? '#c41e3a' : '#e8b923';
+
+      // Create SVG splat shape
+      const points = [];
+      const numPoints = 8 + Math.floor(Math.random() * 4);
+      for (let i = 0; i < numPoints; i++) {
+        const angle = (Math.PI * 2 * i) / numPoints;
+        const radius = 15 + Math.random() * 10;
+        const x = 25 + Math.cos(angle) * radius;
+        const y = 25 + Math.sin(angle) * radius;
+        points.push(`${x},${y}`);
+      }
+
+      splat.innerHTML = `
+        <svg width="50" height="50" viewBox="0 0 50 50">
+          <polygon points="${points.join(' ')}" fill="${color}" />
+        </svg>
+      `;
+
+      splat.style.left = `${Math.random() * 80 + 10}vw`;
+      splat.style.top = `${Math.random() * 80 + 10}vh`;
+
+      document.body.appendChild(splat);
+
+      // Fade out after a while
+      setTimeout(() => {
+        splat.style.transition = 'opacity 1s';
+        splat.style.opacity = '0';
+        setTimeout(() => splat.remove(), 1000);
+      }, 3000);
+    }
+
+    function resetAndPlayAgain() {
+      // More chaos on subsequent taps
+      playFanfare();
+
+      if (navigator.vibrate) {
+        navigator.vibrate([50, 30, 50, 30, 100]);
+      }
+
+      // More flying hotdogs
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => spawnFlyingHotdog(), i * 50);
+      }
+
+      // More confetti
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => spawnConfetti(), i * 20);
+      }
+
+      // Screen shake
+      document.body.classList.add('shaking');
+      setTimeout(() => document.body.classList.remove('shaking'), 500);
+
+      // Flash
+      const flash = document.createElement('div');
+      flash.className = 'flash';
+      document.body.appendChild(flash);
+      flash.addEventListener('animationend', () => flash.remove());
+    }
+
+    // Event listeners
+    function handleInteraction(e) {
+      e.preventDefault();
+
+      if (!hasFinished) {
+        startCooking();
+      } else {
+        resetAndPlayAgain();
+      }
+    }
+
+    microwave.addEventListener('click', handleInteraction);
+    microwave.addEventListener('touchstart', handleInteraction, { passive: false });
+
+    // Also allow tapping anywhere after celebration
+    document.body.addEventListener('click', (e) => {
+      if (hasFinished && e.target !== microwave && !microwave.contains(e.target)) {
+        resetAndPlayAgain();
+      }
+    });
+
+    document.body.addEventListener('touchstart', (e) => {
+      if (hasFinished && e.target !== microwave && !microwave.contains(e.target)) {
+        e.preventDefault();
+        resetAndPlayAgain();
+      }
+    }, { passive: false });
+
+    // Idle animation for pre-text
+    setInterval(() => {
+      if (!isCooking && !hasFinished) {
+        preText.style.transform = `scale(${1 + Math.sin(Date.now() / 500) * 0.05})`;
+      }
+    }, 50);
+  </script>
+</body>
+</html>
