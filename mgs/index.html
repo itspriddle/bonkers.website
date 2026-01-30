@@ -916,8 +916,8 @@
       animationId = requestAnimationFrame(updateWaveform);
     }
 
-    // Initialize audio context and analyser
-    async function initAudioContext() {
+    // Initialize audio context and analyser (must be synchronous for mobile)
+    function initAudioContext() {
       if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
@@ -929,12 +929,12 @@
       }
 
       if (audioContext.state === 'suspended') {
-        await audioContext.resume();
+        audioContext.resume();
       }
     }
 
     // Trigger the alert
-    async function triggerAlert(event) {
+    function triggerAlert(event) {
       if (isPlaying) return;
 
       // Create ripple at touch/click position
@@ -945,8 +945,17 @@
 
       isPlaying = true;
 
-      // Initialize audio context on first interaction
-      await initAudioContext();
+      // Initialize audio context on first interaction (synchronous for mobile gesture)
+      initAudioContext();
+
+      // Play sound immediately within gesture context
+      alertSound.currentTime = 0;
+      alertSound.play().then(() => {
+        updateWaveform();
+      }).catch(e => {
+        console.log('Audio play failed:', e);
+        isPlaying = false;
+      });
 
       // Update UI
       container.classList.add('alert-active');
@@ -956,16 +965,6 @@
       // Trigger VHS glitch
       vhsTracking.classList.add('glitch');
       setTimeout(() => vhsTracking.classList.remove('glitch'), 150);
-
-      // Play sound
-      alertSound.currentTime = 0;
-
-      try {
-        await alertSound.play();
-        updateWaveform();
-      } catch (e) {
-        console.log('Audio play failed:', e);
-      }
 
       // Vibrate if supported
       if ('vibrate' in navigator) {
