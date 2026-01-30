@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#1a0a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PRISON MIKE">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <title>PRISON MIKE - The Worst Thing About Prison</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Creepster&family=Metal+Mania&family=Rubik+Glitch&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --dementor-purple: #4a1a6b;
+      --bandana-blue: #5c6bc0;
+      --prison-dark: #0d0d1a;
+      --smoke-gray: #2a3a4a;
+      --blood-orange: #ff4444;
+      --eerie-green: #00ff88;
+      --warning-yellow: #ffcc00;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Metal Mania', cursive;
+      background: var(--prison-dark);
+      color: #fff;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated smoky background */
+    .smoke-layer {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(74, 26, 107, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(42, 58, 74, 0.5) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(13, 13, 26, 0.9) 0%, transparent 70%);
+      animation: smokeShift 8s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes smokeShift {
+      0% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+      100% { transform: scale(1.1) rotate(3deg); opacity: 1; }
+    }
+
+    /* Dementor wisps floating around */
+    .wisp {
+      position: fixed;
+      width: 100px;
+      height: 200px;
+      background: linear-gradient(180deg, transparent, rgba(42, 58, 74, 0.3), transparent);
+      filter: blur(20px);
+      animation: float 10s ease-in-out infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .wisp:nth-child(1) { left: -50px; animation-delay: 0s; }
+    .wisp:nth-child(2) { right: -50px; animation-delay: -3s; }
+    .wisp:nth-child(3) { left: 30%; animation-delay: -6s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) rotate(-10deg); opacity: 0; }
+      50% { transform: translateY(-100vh) rotate(10deg); opacity: 0.7; }
+    }
+
+    /* Main background image */
+    .bg-image {
+      position: fixed;
+      inset: 0;
+      background: url('mike.png') center center / cover no-repeat;
+      opacity: 0.15;
+      z-index: 1;
+      animation: bgPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes bgPulse {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50% { opacity: 0.25; transform: scale(1.02); }
+    }
+
+    /* Scanlines for that gritty prison surveillance feel */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+        rgba(0, 0, 0, 0.1) 4px
+      );
+      z-index: 2;
+      pointer-events: none;
+      animation: scanMove 0.1s linear infinite;
+    }
+
+    @keyframes scanMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
+
+    /* Vignette */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.8) 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Main content container */
+    .container {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 20px;
+      max-width: 100vw;
+    }
+
+    /* Comic book title */
+    .title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(3rem, 14vw, 6rem);
+      color: var(--warning-yellow);
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      -webkit-text-stroke: 3px #000;
+      paint-order: stroke fill;
+      text-shadow:
+        4px 4px 0 #000,
+        6px 6px 0 var(--dementor-purple),
+        8px 8px 0 rgba(74, 26, 107, 0.5);
+      animation: titlePop 0.5s ease-out, titleWobble 3s ease-in-out infinite 0.5s;
+      transform-origin: center;
+    }
+
+    @keyframes titlePop {
+      0% {
+        transform: scale(0) rotate(-10deg);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.2) rotate(3deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    @keyframes titleWobble {
+      0%, 100% {
+        transform: rotate(-1deg) scale(1);
+      }
+      25% {
+        transform: rotate(1deg) scale(1.02);
+      }
+      50% {
+        transform: rotate(-0.5deg) scale(1);
+      }
+      75% {
+        transform: rotate(0.5deg) scale(1.01);
+      }
+    }
+
+    .subtitle {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(1rem, 5vw, 1.8rem);
+      color: var(--bandana-blue);
+      text-shadow: 0 0 20px var(--bandana-blue);
+      letter-spacing: 0.2em;
+      animation: subtitleFlicker 2s ease-in-out infinite;
+      margin-bottom: 30px;
+    }
+
+    @keyframes subtitleFlicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+      52% { opacity: 1; }
+      54% { opacity: 0.4; }
+      56% { opacity: 1; }
+    }
+
+    /* Prison Mike portrait */
+    .portrait-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 30px;
+      perspective: 1000px;
+    }
+
+    .portrait {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid var(--bandana-blue);
+      box-shadow:
+        0 0 30px var(--dementor-purple),
+        0 0 60px rgba(74, 26, 107, 0.5),
+        inset 0 0 30px rgba(0,0,0,0.5);
+      object-fit: cover;
+      animation: portraitFloat 3s ease-in-out infinite;
+      transition: all 0.3s ease;
+    }
+
+    .portrait:hover {
+      transform: scale(1.1) rotateY(10deg);
+      box-shadow:
+        0 0 50px var(--blood-orange),
+        0 0 100px rgba(255, 68, 68, 0.5);
+    }
+
+    @keyframes portraitFloat {
+      0%, 100% { transform: translateY(0) rotateX(0); }
+      50% { transform: translateY(-10px) rotateX(5deg); }
+    }
+
+    /* Dementor claws reaching around portrait */
+    .portrait-container::before,
+    .portrait-container::after {
+      content: '👻';
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.6;
+      animation: clawReach 4s ease-in-out infinite;
+      filter: grayscale(100%) brightness(0.5);
+    }
+
+    .portrait-container::before {
+      left: -40px;
+      top: 50%;
+      transform: translateY(-50%) scaleX(-1);
+      animation-delay: 0s;
+    }
+
+    .portrait-container::after {
+      right: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation-delay: -2s;
+    }
+
+    @keyframes clawReach {
+      0%, 100% { transform: translateY(-50%) translateX(0); opacity: 0.3; }
+      50% { transform: translateY(-50%) translateX(10px); opacity: 0.7; }
+    }
+
+    /* THE BUTTON - absolutely bonkers */
+    .play-btn {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 50%),
+        linear-gradient(135deg, var(--dementor-purple) 0%, var(--prison-dark) 50%, var(--smoke-gray) 100%);
+      box-shadow:
+        0 10px 40px rgba(0,0,0,0.5),
+        0 0 60px var(--dementor-purple),
+        inset 0 -5px 20px rgba(0,0,0,0.5),
+        inset 0 5px 20px rgba(255,255,255,0.1);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: buttonPulse 2s ease-in-out infinite;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .play-btn::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        var(--blood-orange),
+        var(--warning-yellow),
+        var(--eerie-green),
+        var(--bandana-blue),
+        var(--dementor-purple),
+        var(--blood-orange)
+      );
+      z-index: -1;
+      animation: borderSpin 3s linear infinite;
+    }
+
+    .play-btn::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 50%;
+      background: inherit;
+      z-index: -1;
+    }
+
+    @keyframes borderSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes buttonPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow:
+          0 10px 40px rgba(0,0,0,0.5),
+          0 0 60px var(--dementor-purple),
+          inset 0 -5px 20px rgba(0,0,0,0.5);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow:
+          0 15px 50px rgba(0,0,0,0.6),
+          0 0 80px var(--blood-orange),
+          inset 0 -5px 20px rgba(0,0,0,0.5);
+      }
+    }
+
+    .play-btn:hover {
+      transform: scale(1.1);
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.6),
+        0 0 100px var(--blood-orange),
+        inset 0 -5px 20px rgba(0,0,0,0.5);
+    }
+
+    .play-btn:active {
+      transform: scale(0.95);
+      box-shadow:
+        0 5px 20px rgba(0,0,0,0.4),
+        0 0 40px var(--dementor-purple),
+        inset 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .play-btn .icon {
+      font-size: 4rem;
+      display: block;
+      line-height: 180px;
+      transition: all 0.3s ease;
+      animation: iconShake 0.5s ease-in-out infinite;
+      text-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+
+    @keyframes iconShake {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .play-btn.playing .icon {
+      animation: iconSpin 1s linear infinite;
+    }
+
+    @keyframes iconSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(90deg) scale(1.1); }
+      50% { transform: rotate(180deg) scale(1); }
+      75% { transform: rotate(270deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    /* Quote text */
+    .quote {
+      font-family: 'Rubik Glitch', cursive;
+      font-size: clamp(0.9rem, 4vw, 1.3rem);
+      color: var(--warning-yellow);
+      margin-top: 30px;
+      padding: 0 20px;
+      text-shadow: 0 0 10px var(--warning-yellow);
+      animation: quoteGlow 2s ease-in-out infinite alternate;
+      line-height: 1.6;
+    }
+
+    @keyframes quoteGlow {
+      0% { text-shadow: 0 0 10px var(--warning-yellow); }
+      100% { text-shadow: 0 0 30px var(--warning-yellow), 0 0 60px var(--blood-orange); }
+    }
+
+    /* Scary text animation on play */
+    .scary-text {
+      position: fixed;
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2.5rem, 18vw, 7rem);
+      color: var(--blood-orange);
+      -webkit-text-stroke: 3px #000;
+      paint-order: stroke fill;
+      text-shadow:
+        4px 4px 0 #000,
+        6px 6px 0 var(--dementor-purple);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 100;
+      animation: none;
+    }
+
+    .scary-text.active {
+      animation: scaryPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes scaryPop {
+      0% {
+        transform: translate(-50%, -50%) scale(0) rotate(-20deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 0;
+      }
+    }
+
+    /* Screen shake effect */
+    .shake {
+      animation: screenShake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes screenShake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+
+    /* Flying dementors when playing */
+    .dementor-fly {
+      position: fixed;
+      font-size: 5rem;
+      pointer-events: none;
+      z-index: 50;
+      filter: grayscale(100%) brightness(0.3) drop-shadow(0 0 20px var(--dementor-purple));
+      animation: dementorFly 2s ease-in-out forwards;
+    }
+
+    @keyframes dementorFly {
+      0% {
+        transform: translateX(-100vw) translateY(50vh) rotate(-30deg) scale(0.5);
+        opacity: 0;
+      }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% {
+        transform: translateX(100vw) translateY(-20vh) rotate(30deg) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Creepster', cursive;
+      font-size: 0.8rem;
+      color: var(--smoke-gray);
+      letter-spacing: 0.3em;
+      z-index: 10;
+    }
+
+    /* Audio visualizer bars */
+    .visualizer {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-top: 20px;
+      height: 40px;
+      align-items: flex-end;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .visualizer.active {
+      opacity: 1;
+    }
+
+    .bar {
+      width: 8px;
+      background: linear-gradient(to top, var(--blood-orange), var(--warning-yellow));
+      border-radius: 4px;
+      animation: none;
+    }
+
+    .visualizer.active .bar {
+      animation: barDance 0.5s ease-in-out infinite alternate;
+    }
+
+    .bar:nth-child(1) { animation-delay: 0s; }
+    .bar:nth-child(2) { animation-delay: 0.1s; }
+    .bar:nth-child(3) { animation-delay: 0.2s; }
+    .bar:nth-child(4) { animation-delay: 0.15s; }
+    .bar:nth-child(5) { animation-delay: 0.05s; }
+    .bar:nth-child(6) { animation-delay: 0.25s; }
+    .bar:nth-child(7) { animation-delay: 0.1s; }
+
+    @keyframes barDance {
+      0% { height: 10px; }
+      100% { height: 40px; }
+    }
+
+    /* Initial load animation */
+    .container {
+      animation: containerEnter 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes containerEnter {
+      0% {
+        transform: translateY(50px) scale(0.9);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Safe area padding for notched phones */
+    @supports (padding: env(safe-area-inset-bottom)) {
+      .footer {
+        bottom: calc(20px + env(safe-area-inset-bottom));
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Atmospheric layers -->
+  <div class="smoke-layer"></div>
+  <div class="wisp"></div>
+  <div class="wisp"></div>
+  <div class="wisp"></div>
+  <div class="bg-image"></div>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <!-- Main content -->
+  <div class="container">
+    <h1 class="title">PRISON MIKE</h1>
+    <p class="subtitle">FRESH OUT THE JOINT</p>
+
+    <div class="portrait-container">
+      <img src="mike1.png" alt="Prison Mike" class="portrait">
+    </div>
+
+    <button class="play-btn" id="playBtn" aria-label="Play audio">
+      <span class="icon">🎤</span>
+    </button>
+
+    <div class="visualizer" id="visualizer">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+
+    <p class="quote">"The worst thing about prison was the DEMENTORS!"</p>
+  </div>
+
+  <div class="scary-text" id="scaryText">DEMENTORS!</div>
+
+  <footer class="footer">DA BELLE OF DA BALL</footer>
+
+  <audio id="audio" src="mike.mp3" preload="auto"></audio>
+
+  <script>
+    const playBtn = document.getElementById('playBtn');
+    const audio = document.getElementById('audio');
+    const visualizer = document.getElementById('visualizer');
+    const scaryText = document.getElementById('scaryText');
+    const icon = playBtn.querySelector('.icon');
+    const body = document.body;
+
+    const scaryWords = ['DEMENTORS!', 'GRUEL!', 'DA BELLE!', 'TANKS!', 'CLINK!', 'SCARY!'];
+    let isPlaying = false;
+    let dementorInterval;
+
+    function spawnDementor() {
+      const dementor = document.createElement('div');
+      dementor.className = 'dementor-fly';
+      dementor.textContent = '👻';
+      dementor.style.top = Math.random() * 60 + 20 + '%';
+      document.body.appendChild(dementor);
+
+      setTimeout(() => dementor.remove(), 2000);
+    }
+
+    function showScaryText() {
+      const word = scaryWords[Math.floor(Math.random() * scaryWords.length)];
+      scaryText.textContent = word;
+      scaryText.style.left = Math.random() * 60 + 20 + '%';
+      scaryText.style.top = Math.random() * 60 + 20 + '%';
+      scaryText.classList.remove('active');
+      void scaryText.offsetWidth; // Trigger reflow
+      scaryText.classList.add('active');
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        audio.currentTime = 0;
+        playBtn.classList.remove('playing');
+        visualizer.classList.remove('active');
+        icon.textContent = '🎤';
+        clearInterval(dementorInterval);
+        isPlaying = false;
+      } else {
+        audio.play();
+        playBtn.classList.add('playing');
+        visualizer.classList.add('active');
+        icon.textContent = '💀';
+        body.classList.add('shake');
+        setTimeout(() => body.classList.remove('shake'), 500);
+
+        // Show initial scary text
+        showScaryText();
+
+        // Spawn dementors periodically
+        spawnDementor();
+        dementorInterval = setInterval(() => {
+          spawnDementor();
+          if (Math.random() > 0.5) showScaryText();
+        }, 1500);
+
+        isPlaying = true;
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      playBtn.classList.remove('playing');
+      visualizer.classList.remove('active');
+      icon.textContent = '🎤';
+      clearInterval(dementorInterval);
+      isPlaying = false;
+
+      // Final dramatic text
+      scaryText.textContent = 'GRUEL SANDWICHES';
+      scaryText.style.left = '50%';
+      scaryText.style.top = '50%';
+      scaryText.classList.remove('active');
+      void scaryText.offsetWidth;
+      scaryText.classList.add('active');
+    });
+
+    // Add touch feedback for mobile
+    playBtn.addEventListener('touchstart', () => {
+      playBtn.style.transform = 'scale(0.95)';
+    }, { passive: true });
+
+    playBtn.addEventListener('touchend', () => {
+      playBtn.style.transform = '';
+    }, { passive: true });
+
+    // Prevent zoom on double tap
+    document.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      e.target.click();
+    }, { passive: false });
+  </script>
+</body>
+</html>
