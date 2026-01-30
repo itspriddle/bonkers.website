@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <title>~*~ 404 PAGE NOT FOUND ~*~ BONKERS.WEBSITE ~*~</title>
+  <meta name="description" content="You got lost in cyberspace! The page you're looking for has vanished into the digital void.">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BONKERS.WEBSITE">
+  <meta property="og:title" content="404 - LOST IN CYBERSPACE">
+  <meta property="og:description" content="The page you're looking for has been abducted by aliens! Click the UFO to call it back...">
+  <meta property="og:image" content="https://bonkers.website/404/og.png">
+  <meta property="og:url" content="https://bonkers.website/404">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Creepster&family=Bangers&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --void-black: #0a0a0f;
+      --cyber-pink: #ff00ff;
+      --cyber-cyan: #00ffff;
+      --warning-yellow: #ffcc00;
+      --alien-green: #39ff14;
+      --glitch-red: #ff0040;
+      --deep-purple: #4b0082;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100dvh;
+      overflow: hidden;
+      background: var(--void-black);
+      font-family: 'VT323', monospace;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E%F0%9F%91%BD%3C/text%3E%3C/svg%3E") 16 16, auto;
+    }
+
+    /* STARFIELD BACKGROUND */
+    .starfield {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(75, 0, 130, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 70%),
+        var(--void-black);
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--twinkle-duration, 2s) ease-in-out infinite;
+      animation-delay: var(--twinkle-delay, 0s);
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    /* VIGNETTE */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* SCANLINES */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+        rgba(0, 0, 0, 0.1) 4px
+      );
+      pointer-events: none;
+      z-index: 100;
+      animation: scanline-move 10s linear infinite;
+    }
+
+    @keyframes scanline-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 100px; }
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      position: relative;
+      z-index: 10;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* 404 GLITCH TEXT */
+    .error-code {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(4rem, 20vw, 12rem);
+      color: var(--cyber-pink);
+      text-shadow:
+        0 0 10px var(--cyber-pink),
+        0 0 20px var(--cyber-pink),
+        0 0 40px var(--cyber-pink),
+        0 0 80px var(--cyber-pink),
+        4px 4px 0 var(--cyber-cyan),
+        -4px -4px 0 var(--alien-green);
+      animation: glitch 2s ease-in-out infinite, float 4s ease-in-out infinite;
+      position: relative;
+    }
+
+    .error-code::before,
+    .error-code::after {
+      content: '404';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .error-code::before {
+      color: var(--cyber-cyan);
+      animation: glitch-1 0.3s ease-in-out infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+
+    .error-code::after {
+      color: var(--alien-green);
+      animation: glitch-2 0.3s ease-in-out infinite;
+      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    }
+
+    @keyframes glitch {
+      0%, 90%, 100% { transform: translate(0); }
+      92% { transform: translate(-5px, 2px); }
+      94% { transform: translate(5px, -2px); }
+      96% { transform: translate(-3px, -1px); }
+      98% { transform: translate(3px, 1px); }
+    }
+
+    @keyframes glitch-1 {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-3px, 2px); }
+      40% { transform: translate(3px, -2px); }
+      60% { transform: translate(-2px, 1px); }
+      80% { transform: translate(2px, -1px); }
+    }
+
+    @keyframes glitch-2 {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(3px, -2px); }
+      40% { transform: translate(-3px, 2px); }
+      60% { transform: translate(2px, -1px); }
+      80% { transform: translate(-2px, 1px); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* ERROR MESSAGE */
+    .error-message {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      color: var(--warning-yellow);
+      text-shadow:
+        0 0 10px var(--warning-yellow),
+        0 0 20px var(--warning-yellow),
+        2px 2px 0 var(--glitch-red);
+      margin: 20px 0;
+      animation: shake 0.5s ease-in-out infinite;
+      letter-spacing: 2px;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      25% { transform: translateX(-5px) rotate(-1deg); }
+      75% { transform: translateX(5px) rotate(1deg); }
+    }
+
+    /* UFO - THE MAIN INTERACTIVE ELEMENT */
+    .ufo-container {
+      position: relative;
+      margin: 40px 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ufo {
+      width: clamp(150px, 40vw, 250px);
+      height: clamp(90px, 24vw, 150px);
+      position: relative;
+      animation: ufo-hover 3s ease-in-out infinite;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: drop-shadow(0 0 20px var(--alien-green)) drop-shadow(0 0 40px var(--cyber-cyan));
+    }
+
+    .ufo:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 30px var(--alien-green)) drop-shadow(0 0 60px var(--cyber-cyan));
+    }
+
+    .ufo:active {
+      transform: scale(0.95);
+    }
+
+    @keyframes ufo-hover {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-15px) rotate(2deg); }
+    }
+
+    /* UFO DOME */
+    .ufo-dome {
+      position: absolute;
+      width: 60%;
+      height: 50%;
+      left: 20%;
+      top: 0;
+      background: radial-gradient(ellipse at 30% 30%, rgba(0, 255, 255, 0.8), rgba(0, 255, 255, 0.3) 50%, rgba(75, 0, 130, 0.5));
+      border-radius: 50% 50% 0 0;
+      border: 3px solid var(--cyber-cyan);
+      box-shadow:
+        inset 0 -20px 30px rgba(0, 0, 0, 0.3),
+        0 0 20px var(--cyber-cyan);
+    }
+
+    /* ALIEN INSIDE */
+    .alien {
+      position: absolute;
+      font-size: clamp(2rem, 8vw, 4rem);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -70%);
+      animation: alien-wave 1s ease-in-out infinite;
+    }
+
+    @keyframes alien-wave {
+      0%, 100% { transform: translate(-50%, -70%) rotate(-5deg); }
+      50% { transform: translate(-50%, -70%) rotate(5deg); }
+    }
+
+    /* UFO BODY */
+    .ufo-body {
+      position: absolute;
+      width: 100%;
+      height: 35%;
+      bottom: 25%;
+      background: linear-gradient(180deg, #c0c0c0 0%, #808080 50%, #404040 100%);
+      border-radius: 50%;
+      border: 3px solid #606060;
+      box-shadow:
+        inset 0 5px 15px rgba(255, 255, 255, 0.5),
+        inset 0 -10px 20px rgba(0, 0, 0, 0.5),
+        0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* UFO LIGHTS */
+    .ufo-lights {
+      position: absolute;
+      width: 80%;
+      height: 20px;
+      left: 10%;
+      bottom: 30%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .ufo-light {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      animation: light-blink 0.5s ease-in-out infinite;
+    }
+
+    .ufo-light:nth-child(1) { background: var(--glitch-red); animation-delay: 0s; }
+    .ufo-light:nth-child(2) { background: var(--warning-yellow); animation-delay: 0.1s; }
+    .ufo-light:nth-child(3) { background: var(--alien-green); animation-delay: 0.2s; }
+    .ufo-light:nth-child(4) { background: var(--cyber-cyan); animation-delay: 0.3s; }
+    .ufo-light:nth-child(5) { background: var(--cyber-pink); animation-delay: 0.4s; }
+
+    @keyframes light-blink {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); box-shadow: none; }
+      50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px currentColor, 0 0 20px currentColor; }
+    }
+
+    /* TRACTOR BEAM */
+    .tractor-beam {
+      position: absolute;
+      width: 60%;
+      height: 100px;
+      left: 20%;
+      bottom: -80px;
+      background: linear-gradient(180deg,
+        rgba(57, 255, 20, 0.4) 0%,
+        rgba(57, 255, 20, 0.2) 50%,
+        transparent 100%
+      );
+      clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+      animation: beam-pulse 1.5s ease-in-out infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes beam-pulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+      50% { opacity: 0.8; transform: scaleY(1.2); }
+    }
+
+    /* ABDUCTED TEXT */
+    .abducted-text {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(1rem, 4vw, 1.8rem);
+      color: var(--alien-green);
+      text-shadow: 0 0 10px var(--alien-green);
+      margin-top: 20px;
+      animation: blink 1s step-end infinite;
+      letter-spacing: 3px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* TAP INSTRUCTION */
+    .tap-instruction {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.6rem, 2vw, 0.9rem);
+      color: var(--cyber-cyan);
+      margin-top: 30px;
+      animation: pulse-glow 2s ease-in-out infinite;
+      text-shadow: 0 0 10px var(--cyber-cyan);
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.5; text-shadow: 0 0 10px var(--cyber-cyan); }
+      50% { opacity: 1; text-shadow: 0 0 20px var(--cyber-cyan), 0 0 40px var(--cyber-cyan); }
+    }
+
+    /* HOME BUTTON */
+    .home-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.6rem, 2vw, 0.8rem);
+      color: var(--warning-yellow);
+      background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 50%, #1a1a1a 100%);
+      border: 3px outset #666;
+      padding: 15px 30px;
+      margin-top: 40px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s ease;
+      text-shadow: 2px 2px 0 #000;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+    }
+
+    .home-btn:hover {
+      background: linear-gradient(180deg, #5a5a5a 0%, #3a3a3a 50%, #2a2a2a 100%);
+      box-shadow: 0 0 30px rgba(255, 204, 0, 0.6);
+      transform: scale(1.05);
+    }
+
+    .home-btn:active {
+      border-style: inset;
+      transform: scale(0.98);
+    }
+
+    /* FLOATING DEBRIS */
+    .debris {
+      position: fixed;
+      font-size: 2rem;
+      animation: debris-float var(--float-duration, 15s) linear infinite;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    @keyframes debris-float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% {
+        transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* CHAOS MODE EFFECTS */
+    .chaos-active {
+      animation: screen-shake 0.5s ease-in-out;
+    }
+
+    @keyframes screen-shake {
+      0%, 100% { transform: translate(0); }
+      10% { transform: translate(-10px, 5px); }
+      20% { transform: translate(10px, -5px); }
+      30% { transform: translate(-8px, -3px); }
+      40% { transform: translate(8px, 3px); }
+      50% { transform: translate(-5px, 5px); }
+      60% { transform: translate(5px, -5px); }
+      70% { transform: translate(-3px, 2px); }
+      80% { transform: translate(3px, -2px); }
+      90% { transform: translate(-2px, 1px); }
+    }
+
+    .flash-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--alien-green);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 200;
+      animation: flash 0.3s ease-out;
+    }
+
+    @keyframes flash {
+      0% { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+
+    /* EXPLOSION PARTICLES */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 150;
+      animation: particle-explode 1s ease-out forwards;
+    }
+
+    @keyframes particle-explode {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0) rotate(var(--rot));
+        opacity: 0;
+      }
+    }
+
+    /* EXPANDING RINGS */
+    .ring {
+      position: fixed;
+      border: 4px solid var(--alien-green);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 140;
+      animation: ring-expand 1s ease-out forwards;
+    }
+
+    @keyframes ring-expand {
+      0% {
+        width: 50px;
+        height: 50px;
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+      100% {
+        width: 400px;
+        height: 400px;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    /* RANDOM FLYING EMOJIS */
+    .flying-emoji {
+      position: fixed;
+      font-size: 3rem;
+      pointer-events: none;
+      z-index: 160;
+      animation: fly-across 2s ease-out forwards;
+    }
+
+    @keyframes fly-across {
+      0% {
+        transform: translate(var(--start-x), var(--start-y)) scale(0) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+        transform: translate(var(--start-x), var(--start-y)) scale(1.5) rotate(180deg);
+      }
+      100% {
+        transform: translate(var(--end-x), var(--end-y)) scale(0) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* TEXT SCRAMBLE EFFECT */
+    .scramble {
+      font-family: 'VT323', monospace;
+      font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+      color: var(--cyber-pink);
+      margin-top: 15px;
+      min-height: 1.5em;
+      text-shadow: 0 0 5px var(--cyber-pink);
+    }
+
+    /* CONSTRUCTION TAPE BORDER */
+    .tape-top, .tape-bottom {
+      position: fixed;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: repeating-linear-gradient(
+        45deg,
+        #000 0px,
+        #000 10px,
+        var(--warning-yellow) 10px,
+        var(--warning-yellow) 20px
+      );
+      z-index: 50;
+    }
+
+    .tape-top {
+      top: 0;
+      border-bottom: 2px solid #000;
+    }
+
+    .tape-bottom {
+      bottom: 0;
+      border-top: 2px solid #000;
+    }
+
+    /* RANDOM GLITCH OVERLAY */
+    .glitch-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+      opacity: 0;
+    }
+
+    .glitch-overlay.active {
+      animation: glitch-flash 0.1s steps(2) 3;
+    }
+
+    @keyframes glitch-flash {
+      0% { opacity: 0; background: var(--glitch-red); }
+      50% { opacity: 0.3; background: var(--cyber-cyan); }
+      100% { opacity: 0; background: var(--alien-green); }
+    }
+
+    /* MARQUEE AT TOP */
+    .marquee-container {
+      position: fixed;
+      top: 30px;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 8px 0;
+      z-index: 40;
+      border-bottom: 2px solid var(--cyber-pink);
+    }
+
+    .marquee-text {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 20s linear infinite;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+      color: var(--cyber-cyan);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* CORNER DECORATIONS */
+    .corner-emoji {
+      position: fixed;
+      font-size: 3rem;
+      z-index: 30;
+      animation: corner-bounce 2s ease-in-out infinite;
+    }
+
+    .corner-emoji.tl { top: 70px; left: 20px; }
+    .corner-emoji.tr { top: 70px; right: 20px; animation-delay: 0.5s; }
+    .corner-emoji.bl { bottom: 50px; left: 20px; animation-delay: 1s; }
+    .corner-emoji.br { bottom: 50px; right: 20px; animation-delay: 1.5s; }
+
+    @keyframes corner-bounce {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.2) rotate(10deg); }
+    }
+
+    /* HIT COUNTER */
+    .hit-counter {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      border: 3px inset #333;
+      padding: 8px 15px;
+      z-index: 45;
+    }
+
+    .hit-counter-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .hit-counter-digits {
+      font-family: 'VT323', monospace;
+      font-size: 1.5rem;
+      color: var(--alien-green);
+      text-shadow: 0 0 10px var(--alien-green);
+      letter-spacing: 3px;
+    }
+  </style>
+</head>
+<body>
+  <!-- STARFIELD -->
+  <div class="starfield" id="starfield"></div>
+
+  <!-- VIGNETTE -->
+  <div class="vignette"></div>
+
+  <!-- SCANLINES -->
+  <div class="scanlines"></div>
+
+  <!-- GLITCH OVERLAY -->
+  <div class="glitch-overlay" id="glitchOverlay"></div>
+
+  <!-- CONSTRUCTION TAPE -->
+  <div class="tape-top"></div>
+  <div class="tape-bottom"></div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-container">
+    <div class="marquee-text">
+      &#9888; ERROR 404 &#9888; PAGE ABDUCTED BY ALIENS &#9888; CLICK UFO TO ATTEMPT RESCUE &#9888;
+      THE PAGE YOU SEEK HAS BEEN TAKEN TO AREA 51 &#9888; WE APOLOGIZE FOR THE INCONVENIENCE &#9888;
+      BLAME THE MARTIANS &#9888; ERROR 404 &#9888; PAGE ABDUCTED BY ALIENS &#9888;
+    </div>
+  </div>
+
+  <!-- CORNER DECORATIONS -->
+  <div class="corner-emoji tl">&#128125;</div>
+  <div class="corner-emoji tr">&#128123;</div>
+  <div class="corner-emoji bl">&#9889;</div>
+  <div class="corner-emoji br">&#127756;</div>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container" id="mainContainer">
+    <!-- 404 GLITCH TEXT -->
+    <div class="error-code">404</div>
+
+    <!-- ERROR MESSAGE -->
+    <div class="error-message">PAGE ABDUCTED BY ALIENS!</div>
+
+    <!-- UFO INTERACTIVE ELEMENT -->
+    <div class="ufo-container" id="ufoContainer">
+      <div class="ufo" id="ufo">
+        <div class="ufo-dome">
+          <div class="alien">&#128125;</div>
+        </div>
+        <div class="ufo-body"></div>
+        <div class="ufo-lights">
+          <div class="ufo-light"></div>
+          <div class="ufo-light"></div>
+          <div class="ufo-light"></div>
+          <div class="ufo-light"></div>
+          <div class="ufo-light"></div>
+        </div>
+        <div class="tractor-beam"></div>
+      </div>
+    </div>
+
+    <!-- ABDUCTED TEXT -->
+    <div class="abducted-text">&#128225; TRANSMISSION INCOMING... &#128225;</div>
+
+    <!-- SCRAMBLED TEXT -->
+    <div class="scramble" id="scrambleText">The truth is out there...</div>
+
+    <!-- TAP INSTRUCTION -->
+    <div class="tap-instruction">&#9757; TAP THE UFO TO SIGNAL EARTH &#9757;</div>
+
+    <!-- HOME BUTTON -->
+    <a href="/" class="home-btn">&#127968; BEAM ME HOME &#127968;</a>
+  </div>
+
+  <!-- HIT COUNTER -->
+  <div class="hit-counter">
+    <div class="hit-counter-label">ABDUCTIONS TODAY:</div>
+    <div class="hit-counter-digits" id="hitCounter">000000</div>
+  </div>
+
+  <script>
+    // Generate stars
+    function createStars() {
+      const starfield = document.getElementById('starfield');
+      const starCount = 150;
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.width = (Math.random() * 3 + 1) + 'px';
+        star.style.height = star.style.width;
+        star.style.setProperty('--twinkle-duration', (Math.random() * 3 + 1) + 's');
+        star.style.setProperty('--twinkle-delay', Math.random() * 2 + 's');
+        starfield.appendChild(star);
+      }
+    }
+
+    // Generate floating debris
+    function createDebris() {
+      const debris = ['&#128126;', '&#11088;', '&#127775;', '&#128640;', '&#127756;', '&#9889;', '&#128165;', '&#10024;'];
+
+      setInterval(() => {
+        const el = document.createElement('div');
+        el.className = 'debris';
+        el.innerHTML = debris[Math.floor(Math.random() * debris.length)];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.setProperty('--float-duration', (Math.random() * 10 + 10) + 's');
+        document.body.appendChild(el);
+
+        setTimeout(() => el.remove(), 20000);
+      }, 2000);
+    }
+
+    // Hit counter
+    function updateHitCounter() {
+      const counter = document.getElementById('hitCounter');
+      let count = Math.floor(Math.random() * 999999);
+
+      setInterval(() => {
+        count += Math.floor(Math.random() * 3);
+        counter.textContent = count.toString().padStart(6, '0');
+      }, 1000);
+    }
+
+    // Text scramble effect
+    const scrambleMessages = [
+      "The truth is out there...",
+      "We come in peace... maybe",
+      "Your page is in another dimension",
+      "Have you tried turning Earth off and on?",
+      "404: Intelligent life not found",
+      "Probing for your lost page...",
+      "The aliens ate my homework",
+      "Take me to your 404",
+      "Houston, we have a problem",
+      "Lost in the space-time continuum"
+    ];
+
+    function scrambleText() {
+      const el = document.getElementById('scrambleText');
+      const chars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`';
+      let iterations = 0;
+      const newMessage = scrambleMessages[Math.floor(Math.random() * scrambleMessages.length)];
+
+      const interval = setInterval(() => {
+        el.textContent = newMessage.split('').map((char, i) => {
+          if (i < iterations) return char;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+
+        iterations += 1/3;
+        if (iterations >= newMessage.length) {
+          clearInterval(interval);
+        }
+      }, 30);
+    }
+
+    // Spawn particles
+    function spawnParticles(x, y, count = 30) {
+      const emojis = ['&#11088;', '&#10024;', '&#128165;', '&#127775;', '&#9889;', '&#128125;', '&#127756;', '&#128640;'];
+
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+        particle.style.fontSize = (Math.random() * 30 + 20) + 'px';
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+
+        const angle = (Math.PI * 2 * i) / count;
+        const velocity = 100 + Math.random() * 200;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
+        const rot = (Math.random() - 0.5) * 720;
+
+        particle.style.setProperty('--tx', tx + 'px');
+        particle.style.setProperty('--ty', ty + 'px');
+        particle.style.setProperty('--rot', rot + 'deg');
+
+        document.body.appendChild(particle);
+        particle.addEventListener('animationend', () => particle.remove());
+      }
+    }
+
+    // Spawn expanding rings
+    function spawnRings(x, y, count = 3) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const ring = document.createElement('div');
+          ring.className = 'ring';
+          ring.style.left = x + 'px';
+          ring.style.top = y + 'px';
+          ring.style.borderColor = ['#39ff14', '#00ffff', '#ff00ff'][i % 3];
+          document.body.appendChild(ring);
+          ring.addEventListener('animationend', () => ring.remove());
+        }, i * 150);
+      }
+    }
+
+    // Spawn flying emojis
+    function spawnFlyingEmojis(count = 10) {
+      const emojis = ['&#128125;', '&#128123;', '&#128126;', '&#128640;', '&#127756;', '&#9889;', '&#11088;', '&#128165;'];
+
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const emoji = document.createElement('div');
+          emoji.className = 'flying-emoji';
+          emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+
+          const startX = (Math.random() - 0.5) * window.innerWidth;
+          const startY = (Math.random() - 0.5) * window.innerHeight;
+          const endX = (Math.random() - 0.5) * window.innerWidth * 2;
+          const endY = (Math.random() - 0.5) * window.innerHeight * 2;
+
+          emoji.style.left = '50%';
+          emoji.style.top = '50%';
+          emoji.style.setProperty('--start-x', startX + 'px');
+          emoji.style.setProperty('--start-y', startY + 'px');
+          emoji.style.setProperty('--end-x', endX + 'px');
+          emoji.style.setProperty('--end-y', endY + 'px');
+
+          document.body.appendChild(emoji);
+          emoji.addEventListener('animationend', () => emoji.remove());
+        }, i * 100);
+      }
+    }
+
+    // Flash overlay
+    function flashScreen() {
+      const flash = document.createElement('div');
+      flash.className = 'flash-overlay';
+      document.body.appendChild(flash);
+      flash.addEventListener('animationend', () => flash.remove());
+    }
+
+    // Screen shake
+    function screenShake() {
+      document.getElementById('mainContainer').classList.add('chaos-active');
+      setTimeout(() => {
+        document.getElementById('mainContainer').classList.remove('chaos-active');
+      }, 500);
+    }
+
+    // Glitch effect
+    function triggerGlitch() {
+      const overlay = document.getElementById('glitchOverlay');
+      overlay.classList.add('active');
+      setTimeout(() => overlay.classList.remove('active'), 300);
+    }
+
+    // Main chaos trigger
+    function triggerChaos(e) {
+      const rect = document.getElementById('ufo').getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Haptic feedback
+      if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 200, 50, 300]);
+      }
+
+      // All the effects!
+      flashScreen();
+      screenShake();
+      triggerGlitch();
+      spawnParticles(centerX, centerY, 40);
+      spawnRings(centerX, centerY, 5);
+      spawnFlyingEmojis(15);
+      scrambleText();
+
+      // Random color flash on body
+      document.body.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+      setTimeout(() => {
+        document.body.style.filter = '';
+      }, 200);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      createStars();
+      createDebris();
+      updateHitCounter();
+
+      const ufo = document.getElementById('ufoContainer');
+
+      ufo.addEventListener('click', triggerChaos);
+      ufo.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        triggerChaos(e);
+      }, { passive: false });
+
+      // Periodic scramble
+      setInterval(scrambleText, 5000);
+
+      // Random glitches
+      setInterval(() => {
+        if (Math.random() > 0.7) {
+          triggerGlitch();
+        }
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
