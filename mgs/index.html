@@ -6,6 +6,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#000000">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
   <title>!</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -915,7 +917,7 @@
     }
 
     // Initialize audio context and analyser
-    function initAudioContext() {
+    async function initAudioContext() {
       if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
@@ -927,7 +929,7 @@
       }
 
       if (audioContext.state === 'suspended') {
-        audioContext.resume();
+        await audioContext.resume();
       }
     }
 
@@ -944,7 +946,7 @@
       isPlaying = true;
 
       // Initialize audio context on first interaction
-      initAudioContext();
+      await initAudioContext();
 
       // Update UI
       container.classList.add('alert-active');
