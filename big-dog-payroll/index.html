@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#ff69b4">
+
+  <meta property="og:title" content="Big Dog Payroll - You Can Take That To The Bank!">
+  <meta property="og:description" content="Pawsitively the BEST payroll services! We chase down timecards so you don't have to!">
+  <meta property="og:image" content="https://bonkers.website/big-dog-payroll/hero.png">
+  <meta property="og:url" content="https://bonkers.website/big-dog-payroll/">
+
+  <title>Big Dog Payroll - You Can Take That To The Bank!</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink-hot: #ff1493;
+      --pink-light: #ffb6c1;
+      --pink-cotton: #ffddee;
+      --purple-electric: #9932cc;
+      --purple-grape: #8b008b;
+      --blue-sky: #00bfff;
+      --blue-electric: #1e90ff;
+      --cyan-bright: #00ffff;
+      --green-lime: #32cd32;
+      --yellow-sunny: #ffd700;
+      --orange-tangerine: #ff8c00;
+      --coral: #ff7f50;
+      --rainbow-gradient: linear-gradient(
+        90deg,
+        #ff0000, #ff8000, #ffff00, #80ff00, #00ff80, #00ffff, #0080ff, #8000ff, #ff00ff, #ff0080
+      );
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Fredoka', 'Comic Neue', cursive;
+      background: linear-gradient(180deg,
+        #ffd1ec 0%,
+        #ffb6d9 15%,
+        #c9a0ff 30%,
+        #a0d4ff 50%,
+        #b8ffb8 70%,
+        #fff7a0 85%,
+        #ffcba0 100%
+      );
+      background-attachment: fixed;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #4a154b;
+      cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="24" font-size="24">🐾</text></svg>') 8 8, auto;
+    }
+
+    /* Sparkle canvas overlay */
+    #sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Rainbow border animation */
+    .rainbow-border {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: var(--rainbow-gradient);
+      background-size: 200% 100%;
+      animation: rainbow-scroll 3s linear infinite;
+      z-index: 1000;
+    }
+
+    .rainbow-border-bottom {
+      top: auto;
+      bottom: 0;
+    }
+
+    @keyframes rainbow-scroll {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    /* Floating elements */
+    .floaty {
+      position: fixed;
+      font-size: 2rem;
+      animation: float-around 20s linear infinite;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.7;
+      filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.5));
+    }
+
+    @keyframes float-around {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      position: relative;
+    }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      animation: logo-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes logo-bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.02); }
+    }
+
+    .hero-image {
+      max-width: 90%;
+      width: 600px;
+      border-radius: 30px;
+      box-shadow:
+        0 0 0 4px #fff,
+        0 0 0 8px var(--pink-hot),
+        0 0 0 12px #fff,
+        0 0 0 16px var(--purple-electric),
+        0 0 40px rgba(255, 20, 147, 0.6),
+        0 0 80px rgba(153, 50, 204, 0.4);
+      animation: image-glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes image-glow {
+      0% {
+        box-shadow:
+          0 0 0 4px #fff,
+          0 0 0 8px var(--pink-hot),
+          0 0 0 12px #fff,
+          0 0 0 16px var(--purple-electric),
+          0 0 40px rgba(255, 20, 147, 0.6),
+          0 0 80px rgba(153, 50, 204, 0.4);
+      }
+      100% {
+        box-shadow:
+          0 0 0 4px #fff,
+          0 0 0 8px var(--cyan-bright),
+          0 0 0 12px #fff,
+          0 0 0 16px var(--pink-hot),
+          0 0 60px rgba(0, 255, 255, 0.6),
+          0 0 100px rgba(255, 20, 147, 0.4);
+      }
+    }
+
+    .tagline {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2rem, 8vw, 4rem);
+      margin-top: 2rem;
+      background: linear-gradient(45deg, var(--pink-hot), var(--purple-electric), var(--blue-sky), var(--pink-hot));
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 4s ease infinite;
+      text-shadow: none;
+      filter: drop-shadow(3px 3px 0 #fff) drop-shadow(-1px -1px 0 #fff);
+      letter-spacing: 2px;
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .sub-tagline {
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      color: var(--purple-grape);
+      margin-top: 0.5rem;
+      font-weight: 600;
+      text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff;
+    }
+
+    /* Marquee */
+    .marquee-container {
+      background: linear-gradient(90deg, var(--pink-hot), var(--purple-electric), var(--blue-electric), var(--purple-electric), var(--pink-hot));
+      padding: 1rem 0;
+      margin: 2rem 0;
+      overflow: hidden;
+      border-top: 4px solid #fff;
+      border-bottom: 4px solid #fff;
+      box-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+    }
+
+    .marquee {
+      display: flex;
+      animation: marquee 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee span {
+      font-family: 'Bangers', cursive;
+      font-size: 1.5rem;
+      color: #fff;
+      padding: 0 2rem;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Services Section */
+    .services {
+      padding: 3rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2.5rem, 10vw, 5rem);
+      text-align: center;
+      color: #fff;
+      text-shadow:
+        3px 3px 0 var(--pink-hot),
+        6px 6px 0 var(--purple-electric),
+        9px 9px 0 var(--blue-sky);
+      margin-bottom: 3rem;
+      animation: title-wiggle 0.5s ease-in-out infinite;
+    }
+
+    @keyframes title-wiggle {
+      0%, 100% { transform: rotate(-1deg); }
+      50% { transform: rotate(1deg); }
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 221, 238, 0.95));
+      border-radius: 30px;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 4px solid var(--pink-hot);
+      box-shadow:
+        0 10px 30px rgba(255, 20, 147, 0.3),
+        inset 0 0 30px rgba(255, 182, 193, 0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+      );
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px) scale(1.05) rotate(-2deg);
+      box-shadow:
+        0 20px 50px rgba(255, 20, 147, 0.5),
+        inset 0 0 50px rgba(255, 182, 193, 0.7);
+    }
+
+    .service-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      display: block;
+      animation: icon-bounce 1s ease-in-out infinite;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+    }
+
+    @keyframes icon-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .service-card:nth-child(2) .service-icon { animation-delay: 0.1s; }
+    .service-card:nth-child(3) .service-icon { animation-delay: 0.2s; }
+    .service-card:nth-child(4) .service-icon { animation-delay: 0.3s; }
+    .service-card:nth-child(5) .service-icon { animation-delay: 0.4s; }
+    .service-card:nth-child(6) .service-icon { animation-delay: 0.5s; }
+
+    .service-title {
+      font-family: 'Bangers', cursive;
+      font-size: 1.8rem;
+      color: var(--purple-grape);
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 var(--pink-light);
+    }
+
+    .service-desc {
+      color: #666;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .service-pun {
+      font-style: italic;
+      color: var(--pink-hot);
+      margin-top: 0.5rem;
+      font-weight: 600;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      background: linear-gradient(135deg, var(--purple-electric), var(--pink-hot), var(--coral));
+      padding: 4rem 1rem;
+      margin: 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="30" opacity="0.1">%F0%9F%90%BE</text></svg>');
+      background-size: 50px;
+      animation: paw-scroll 20s linear infinite;
+    }
+
+    @keyframes paw-scroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 100px 100px; }
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-item {
+      text-align: center;
+      color: #fff;
+    }
+
+    .stat-number {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(3rem, 12vw, 5rem);
+      text-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+      animation: stat-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes stat-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .stat-item:nth-child(2) .stat-number { animation-delay: 0.3s; }
+    .stat-item:nth-child(3) .stat-number { animation-delay: 0.6s; }
+    .stat-item:nth-child(4) .stat-number { animation-delay: 0.9s; }
+
+    .stat-label {
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 4rem 1rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: linear-gradient(135deg, #fff, var(--pink-cotton));
+      border-radius: 30px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 600px;
+      position: relative;
+      border: 4px solid var(--cyan-bright);
+      box-shadow:
+        10px 10px 0 var(--pink-hot),
+        20px 20px 0 var(--purple-electric);
+      transform: rotate(-1deg);
+      transition: transform 0.3s;
+    }
+
+    .testimonial-card:nth-child(even) {
+      transform: rotate(1deg);
+      border-color: var(--yellow-sunny);
+      box-shadow:
+        -10px 10px 0 var(--coral),
+        -20px 20px 0 var(--pink-hot);
+    }
+
+    .testimonial-card:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+
+    .testimonial-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: var(--purple-grape);
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      margin-top: 1rem;
+      font-weight: 700;
+      color: var(--pink-hot);
+    }
+
+    .testimonial-role {
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .dog-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink-hot), var(--purple-electric));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      position: absolute;
+      top: -40px;
+      right: 30px;
+      border: 4px solid #fff;
+      box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: linear-gradient(180deg, transparent, rgba(255, 182, 193, 0.5));
+    }
+
+    .cta-title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2rem, 8vw, 4rem);
+      color: var(--purple-grape);
+      text-shadow: 3px 3px 0 #fff;
+      margin-bottom: 1rem;
+    }
+
+    .cta-subtitle {
+      font-size: 1.3rem;
+      color: var(--pink-hot);
+      margin-bottom: 2rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      padding: 1.5rem 4rem;
+      background: linear-gradient(135deg, var(--pink-hot), var(--purple-electric));
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      border: 4px solid #fff;
+      box-shadow:
+        0 0 0 4px var(--pink-hot),
+        0 10px 30px rgba(255, 20, 147, 0.5);
+      transition: all 0.3s;
+      animation: cta-glow 2s ease-in-out infinite alternate;
+      cursor: pointer;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    @keyframes cta-glow {
+      0% { box-shadow: 0 0 0 4px var(--pink-hot), 0 10px 30px rgba(255, 20, 147, 0.5), 0 0 50px rgba(255, 20, 147, 0.3); }
+      100% { box-shadow: 0 0 0 4px var(--cyan-bright), 0 10px 30px rgba(0, 255, 255, 0.5), 0 0 80px rgba(0, 255, 255, 0.3); }
+    }
+
+    .cta-button:hover {
+      transform: scale(1.1) rotate(-3deg);
+      box-shadow:
+        0 0 0 4px var(--yellow-sunny),
+        0 20px 50px rgba(255, 20, 147, 0.7);
+    }
+
+    .cta-button:active {
+      transform: scale(0.95);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--purple-grape), var(--pink-hot));
+      color: #fff;
+      text-align: center;
+      padding: 3rem 1rem;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: var(--rainbow-gradient);
+      background-size: 200% 100%;
+      animation: rainbow-scroll 3s linear infinite;
+    }
+
+    .footer-dogs {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: footer-dance 1s ease-in-out infinite;
+    }
+
+    @keyframes footer-dance {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-10px) rotate(-5deg); }
+      75% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    .footer-text {
+      font-family: 'Bangers', cursive;
+      font-size: 1.5rem;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    .footer-subtext {
+      margin-top: 0.5rem;
+      opacity: 0.8;
+    }
+
+    /* Special Effects */
+    .sparkle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #fff 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle-fade 1s ease-out forwards;
+    }
+
+    @keyframes sparkle-fade {
+      0% { transform: scale(0); opacity: 1; }
+      50% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    /* Hearts animation on click */
+    .heart-particle {
+      position: fixed;
+      font-size: 2rem;
+      pointer-events: none;
+      z-index: 9998;
+      animation: heart-float 2s ease-out forwards;
+    }
+
+    @keyframes heart-float {
+      0% {
+        transform: translateY(0) scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-200px) scale(1.5) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .service-card {
+        padding: 1.5rem;
+      }
+
+      .testimonial-card {
+        transform: none !important;
+        box-shadow: 5px 5px 0 var(--pink-hot);
+      }
+
+      .dog-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+        top: -30px;
+        right: 20px;
+      }
+    }
+
+    /* Bonus: Konami code activated mode */
+    body.ultra-bonkers {
+      animation: ultra-background 0.5s linear infinite;
+    }
+
+    @keyframes ultra-background {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* Paw print trail */
+    .paw-print {
+      position: fixed;
+      font-size: 1.5rem;
+      pointer-events: none;
+      z-index: 9997;
+      opacity: 0.6;
+      animation: paw-fade 2s ease-out forwards;
+    }
+
+    @keyframes paw-fade {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(0.5); opacity: 0; }
+    }
+
+    /* Glitter cursor trail */
+    .glitter {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9996;
+      animation: glitter-fade 1s ease-out forwards;
+    }
+
+    @keyframes glitter-fade {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="sparkle-canvas"></canvas>
+  <div class="rainbow-border"></div>
+  <div class="rainbow-border rainbow-border-bottom"></div>
+
+  <!-- Floating elements -->
+  <div class="floaty" style="left: 5%; animation-delay: 0s;">💖</div>
+  <div class="floaty" style="left: 15%; animation-delay: 2s;">⭐</div>
+  <div class="floaty" style="left: 25%; animation-delay: 4s;">🌈</div>
+  <div class="floaty" style="left: 35%; animation-delay: 6s;">💰</div>
+  <div class="floaty" style="left: 45%; animation-delay: 8s;">🐕</div>
+  <div class="floaty" style="left: 55%; animation-delay: 10s;">💜</div>
+  <div class="floaty" style="left: 65%; animation-delay: 12s;">✨</div>
+  <div class="floaty" style="left: 75%; animation-delay: 14s;">🦴</div>
+  <div class="floaty" style="left: 85%; animation-delay: 16s;">💵</div>
+  <div class="floaty" style="left: 95%; animation-delay: 18s;">🐾</div>
+
+  <header>
+    <div class="logo-container">
+      <img src="hero.png" alt="Big Dog Payroll - You Can Take That To The Bank!" class="hero-image">
+    </div>
+    <h1 class="tagline">Pawsitively Perfect Payroll!</h1>
+    <p class="sub-tagline">Where every employee gets their treats on time!</p>
+  </header>
+
+  <div class="marquee-container">
+    <div class="marquee">
+      <span>🐾 NO MORE CHASING TIMECARDS!</span>
+      <span>💰 GET PAID ON TIME, EVERY TIME!</span>
+      <span>🐕 WE FETCH YOUR FINANCES!</span>
+      <span>⭐ TOP DOG TAX COMPLIANCE!</span>
+      <span>💖 TAIL-WAGGINGLY GOOD SERVICE!</span>
+      <span>🌈 DIRECT DEPOSIT MAGIC!</span>
+      <span>🐾 NO MORE CHASING TIMECARDS!</span>
+      <span>💰 GET PAID ON TIME, EVERY TIME!</span>
+      <span>🐕 WE FETCH YOUR FINANCES!</span>
+      <span>⭐ TOP DOG TAX COMPLIANCE!</span>
+      <span>💖 TAIL-WAGGINGLY GOOD SERVICE!</span>
+      <span>🌈 DIRECT DEPOSIT MAGIC!</span>
+    </div>
+  </div>
+
+  <section class="services">
+    <h2 class="section-title">Our Paw-some Services!</h2>
+
+    <div class="services-grid">
+      <div class="service-card" onclick="createHearts(event)">
+        <span class="service-icon">🏃‍♀️</span>
+        <h3 class="service-title">Timecard Chasing</h3>
+        <p class="service-desc">We hound your employees (lovingly!) so you don't have to. Our automated reminders and follow-ups mean no more Monday morning timecard drama.</p>
+        <p class="service-pun">"We're relentless... in the cutest way possible!"</p>
+      </div>
+
+      <div class="service-card" onclick="createHearts(event)">
+        <span class="service-icon">💸</span>
+        <h3 class="service-title">On-Time Payments</h3>
+        <p class="service-desc">Direct deposit that hits accounts faster than a golden retriever chasing a ball. Your team gets paid on time, every single time.</p>
+        <p class="service-pun">"Sit. Stay. Get PAID!"</p>
+      </div>
+
+      <div class="service-card" onclick="createHearts(event)">
+        <span class="service-icon">📋</span>
+        <h3 class="service-title">Tax Compliance</h3>
+        <p class="service-desc">W-2s, 1099s, quarterly filings - we handle the ruff stuff! Stay compliant without breaking a sweat (or a nail).</p>
+        <p class="service-pun">"We dig through tax code so you don't have to!"</p>
+      </div>
+
+      <div class="service-card" onclick="createHearts(event)">
+        <span class="service-icon">🏥</span>
+        <h3 class="service-title">Benefits Administration</h3>
+        <p class="service-desc">Health insurance, 401(k), PTO tracking - we manage the whole pack of benefits. Open enrollment? More like open en-ROLL-over!</p>
+        <p class="service-pun">"Good benefits = happy pack!"</p>
+      </div>
+
+      <div class="service-card" onclick="createHearts(event)">
+        <span class="service-icon">📊</span>
+        <h3 class="service-title">Reports & Analytics</h3>
+        <p class="service-desc">Beautiful dashboards that make sense! Track labor costs, overtime, and more. Data so clear, even a puppy could understand it.</p>
+        <p class="service-pun">"Fetching insights, one report at a time!"</p>
+      </div>
+
+      <div class="service-card" onclick="createHearts(event)">
+        <span class="service-icon">🆘</span>
+        <h3 class="service-title">24/7 Support</h3>
+        <p class="service-desc">Payroll emergency at 2am? We're awake! Our support team is always ready to help, no matter how hairy the situation gets.</p>
+        <p class="service-pun">"Always here, rain or shine... or snow!"</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">99.9%</div>
+        <div class="stat-label">On-Time Payment Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">50K+</div>
+        <div class="stat-label">Happy Employees Paid</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Tax Penalties (Ever!)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Tail-Wagging Satisfaction</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <h2 class="section-title">What Our Pack Says!</h2>
+
+    <div class="testimonial-card">
+      <div class="dog-avatar">🐕</div>
+      <p class="testimonial-text">"Before Big Dog Payroll, I spent HOURS chasing timecards every week. Now? I just sit back and watch the magic happen. My blood pressure has never been lower!"</p>
+      <p class="testimonial-author">Sarah B.</p>
+      <p class="testimonial-role">HR Manager, Treats & Co.</p>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="dog-avatar">🐩</div>
+      <p class="testimonial-text">"The tax compliance alone is worth every penny. They caught a potential issue before it became a $50,000 problem. Big Dog Payroll literally saved our bacon!"</p>
+      <p class="testimonial-author">Mike R.</p>
+      <p class="testimonial-role">CFO, Woof Industries</p>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="dog-avatar">🦮</div>
+      <p class="testimonial-text">"I've used many payroll services, but none come close to the support at Big Dog. They actually CARE about helping us succeed. Plus their emails always make me smile!"</p>
+      <p class="testimonial-author">Jennifer L.</p>
+      <p class="testimonial-role">Owner, Paws & Effect Salon</p>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2 class="cta-title">Ready to Join the Pack?</h2>
+    <p class="cta-subtitle">Your first month is FREE! No tricks, just treats!</p>
+    <button class="cta-button" onclick="triggerCelebration()">
+      🐾 GET STARTED TODAY! 🐾
+    </button>
+  </section>
+
+  <footer>
+    <div class="footer-dogs">🐕 🐩 🦮 🐕‍🦺 🐾</div>
+    <p class="footer-text">Big Dog Payroll - You Can Take That To The Bank!</p>
+    <p class="footer-subtext">© 2024 Big Dog Payroll LLC | Where Every Payday is a Treat Day!</p>
+  </footer>
+
+  <script>
+    // Sparkle canvas for background effect
+    const canvas = document.getElementById('sparkle-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Sparkle particles
+    const sparkles = [];
+
+    function createSparkle() {
+      return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 3 + 1,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: (Math.random() - 0.5) * 0.5,
+        opacity: Math.random(),
+        hue: Math.random() * 360
+      };
+    }
+
+    // Initialize sparkles
+    for (let i = 0; i < 50; i++) {
+      sparkles.push(createSparkle());
+    }
+
+    function animateSparkles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      sparkles.forEach(sparkle => {
+        sparkle.x += sparkle.speedX;
+        sparkle.y += sparkle.speedY;
+        sparkle.opacity = 0.3 + Math.sin(Date.now() / 500 + sparkle.x) * 0.7;
+
+        // Wrap around
+        if (sparkle.x < 0) sparkle.x = canvas.width;
+        if (sparkle.x > canvas.width) sparkle.x = 0;
+        if (sparkle.y < 0) sparkle.y = canvas.height;
+        if (sparkle.y > canvas.height) sparkle.y = 0;
+
+        // Draw star shape
+        ctx.save();
+        ctx.translate(sparkle.x, sparkle.y);
+        ctx.rotate(Date.now() / 1000 + sparkle.x);
+
+        ctx.fillStyle = `hsla(${sparkle.hue}, 100%, 75%, ${sparkle.opacity})`;
+        ctx.beginPath();
+        for (let i = 0; i < 4; i++) {
+          ctx.lineTo(0, -sparkle.size * 2);
+          ctx.lineTo(sparkle.size * 0.5, -sparkle.size * 0.5);
+          ctx.rotate(Math.PI / 2);
+        }
+        ctx.fill();
+
+        ctx.restore();
+      });
+
+      requestAnimationFrame(animateSparkles);
+    }
+    animateSparkles();
+
+    // Hearts on click
+    function createHearts(event) {
+      const hearts = ['💖', '💕', '💗', '💓', '💜', '💙', '🩷', '🩵'];
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      for (let i = 0; i < 8; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-particle';
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = x + (Math.random() - 0.5) * 100 + 'px';
+        heart.style.top = y + 'px';
+        heart.style.animationDelay = Math.random() * 0.3 + 's';
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 2000);
+      }
+
+      // Haptic feedback
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
+    }
+
+    // Celebration on CTA click
+    function triggerCelebration() {
+      // Create explosion of emojis
+      const emojis = ['🎉', '🎊', '🐕', '🐩', '💰', '💵', '⭐', '✨', '💖', '🌈', '🐾', '🦴'];
+
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const emoji = document.createElement('div');
+          emoji.className = 'heart-particle';
+          emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          emoji.style.left = window.innerWidth / 2 + (Math.random() - 0.5) * 400 + 'px';
+          emoji.style.top = window.innerHeight / 2 + 'px';
+          emoji.style.fontSize = Math.random() * 2 + 1.5 + 'rem';
+          emoji.style.animationDuration = Math.random() * 1 + 1.5 + 's';
+          document.body.appendChild(emoji);
+
+          setTimeout(() => emoji.remove(), 2500);
+        }, i * 30);
+      }
+
+      // Screen shake
+      document.body.style.animation = 'none';
+      document.body.offsetHeight; // Trigger reflow
+      document.body.style.animation = 'shake 0.5s ease-in-out';
+
+      // Haptic feedback
+      if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 100, 50, 200]);
+      }
+
+      // Alert (in real life this would be a modal)
+      setTimeout(() => {
+        alert("🐾 WOOF WOOF! 🐾\n\nThanks for your interest!\n\nA Big Dog Payroll specialist will fetch your info and be in touch faster than you can say 'direct deposit'!\n\n🐕 You're going to LOVE being part of the pack! 🐕");
+      }, 500);
+    }
+
+    // Add shake keyframe dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Glitter cursor trail
+    let lastGlitterTime = 0;
+    document.addEventListener('mousemove', (e) => {
+      const now = Date.now();
+      if (now - lastGlitterTime < 50) return;
+      lastGlitterTime = now;
+
+      const glitter = document.createElement('div');
+      glitter.className = 'glitter';
+      glitter.style.left = e.clientX + 'px';
+      glitter.style.top = e.clientY + 'px';
+      glitter.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      document.body.appendChild(glitter);
+
+      setTimeout(() => glitter.remove(), 1000);
+    });
+
+    // Paw prints on click anywhere
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.service-card') || e.target.closest('.cta-button')) return;
+
+      const paw = document.createElement('div');
+      paw.className = 'paw-print';
+      paw.textContent = '🐾';
+      paw.style.left = e.clientX - 12 + 'px';
+      paw.style.top = e.clientY - 12 + 'px';
+      paw.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(paw);
+
+      setTimeout(() => paw.remove(), 2000);
+    });
+
+    // Konami code for ULTRA BONKERS mode
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+          document.body.classList.toggle('ultra-bonkers');
+          konamiIndex = 0;
+
+          // Extra celebration
+          for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+              const emoji = document.createElement('div');
+              emoji.className = 'heart-particle';
+              emoji.textContent = '🐕';
+              emoji.style.left = Math.random() * window.innerWidth + 'px';
+              emoji.style.top = window.innerHeight + 'px';
+              emoji.style.fontSize = '3rem';
+              document.body.appendChild(emoji);
+              setTimeout(() => emoji.remove(), 2500);
+            }, i * 20);
+          }
+        }
+      } else {
+        konamiIndex = 0;
+      }
+    });
+  </script>
+</body>
+</html>
