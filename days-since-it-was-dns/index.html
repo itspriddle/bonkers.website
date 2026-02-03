@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0f0a">
+  <title>Days Since It Was DNS</title>
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Days Since It Was DNS">
+  <meta property="og:description" content="The counter that never lies.">
+  <meta property="og:url" content="https://bonkers.website/days-since-it-was-dns/">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --terminal-green: #00ff41;
+      --terminal-dim: #00aa2a;
+      --terminal-dark: #004411;
+      --error-red: #ff3333;
+      --warning-amber: #ffaa00;
+      --crt-glow: rgba(0, 255, 65, 0.4);
+      --screen-bg: #0a0f0a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: 'VT323', monospace;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(ellipse at center, var(--screen-bg) 0%, #000 100%);
+    }
+
+    /* CRT Monitor Frame */
+    .monitor {
+      position: relative;
+      width: 90vmin;
+      max-width: 480px;
+      background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #0f0f0f 100%);
+      border-radius: 20px;
+      padding: 20px 20px 12px 20px;
+      box-shadow:
+        inset 0 2px 4px rgba(255,255,255,0.1),
+        inset 0 -2px 4px rgba(0,0,0,0.8),
+        0 20px 60px rgba(0,0,0,0.8),
+        0 0 100px rgba(0, 255, 65, 0.1);
+    }
+
+    .monitor::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: #333;
+      border-radius: 50%;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    /* Screen */
+    .screen {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--screen-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow:
+        inset 0 0 50px rgba(0, 255, 65, 0.1),
+        inset 0 0 100px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+
+    /* Vignette only - no heavy CRT effects */
+    .screen-curve {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 60%,
+        rgba(0, 0, 0, 0.5) 100%
+      );
+      z-index: 99;
+    }
+
+    /* Content */
+    .content {
+      position: relative;
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 10px 12px;
+      z-index: 10;
+      gap: 6px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--terminal-dark);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(8px, 2vmin, 11px);
+      color: var(--terminal-dim);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--terminal-green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--terminal-green);
+      animation: blink 1s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Main Counter Area */
+    .counter-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      min-height: 0;
+    }
+
+    .counter-label {
+      font-size: clamp(12px, 3.5vmin, 18px);
+      color: var(--terminal-green);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 8px var(--crt-glow);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .counter-label span {
+      display: block;
+      font-size: 0.8em;
+      color: var(--terminal-dim);
+      letter-spacing: 0.1em;
+    }
+
+    .counter-display {
+      position: relative;
+      font-family: 'VT323', monospace;
+      font-size: clamp(120px, 35vmin, 200px);
+      color: #ff4444;
+      text-shadow:
+        0 0 2px #ff4444,
+        0 0 10px rgba(255, 68, 68, 0.8),
+        0 0 20px rgba(255, 68, 68, 0.5),
+        0 0 40px rgba(255, 68, 68, 0.3);
+      line-height: 0.8;
+      animation: counter-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes counter-pulse {
+      0%, 100% {
+        text-shadow:
+          0 0 2px #ff4444,
+          0 0 10px rgba(255, 68, 68, 0.8),
+          0 0 20px rgba(255, 68, 68, 0.5);
+        transform: scale(1);
+      }
+      50% {
+        text-shadow:
+          0 0 2px #ff6666,
+          0 0 15px rgba(255, 68, 68, 0.9),
+          0 0 30px rgba(255, 68, 68, 0.6);
+        transform: scale(1.02);
+      }
+    }
+
+    .counter-unit {
+      font-size: clamp(12px, 3vmin, 18px);
+      color: var(--terminal-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      margin-top: 0;
+    }
+
+    /* Footer / Log Area */
+    .log-area {
+      padding-top: 6px;
+      border-top: 1px solid var(--terminal-dark);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(8px, 1.8vmin, 10px);
+      color: var(--terminal-dim);
+      overflow: hidden;
+    }
+
+    .log-line {
+      display: flex;
+      gap: 6px;
+      animation: fadeIn 0.3s ease-out;
+      line-height: 1.4;
+    }
+
+    .log-line .time {
+      color: var(--terminal-dark);
+    }
+
+    .log-line .msg {
+      color: var(--terminal-green);
+    }
+
+    .log-line.error .msg {
+      color: var(--error-red);
+    }
+
+    .log-line.warning .msg {
+      color: var(--warning-amber);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Reset Effect Overlay */
+    .reset-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--error-red);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .reset-overlay.flash {
+      animation: reset-flash 0.5s ease-out;
+    }
+
+    @keyframes reset-flash {
+      0% { opacity: 0.6; }
+      100% { opacity: 0; }
+    }
+
+    /* Screen Shake */
+    .screen.shaking {
+      animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10% { transform: translateX(-8px) rotate(-1deg); }
+      20% { transform: translateX(8px) rotate(1deg); }
+      30% { transform: translateX(-6px) rotate(-0.5deg); }
+      40% { transform: translateX(6px) rotate(0.5deg); }
+      50% { transform: translateX(-4px); }
+      60% { transform: translateX(4px); }
+      70% { transform: translateX(-2px); }
+      80% { transform: translateX(2px); }
+    }
+
+    /* Glitch effect - quick color shift */
+    .glitch {
+      animation: glitch 0.15s ease-out;
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: scale(1.1);
+        filter: brightness(2) hue-rotate(20deg);
+      }
+      50% {
+        transform: scale(0.95) translateX(-3px);
+        filter: brightness(1.5) hue-rotate(-10deg);
+      }
+      100% {
+        transform: scale(1);
+        filter: brightness(1) hue-rotate(0deg);
+      }
+    }
+
+    /* Particles */
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--terminal-green);
+      text-shadow: 0 0 5px var(--terminal-green);
+      animation: particle-float 1.5s ease-out forwards;
+      z-index: 60;
+    }
+
+    @keyframes particle-float {
+      0% {
+        opacity: 1;
+        transform: translate(var(--tx), var(--ty)) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2 - 50px)) scale(0.5);
+      }
+    }
+
+    /* Instruction hint */
+    .hint {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 20px) + 40px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--terminal-dim);
+      letter-spacing: 0.1em;
+      opacity: 0.6;
+      animation: hint-pulse 2s ease-in-out infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes hint-pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.7; }
+    }
+
+    /* Monitor bezel details */
+    .monitor-bezel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 25px;
+      margin-top: 8px;
+      position: relative;
+    }
+
+    .monitor-brand {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .power-led {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background: #00ff41;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00ff41;
+      animation: power-blink 3s ease-in-out infinite;
+    }
+
+    @keyframes power-blink {
+      0%, 90%, 100% { opacity: 1; }
+      95% { opacity: 0.3; }
+    }
+
+    /* Network cables decoration */
+    .cables {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 60px;
+      pointer-events: none;
+      opacity: 0.25;
+    }
+
+    .cable {
+      position: absolute;
+      width: 8px;
+      height: 100%;
+      border-radius: 4px;
+    }
+
+    .cable:nth-child(1) {
+      left: 10px;
+      background: linear-gradient(to bottom, #3366ff 0%, #3366ff 30%, transparent 30%);
+    }
+
+    .cable:nth-child(2) {
+      left: 26px;
+      background: linear-gradient(to bottom, #ff9933 0%, #ff9933 45%, transparent 45%);
+    }
+
+    .cable:nth-child(3) {
+      left: 42px;
+      background: linear-gradient(to bottom, #33cc33 0%, #33cc33 25%, transparent 25%);
+    }
+  </style>
+</head>
+<body>
+  <div class="monitor">
+    <div class="screen" id="screen">
+      <div class="screen-curve"></div>
+      <div class="reset-overlay" id="resetOverlay"></div>
+
+      <div class="content">
+        <div class="header">
+          <div class="header-left">
+            <div class="status-dot"></div>
+            <span>SYSADMIN TRAUMA TRACKER v2.0</span>
+          </div>
+          <span id="clock">--:--:--</span>
+        </div>
+
+        <div class="counter-section">
+          <div class="counter-label">
+            Days Since<br>
+            <span>It Was DNS</span>
+          </div>
+          <div class="counter-display" id="counter">0</div>
+          <div class="counter-unit">Days</div>
+        </div>
+
+        <div class="log-area" id="logArea">
+          <div class="log-line">
+            <span class="time">[--:--:--]</span>
+            <span class="msg">Initializing counter...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="monitor-bezel">
+      <span class="monitor-brand">SysAdmin</span>
+      <div class="power-led"></div>
+    </div>
+  </div>
+
+  <div class="hint">[ TAP TO REPORT DNS INCIDENT ]</div>
+
+  <div class="cables">
+    <div class="cable"></div>
+    <div class="cable"></div>
+    <div class="cable"></div>
+  </div>
+
+  <script>
+    const screen = document.getElementById('screen');
+    const counter = document.getElementById('counter');
+    const resetOverlay = document.getElementById('resetOverlay');
+    const logArea = document.getElementById('logArea');
+    const clock = document.getElementById('clock');
+
+    // Web Audio API for synthesized error sound
+    let audioCtx = null;
+
+    function playErrorSound() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // Error beep sequence
+      const playBeep = (freq, startTime, duration, type = 'square') => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(0.3, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      };
+
+      const now = audioCtx.currentTime;
+
+      // Classic error sound: descending beeps
+      playBeep(880, now, 0.08);
+      playBeep(660, now + 0.1, 0.08);
+      playBeep(440, now + 0.2, 0.15);
+    }
+
+    // DNS excuses that always turn out to be DNS
+    const dnsExcuses = [
+      "Checked firewall... it was DNS",
+      "Restarted server... still DNS",
+      "Blamed the intern... DNS",
+      "Updated drivers... DNS again",
+      "Called ISP... they said DNS",
+      "Replaced cables... nope, DNS",
+      "Sacrificed to IT gods... DNS",
+      "Turned it off and on... DNS",
+      "Cleared the cache... wait, DNS",
+      "Checked the logs... DNS",
+      "Escalated to L3... DNS",
+      "Googled the error... DNS",
+      "Rebooted router... still DNS",
+      "Blamed Windows... actually DNS",
+      "Checked permissions... DNS tho",
+      "Ran diagnostics... DNS",
+      "Prayed... DNS answered",
+      "Blamed the cloud... it was DNS",
+      "Checked certificates... DNS",
+      "Flushed ARP cache... DNS wins",
+    ];
+
+    const dnsParticles = [
+      "DNS", "53", "A", "AAAA", "CNAME",
+      "MX", "TXT", "NS", "SOA", "PTR",
+      "nslookup", "dig", "bind", "resolv",
+      "TTL", "NXDOMAIN", "SERVFAIL"
+    ];
+
+    let isResetting = false;
+
+    // Update clock
+    function updateClock() {
+      const now = new Date();
+      clock.textContent = now.toTimeString().split(' ')[0];
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Add log entry
+    function addLog(message, type = '') {
+      const time = new Date().toTimeString().split(' ')[0];
+      const line = document.createElement('div');
+      line.className = `log-line ${type}`;
+      line.innerHTML = `<span class="time">[${time}]</span><span class="msg">${message}</span>`;
+
+      // Keep only last 2 lines
+      while (logArea.children.length >= 2) {
+        logArea.removeChild(logArea.firstChild);
+      }
+      logArea.appendChild(line);
+    }
+
+    // Spawn particles
+    function spawnParticles() {
+      const rect = counter.getBoundingClientRect();
+      const screenRect = screen.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2 - screenRect.left;
+      const centerY = rect.top + rect.height / 2 - screenRect.top;
+
+      for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.textContent = dnsParticles[Math.floor(Math.random() * dnsParticles.length)];
+
+        const angle = (Math.PI * 2 * i) / 12;
+        const velocity = 50 + Math.random() * 80;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
+
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+        particle.style.setProperty('--tx', tx + 'px');
+        particle.style.setProperty('--ty', ty + 'px');
+
+        screen.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 1500);
+      }
+    }
+
+    // Reset counter (always to 0, because it's always DNS)
+    function resetCounter() {
+      if (isResetting) return;
+      isResetting = true;
+
+      // Haptic feedback
+      if (navigator.vibrate) {
+        navigator.vibrate([50, 30, 100, 30, 150]);
+      }
+
+      // Play error sound
+      playErrorSound();
+
+      // Flash effect
+      resetOverlay.classList.remove('flash');
+      void resetOverlay.offsetWidth;
+      resetOverlay.classList.add('flash');
+
+      // Screen shake
+      screen.classList.remove('shaking');
+      void screen.offsetWidth;
+      screen.classList.add('shaking');
+
+      // Glitch the counter
+      counter.classList.remove('glitch');
+      void counter.offsetWidth;
+      counter.classList.add('glitch');
+
+      // Particles
+      spawnParticles();
+
+      // Dramatic counter "reset" animation
+      const fakeNumber = Math.floor(Math.random() * 5) + 1;
+      counter.textContent = fakeNumber;
+
+      setTimeout(() => {
+        counter.textContent = '0';
+        addLog(dnsExcuses[Math.floor(Math.random() * dnsExcuses.length)], 'error');
+      }, 200);
+
+      setTimeout(() => {
+        addLog("Counter reset. It's always DNS.", 'warning');
+      }, 800);
+
+      setTimeout(() => {
+        isResetting = false;
+        counter.classList.remove('glitch');
+        screen.classList.remove('shaking');
+      }, 600);
+    }
+
+    // Event listeners
+    screen.addEventListener('click', resetCounter);
+    screen.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      resetCounter();
+    }, { passive: false });
+
+    // Initial log
+    setTimeout(() => {
+      addLog("Counter initialized at 0", '');
+    }, 500);
+
+    setTimeout(() => {
+      addLog("Last incident: just now (DNS)", 'error');
+    }, 1500);
+
+    // Prevent zoom
+    document.addEventListener('dblclick', (e) => e.preventDefault());
+  </script>
+</body>
+</html>
