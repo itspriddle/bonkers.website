@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0505">
+
+  <meta property="og:title" content="SCOTTI BISCOTTI - The Dogfather of Adoption">
+  <meta property="og:description" content="He shook his puppy body. He's ruff 'n ready. Shannon, bring him home already!">
+  <meta property="og:image" content="https://bonkers.website/scotti-biscotti/og.png">
+  <meta property="og:url" content="https://bonkers.website/scotti-biscotti/">
+
+  <title>SCOTTI BISCOTTI - The Dogfather of Adoption</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Permanent+Marker&family=Russo+One&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --gold: #ffd700;
+      --gold-dark: #b8860b;
+      --gold-glow: rgba(255, 215, 0, 0.6);
+      --green-money: #2ecc40;
+      --green-dark: #1a6b23;
+      --purple-drip: #9b59b6;
+      --purple-deep: #4a0e6b;
+      --hot-pink: #ff2d9b;
+      --void: #0a0505;
+      --chrome: #c0c0c0;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family: 'Russo One', 'Arial Black', sans-serif;
+      background: var(--void);
+      min-height: 100dvh;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      position: relative;
+      overflow-y: auto;
+      color: #fff;
+    }
+
+    /* === LAYER 1: ATMOSPHERIC BACKGROUND === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(155, 89, 182, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Animated gold dust particles via canvas */
+    #dust-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Scanline overlay for that gritty music video vibe */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* === CONTENT WRAPPER === */
+    .content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100dvh;
+      padding: 1rem;
+    }
+
+    /* === TOP MARQUEE === */
+    .ticker-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
+      padding: 0.4rem 0;
+      border-bottom: 3px solid var(--void);
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+      position: relative;
+    }
+
+    .ticker {
+      display: flex;
+      animation: ticker-scroll 18s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker span {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.95rem;
+      color: var(--void);
+      padding: 0 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* === HERO IMAGE === */
+    .hero-wrap {
+      margin: 1.5rem 0 1rem;
+      position: relative;
+      display: inline-block;
+      animation: hero-float 4s ease-in-out infinite;
+    }
+
+    @keyframes hero-float {
+      0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+      50% { transform: translateY(-8px) rotate(0.5deg); }
+    }
+
+    .hero-img {
+      width: min(90vw, 480px);
+      border-radius: 12px;
+      border: 4px solid var(--gold);
+      box-shadow:
+        0 0 0 2px var(--void),
+        0 0 0 6px var(--gold-dark),
+        0 0 40px rgba(255, 215, 0, 0.4),
+        0 0 80px rgba(255, 215, 0, 0.2),
+        0 20px 60px rgba(0, 0, 0, 0.8);
+      display: block;
+    }
+
+    /* Gold chain border decoration */
+    .hero-wrap::before,
+    .hero-wrap::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--gold) 0px,
+        var(--gold) 8px,
+        var(--gold-dark) 8px,
+        var(--gold-dark) 12px,
+        var(--gold) 12px,
+        var(--gold) 20px,
+        transparent 20px,
+        transparent 24px
+      );
+      left: 0;
+      border-radius: 3px;
+    }
+
+    .hero-wrap::before { top: -14px; }
+    .hero-wrap::after { bottom: -14px; }
+
+    /* === RAP LYRICS SECTION === */
+    .lyrics-section {
+      width: 100%;
+      max-width: 500px;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .verse-label {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.8rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      margin-bottom: 0.5rem;
+      opacity: 0.7;
+    }
+
+    .lyrics-box {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(155, 89, 182, 0.08));
+      border: 2px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lyrics-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.06), transparent);
+      animation: lyric-shimmer 4s ease-in-out infinite;
+    }
+
+    @keyframes lyric-shimmer {
+      0%, 100% { left: -100%; }
+      50% { left: 100%; }
+    }
+
+    .lyric-line {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1rem, 4.5vw, 1.35rem);
+      line-height: 2;
+      color: #fff;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: lyric-reveal 0.6s ease-out forwards;
+    }
+
+    .lyric-line .gold {
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .lyric-line .pink {
+      color: var(--hot-pink);
+      text-shadow: 0 0 10px rgba(255, 45, 155, 0.5);
+    }
+
+    .lyric-line .green {
+      color: var(--green-money);
+      text-shadow: 0 0 10px rgba(46, 204, 64, 0.5);
+    }
+
+    @keyframes lyric-reveal {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .lyric-line:nth-child(1) { animation-delay: 0.2s; }
+    .lyric-line:nth-child(2) { animation-delay: 0.4s; }
+    .lyric-line:nth-child(3) { animation-delay: 0.6s; }
+    .lyric-line:nth-child(4) { animation-delay: 0.8s; }
+    .lyric-line:nth-child(5) { animation-delay: 1.0s; }
+    .lyric-line:nth-child(6) { animation-delay: 1.2s; }
+    .lyric-line:nth-child(7) { animation-delay: 1.4s; }
+    .lyric-line:nth-child(8) { animation-delay: 1.6s; }
+
+    /* === BOOMBOX BEAT VISUALIZER === */
+    .visualizer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      height: 40px;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .viz-bar {
+      width: 6px;
+      background: linear-gradient(to top, var(--gold-dark), var(--gold));
+      border-radius: 2px 2px 0 0;
+      animation: viz-bounce var(--dur) ease-in-out infinite;
+      box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+    }
+
+    @keyframes viz-bounce {
+      0%, 100% { height: var(--min); }
+      50% { height: var(--max); }
+    }
+
+    /* === THE BIG CTA === */
+    .cta-section {
+      margin: 1.5rem 0 2rem;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .cta-pre {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      color: var(--purple-drip);
+      text-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
+      margin-bottom: 0.75rem;
+      animation: cta-pre-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes cta-pre-pulse {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+
+    .adopt-btn {
+      display: block;
+      width: 100%;
+      padding: 1.25rem 2rem;
+      font-family: 'Bungee Shade', cursive;
+      font-size: clamp(1.1rem, 5vw, 1.6rem);
+      color: var(--void);
+      background: linear-gradient(135deg, var(--gold), #ffe066, var(--gold), #ffcc00);
+      background-size: 300% 300%;
+      animation: gold-shift 3s ease infinite;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      position: relative;
+      box-shadow:
+        0 0 0 3px var(--gold-dark),
+        0 0 30px rgba(255, 215, 0, 0.4),
+        0 8px 30px rgba(0, 0, 0, 0.5),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.02em;
+      overflow: hidden;
+    }
+
+    .adopt-btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+      );
+      animation: btn-shimmer 2.5s ease-in-out infinite;
+    }
+
+    @keyframes btn-shimmer {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    @keyframes gold-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .adopt-btn:hover {
+      transform: scale(1.03);
+      box-shadow:
+        0 0 0 3px var(--gold-dark),
+        0 0 50px rgba(255, 215, 0, 0.6),
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .adopt-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* === VERSE 2 - MORE BARS === */
+    .verse2 {
+      margin-top: 0;
+    }
+
+    /* === BOTTOM TAGLINE === */
+    .bottom-tag {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(0.8rem, 3vw, 1rem);
+      color: rgba(255, 255, 255, 0.3);
+      text-align: center;
+      padding: 2rem 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    .bottom-tag a {
+      color: var(--gold);
+      text-decoration: none;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    .bottom-tag a:hover {
+      opacity: 1;
+    }
+
+    /* === PARTICLE EFFECTS === */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 100;
+      font-size: 1.5rem;
+      animation: particle-fly 1.5s ease-out forwards;
+    }
+
+    @keyframes particle-fly {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--rot));
+        opacity: 0;
+      }
+    }
+
+    /* Gold coin rain */
+    .coin-rain {
+      position: fixed;
+      font-size: 1.8rem;
+      pointer-events: none;
+      z-index: 99;
+      animation: coin-fall var(--fall-dur) linear forwards;
+    }
+
+    @keyframes coin-fall {
+      0% {
+        transform: translateY(-60px) rotate(0deg);
+        opacity: 1;
+      }
+      85% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(calc(100vh + 60px)) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Screen flash */
+    .flash-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--gold);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 200;
+    }
+
+    .flash-overlay.active {
+      animation: gold-flash 0.4s ease-out;
+    }
+
+    @keyframes gold-flash {
+      0% { opacity: 0.5; }
+      100% { opacity: 0; }
+    }
+
+    /* Screen shake */
+    .shaking {
+      animation: screen-shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes screen-shake {
+      0%, 100% { transform: translateX(0) translateY(0); }
+      10% { transform: translateX(-8px) translateY(-4px); }
+      20% { transform: translateX(8px) translateY(2px); }
+      30% { transform: translateX(-6px) translateY(-6px); }
+      40% { transform: translateX(6px) translateY(4px); }
+      50% { transform: translateX(-4px) translateY(-2px); }
+      60% { transform: translateX(4px) translateY(6px); }
+      70% { transform: translateX(-8px) translateY(2px); }
+      80% { transform: translateX(6px) translateY(-4px); }
+      90% { transform: translateX(-2px) translateY(2px); }
+    }
+
+    /* Expanding gold rings */
+    .gold-ring {
+      position: fixed;
+      border: 3px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 90;
+      animation: ring-burst 1s ease-out forwards;
+    }
+
+    @keyframes ring-burst {
+      0% {
+        width: 0;
+        height: 0;
+        opacity: 0.8;
+      }
+      100% {
+        width: 300vmax;
+        height: 300vmax;
+        opacity: 0;
+      }
+    }
+
+    /* Flying text */
+    .fly-text {
+      position: fixed;
+      font-family: 'Bungee Shade', cursive;
+      font-size: clamp(2rem, 10vw, 4rem);
+      color: var(--gold);
+      text-shadow:
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 40px rgba(255, 215, 0, 0.4),
+        3px 3px 0 var(--gold-dark);
+      pointer-events: none;
+      z-index: 150;
+      white-space: nowrap;
+      animation: fly-text-in 2s ease-out forwards;
+    }
+
+    @keyframes fly-text-in {
+      0% {
+        transform: scale(0) rotate(-20deg);
+        opacity: 0;
+      }
+      30% {
+        transform: scale(1.3) rotate(5deg);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1) rotate(-2deg);
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.8) rotate(0deg) translateY(-50px);
+        opacity: 0;
+      }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      z-index: 98;
+      animation: confetti-fall var(--c-dur) linear forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-20px) rotate(0deg) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(calc(100vh + 20px)) rotate(var(--c-rot)) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 400px) {
+      .lyrics-box {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="dust-canvas"></canvas>
+  <div class="scanlines"></div>
+  <div class="flash-overlay" id="flash"></div>
+
+  <div class="content" id="content">
+    <!-- Top ticker -->
+    <div class="ticker-wrap">
+      <div class="ticker">
+        <span>🦴 Scotti Biscotti 🎤</span>
+        <span>💰 The Dogfather of Adoption 💰</span>
+        <span>🔥 Too Fly To Pass By 🔥</span>
+        <span>🎵 He Shook His Puppy Body 🎵</span>
+        <span>⭐ Shannon's Future Husband ⭐</span>
+        <span>🦴 Pup Life! 🦴</span>
+        <span>💎 Ruff 'N Ready 💎</span>
+        <span>🏆 He's Got The Treats & Beats 🏆</span>
+        <span>🦴 Scotti Biscotti 🎤</span>
+        <span>💰 The Dogfather of Adoption 💰</span>
+        <span>🔥 Too Fly To Pass By 🔥</span>
+        <span>🎵 He Shook His Puppy Body 🎵</span>
+        <span>⭐ Shannon's Future Husband ⭐</span>
+        <span>🦴 Pup Life! 🦴</span>
+        <span>💎 Ruff 'N Ready 💎</span>
+        <span>🏆 He's Got The Treats & Beats 🏆</span>
+      </div>
+    </div>
+
+    <!-- Hero Image -->
+    <div class="hero-wrap">
+      <img src="biscotti.png" alt="Scotti Biscotti - The Dogfather of Adoption" class="hero-img">
+    </div>
+
+    <!-- Beat Visualizer -->
+    <div class="visualizer" id="visualizer"></div>
+
+    <!-- Verse 1 -->
+    <div class="lyrics-section">
+      <div class="verse-label">// Verse 1</div>
+      <div class="lyrics-box">
+        <div class="lyric-line"><span class="gold">Scotti Biscotti</span>, shook his little body</div>
+        <div class="lyric-line">Came up from the shelter, now he's <span class="green">somebody</span></div>
+        <div class="lyric-line">Gold chain on his neck, mic up in his paw</div>
+        <div class="lyric-line">The <span class="pink">flyest pup</span> you ever saw</div>
+      </div>
+    </div>
+
+    <!-- THE BIG BUTTON -->
+    <div class="cta-section">
+      <div class="cta-pre">Shannon... you know what to do.</div>
+      <button class="adopt-btn" id="adopt-btn">
+        ADOPT THIS DOG
+      </button>
+    </div>
+
+    <!-- Verse 2 -->
+    <div class="lyrics-section verse2">
+      <div class="verse-label">// Verse 2</div>
+      <div class="lyrics-box">
+        <div class="lyric-line">He's <span class="gold">ruff</span> and he's <span class="gold">ready</span></div>
+        <div class="lyric-line">Paws on the ground, keepin' it <span class="green">steady</span></div>
+        <div class="lyric-line">Too fly to pass by, <span class="pink">too cute to deny</span></div>
+        <div class="lyric-line">Shannon bring him home, don't even <span class="gold">ask why</span></div>
+      </div>
+    </div>
+
+    <!-- Verse 3 -->
+    <div class="lyrics-section">
+      <div class="verse-label">// The Hook</div>
+      <div class="lyrics-box">
+        <div class="lyric-line">Biscotti Biscotti <span class="gold">Biscotti!</span></div>
+        <div class="lyric-line">He'll love you more than <span class="pink">anybody</span></div>
+        <div class="lyric-line">Treats in the bowl and a <span class="green">yard to play</span></div>
+        <div class="lyric-line"><span class="gold">Shannon adopt him TODAY</span></div>
+      </div>
+    </div>
+
+    <!-- Verse 4 -->
+    <div class="lyrics-section">
+      <div class="verse-label">// Verse 3</div>
+      <div class="lyrics-box">
+        <div class="lyric-line">He got the <span class="green">treats</span> and the <span class="green">beats</span></div>
+        <div class="lyric-line">Nappin' on couches, snorin' on <span class="gold">sheets</span></div>
+        <div class="lyric-line">He don't need a <span class="pink">mansion</span>, just a warm home</div>
+        <div class="lyric-line">A belly rub spot and a <span class="gold">big ol' bone</span></div>
+      </div>
+    </div>
+
+    <!-- Second CTA -->
+    <div class="cta-section">
+      <div class="cta-pre">This is the sign you've been waiting for.</div>
+      <button class="adopt-btn" id="adopt-btn-2">
+        BRING BISCOTTI HOME
+      </button>
+    </div>
+
+    <!-- Outro -->
+    <div class="lyrics-section">
+      <div class="verse-label">// Outro</div>
+      <div class="lyrics-box">
+        <div class="lyric-line"><span class="gold">Scotti Biscotti</span>, The Dogfather of Adoption</div>
+        <div class="lyric-line">Comin' to a couch near you</div>
+        <div class="lyric-line"><span class="pink">Shannon's husband for life</span></div>
+        <div class="lyric-line">That's a <span class="gold">WRAP</span>. 🎤⬇️</div>
+      </div>
+    </div>
+
+    <div class="bottom-tag">
+      bonkers.website &mdash; where every dog gets a mixtape
+    </div>
+  </div>
+
+  <script>
+    // === GOLD DUST PARTICLE CANVAS ===
+    const canvas = document.getElementById('dust-canvas');
+    const ctx = canvas.getContext('2d');
+    let dustParticles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function initDust() {
+      dustParticles = [];
+      for (let i = 0; i < 60; i++) {
+        dustParticles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2 + 0.5,
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: -Math.random() * 0.4 - 0.1,
+          opacity: Math.random() * 0.5 + 0.1,
+          hue: Math.random() > 0.7 ? 280 : 45 // mostly gold, some purple
+        });
+      }
+    }
+    initDust();
+
+    function animateDust() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      dustParticles.forEach(p => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.opacity = 0.1 + Math.abs(Math.sin(Date.now() / 2000 + p.x)) * 0.4;
+
+        if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+        if (p.x < -10) p.x = canvas.width + 10;
+        if (p.x > canvas.width + 10) p.x = -10;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue}, 80%, 60%, ${p.opacity})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateDust);
+    }
+    animateDust();
+
+    // === BEAT VISUALIZER BARS ===
+    const vizContainer = document.getElementById('visualizer');
+    const barCount = 24;
+    for (let i = 0; i < barCount; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'viz-bar';
+      const minH = 4 + Math.random() * 6;
+      const maxH = 15 + Math.random() * 25;
+      const dur = 0.3 + Math.random() * 0.5;
+      bar.style.setProperty('--min', minH + 'px');
+      bar.style.setProperty('--max', maxH + 'px');
+      bar.style.setProperty('--dur', dur + 's');
+      bar.style.animationDelay = (Math.random() * 0.5) + 's';
+      vizContainer.appendChild(bar);
+    }
+
+    // === CHAOS ENGINE ===
+    const flash = document.getElementById('flash');
+    const content = document.getElementById('content');
+
+    const particleEmojis = ['💰', '🦴', '🎤', '💎', '⭐', '🔥', '🐾', '💵', '🏆', '🎵', '👑', '💛'];
+    const flyTexts = [
+      'ADOPTED!',
+      'BISCOTTI!',
+      'WOOF!',
+      'SHANNON!',
+      'PUP LIFE!',
+      'DO IT!',
+      'GOLD!',
+      'BARK!',
+      'YES!'
+    ];
+
+    let chaosCount = 0;
+
+    function triggerChaos() {
+      chaosCount++;
+
+      // Haptic
+      if (navigator.vibrate) {
+        navigator.vibrate([100, 30, 100, 30, 200]);
+      }
+
+      // Screen shake
+      content.classList.remove('shaking');
+      void content.offsetWidth;
+      content.classList.add('shaking');
+      setTimeout(() => content.classList.remove('shaking'), 600);
+
+      // Gold flash
+      flash.classList.remove('active');
+      void flash.offsetWidth;
+      flash.classList.add('active');
+
+      // Particle explosion from button center
+      spawnParticles(25);
+
+      // Gold rings
+      spawnRings(3);
+
+      // Flying text
+      spawnFlyText();
+
+      // Coin rain
+      spawnCoinRain(15);
+
+      // Confetti burst
+      spawnConfetti(30);
+
+      // Extra chaos on multiple clicks
+      if (chaosCount >= 3) {
+        setTimeout(() => spawnParticles(15), 200);
+        setTimeout(() => spawnCoinRain(10), 300);
+      }
+      if (chaosCount >= 5) {
+        setTimeout(() => {
+          spawnFlyText();
+          spawnConfetti(40);
+        }, 400);
+      }
+    }
+
+    function spawnParticles(count) {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'particle';
+        el.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+        const velocity = 80 + Math.random() * 250;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
+        const rot = (Math.random() - 0.5) * 720;
+
+        el.style.left = cx + 'px';
+        el.style.top = cy + 'px';
+        el.style.setProperty('--tx', tx + 'px');
+        el.style.setProperty('--ty', ty + 'px');
+        el.style.setProperty('--rot', rot + 'deg');
+        el.style.animationDelay = (Math.random() * 0.15) + 's';
+
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function spawnRings(count) {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+
+      for (let i = 0; i < count; i++) {
+        const ring = document.createElement('div');
+        ring.className = 'gold-ring';
+        ring.style.left = cx + 'px';
+        ring.style.top = cy + 'px';
+        ring.style.transform = 'translate(-50%, -50%)';
+        ring.style.animationDelay = (i * 0.15) + 's';
+        ring.style.borderColor = i % 2 === 0 ? 'var(--gold)' : 'var(--purple-drip)';
+
+        document.body.appendChild(ring);
+        ring.addEventListener('animationend', () => ring.remove());
+      }
+    }
+
+    function spawnFlyText() {
+      const text = flyTexts[Math.floor(Math.random() * flyTexts.length)];
+      const el = document.createElement('div');
+      el.className = 'fly-text';
+      el.textContent = text;
+      el.style.left = '50%';
+      el.style.top = '40%';
+      el.style.transform = 'translate(-50%, -50%)';
+
+      document.body.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
+    }
+
+    function spawnCoinRain(count) {
+      const coins = ['💰', '💵', '🪙', '💎', '👑'];
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'coin-rain';
+        el.textContent = coins[Math.floor(Math.random() * coins.length)];
+        el.style.left = (Math.random() * 100) + 'vw';
+        el.style.top = '-60px';
+        const dur = 1.5 + Math.random() * 2;
+        el.style.setProperty('--fall-dur', dur + 's');
+        el.style.animationDelay = (Math.random() * 0.8) + 's';
+
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function spawnConfetti(count) {
+      const colors = ['#ffd700', '#ff2d9b', '#9b59b6', '#2ecc40', '#ff6b35', '#00d4ff'];
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti';
+        el.style.left = (Math.random() * 100) + 'vw';
+        el.style.top = '-20px';
+        el.style.width = (4 + Math.random() * 8) + 'px';
+        el.style.height = (4 + Math.random() * 8) + 'px';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+
+        const dur = 2 + Math.random() * 2;
+        el.style.setProperty('--c-dur', dur + 's');
+        el.style.setProperty('--c-rot', (Math.random() * 1080) + 'deg');
+        el.style.animationDelay = (Math.random() * 0.5) + 's';
+
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    // === BUTTON EVENT LISTENERS ===
+    document.querySelectorAll('.adopt-btn').forEach(btn => {
+      btn.addEventListener('click', triggerChaos);
+      btn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        triggerChaos();
+      }, { passive: false });
+    });
+
+    // === SCROLL-TRIGGERED LYRIC ANIMATIONS ===
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const lines = entry.target.querySelectorAll('.lyric-line');
+          lines.forEach((line, i) => {
+            line.style.animation = 'none';
+            void line.offsetWidth;
+            line.style.animation = `lyric-reveal 0.6s ease-out ${i * 0.2}s forwards`;
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.lyrics-box').forEach(box => observer.observe(box));
+
+    // === AMBIENT TAP PARTICLES ===
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.adopt-btn')) return;
+
+      for (let i = 0; i < 5; i++) {
+        const el = document.createElement('div');
+        el.className = 'particle';
+        el.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+        el.style.fontSize = '1rem';
+
+        const angle = (Math.PI * 2 * i) / 5;
+        const velocity = 30 + Math.random() * 60;
+
+        el.style.left = e.clientX + 'px';
+        el.style.top = e.clientY + 'px';
+        el.style.setProperty('--tx', (Math.cos(angle) * velocity) + 'px');
+        el.style.setProperty('--ty', (Math.sin(angle) * velocity) + 'px');
+        el.style.setProperty('--rot', ((Math.random() - 0.5) * 360) + 'deg');
+
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+
+      if (navigator.vibrate) navigator.vibrate(30);
+    });
+
+    // Prevent rubber-banding on iOS for the fixed elements
+    document.addEventListener('touchmove', (e) => {
+      if (e.target.closest('.content')) return;
+      e.preventDefault();
+    }, { passive: false });
+  </script>
+</body>
+</html>
