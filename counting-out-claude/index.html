@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="COUNTING OUT CLAUDE">
+  <meta property="og:description" content="She's not buying the hype. Based on a true story.">
+  <meta property="og:image" content="https://bonkers.website/counting-out-claude/og.png">
+  <meta property="og:url" content="https://bonkers.website/counting-out-claude/">
+  <title>COUNTING OUT CLAUDE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=VT323&family=Nosifer&family=Bangers&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --horror-green: #2d5a27;
+      --horror-green-bright: #3a7a32;
+      --horror-purple: #3a1f5e;
+      --lightning: #c8a2ff;
+      --blood-red: #cc3333;
+      --blood-glow: rgba(204, 51, 51, 0.6);
+      --terminal-green: #33ff33;
+      --gold: #ffd700;
+      --gold-glow: rgba(255, 215, 0, 0.5);
+      --hope-blue: #4a9eff;
+      --hope-glow: rgba(74, 158, 255, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    body {
+      font-family: 'Creepster', cursive;
+      cursor: pointer;
+    }
+
+    /* === INTRO OVERLAY === */
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #intro.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #intro .intro-icon {
+      font-size: 60px;
+      animation: introFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes introFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    #intro .intro-text {
+      font-family: 'VT323', monospace;
+      font-size: clamp(20px, 5vw, 28px);
+      color: var(--terminal-green);
+      text-shadow: 0 0 15px rgba(51, 255, 51, 0.4);
+      letter-spacing: 4px;
+      animation: introPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes introPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    /* === WRAPPER FOR SCREEN SHAKE === */
+    #wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #wrapper.shaking {
+      animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    #wrapper.shaking-hard {
+      animation: shakeHard 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translate(0, 0); }
+      10% { transform: translate(-6px, -4px); }
+      20% { transform: translate(6px, 3px); }
+      30% { transform: translate(-4px, 6px); }
+      40% { transform: translate(4px, -3px); }
+      50% { transform: translate(-3px, 4px); }
+      60% { transform: translate(3px, -6px); }
+      70% { transform: translate(-6px, 3px); }
+      80% { transform: translate(4px, 4px); }
+      90% { transform: translate(-3px, -4px); }
+    }
+
+    @keyframes shakeHard {
+      0%, 100% { transform: translate(0, 0) rotate(0); }
+      10% { transform: translate(-10px, -8px) rotate(-1.5deg); }
+      20% { transform: translate(10px, 6px) rotate(1.5deg); }
+      30% { transform: translate(-8px, 10px) rotate(-0.5deg); }
+      40% { transform: translate(8px, -6px) rotate(1deg); }
+      50% { transform: translate(-6px, 8px) rotate(-1deg); }
+      60% { transform: translate(6px, -10px) rotate(0.5deg); }
+      70% { transform: translate(-10px, 6px) rotate(-1.5deg); }
+      80% { transform: translate(8px, 8px) rotate(1deg); }
+      90% { transform: translate(-6px, -8px) rotate(0); }
+    }
+
+    /* === BACKGROUND === */
+    #bg {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, #0f1a0a 0%, #0a0a0f 50%, #000 100%);
+      transition: background 2s ease;
+      z-index: 0;
+    }
+
+    #bg.hope {
+      background: radial-gradient(ellipse at 50% 40%, #0a1a2e 0%, #0a0f1a 50%, #000 100%);
+    }
+
+    #bg.triumph {
+      background: radial-gradient(ellipse at 50% 40%, #1a1500 0%, #0f0d05 50%, #000 100%);
+    }
+
+    /* === VIGNETTE === */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* === SCANLINES === */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 900;
+      opacity: 0.35;
+    }
+
+    .scanlines::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+      );
+      animation: scanlineScroll 10s linear infinite;
+    }
+
+    @keyframes scanlineScroll {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
+
+    /* === VHS TRACKING GLITCH === */
+    .vhs-track {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 901;
+      opacity: 0;
+    }
+
+    .vhs-track.glitch {
+      animation: vhsGlitch 0.2s steps(3) forwards;
+    }
+
+    @keyframes vhsGlitch {
+      0%, 100% { opacity: 0; }
+      15% {
+        opacity: 0.8;
+        clip-path: polygon(0 10%, 100% 10%, 100% 18%, 0 18%);
+        transform: translateX(-12px);
+        background: linear-gradient(90deg, #ff00ff, #00ffff, #33ff33);
+      }
+      30% {
+        clip-path: polygon(0 40%, 100% 40%, 100% 52%, 0 52%);
+        transform: translateX(18px);
+        background: linear-gradient(90deg, #33ff33, #ff00ff, #00ffff);
+      }
+      50% {
+        clip-path: polygon(0 65%, 100% 65%, 100% 78%, 0 78%);
+        transform: translateX(-8px);
+        background: linear-gradient(90deg, #00ffff, #33ff33, #ff00ff);
+      }
+      70% { opacity: 0; }
+    }
+
+    /* === LIGHTNING FLASH === */
+    .flash {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 800;
+      opacity: 0;
+      background: #fff;
+    }
+
+    .flash.fire {
+      animation: lightningFlash 0.4s ease-out forwards;
+    }
+
+    @keyframes lightningFlash {
+      0% { opacity: 0.9; background: var(--lightning); }
+      15% { opacity: 0.3; }
+      30% { opacity: 0.7; background: #fff; }
+      50% { opacity: 0.1; }
+      100% { opacity: 0; }
+    }
+
+    /* === SCENES === */
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      z-index: 10;
+      padding: 20px;
+      padding-top: max(20px, env(safe-area-inset-top));
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+
+    .scene.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* === SCENE 0: VHS STATIC === */
+    #scene0 {
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          transparent 1px,
+          rgba(255,255,255,0.03) 1px,
+          rgba(255,255,255,0.03) 2px
+        );
+    }
+
+    #scene0 .static-overlay-css {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      animation: staticShift 0.1s steps(4) infinite;
+    }
+
+    @keyframes staticShift {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(-2%, -1%); }
+      50% { transform: translate(1%, 2%); }
+      75% { transform: translate(-1%, -2%); }
+      100% { transform: translate(2%, 1%); }
+    }
+
+    #scene0 .vhs-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      animation: vhsBarScroll 3s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes vhsBarScroll {
+      0% { top: -30px; }
+      100% { top: 100%; }
+    }
+
+    #scene0 .tracking-text {
+      font-family: 'VT323', monospace;
+      font-size: clamp(18px, 5vw, 28px);
+      color: #fff;
+      letter-spacing: 8px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+      z-index: 2;
+      animation: trackingFlicker 0.3s steps(2) infinite;
+    }
+
+    @keyframes trackingFlicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* === SCENE 1: COLD OPEN === */
+    #scene1 .cold-text {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(24px, 7vw, 48px);
+      color: var(--terminal-green);
+      text-shadow:
+        0 0 20px rgba(51, 255, 51, 0.4),
+        0 0 40px rgba(51, 255, 51, 0.2);
+      text-align: center;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 1.5s ease, transform 1.5s ease;
+    }
+
+    #scene1.active .cold-text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === SCENE 2: POSTER REVEAL === */
+    #scene2 .poster-wrap {
+      position: relative;
+      width: min(80vw, 380px);
+      opacity: 0;
+      transform: scale(1.4);
+    }
+
+    #scene2 .poster-wrap img {
+      width: 100%;
+      height: auto;
+      max-height: 70vh;
+      object-fit: contain;
+      border-radius: 4px;
+      display: block;
+    }
+
+    #scene2 .poster-wrap.slam {
+      animation: posterSlam 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes posterSlam {
+      0% { opacity: 0; transform: scale(1.4); }
+      60% { opacity: 1; transform: scale(0.97); }
+      80% { transform: scale(1.02); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    #scene2 .poster-glow {
+      position: absolute;
+      inset: -8px;
+      border-radius: 8px;
+      border: 2px solid var(--horror-green-bright);
+      box-shadow:
+        0 0 30px rgba(58, 122, 50, 0.5),
+        0 0 60px rgba(58, 31, 94, 0.3),
+        inset 0 0 30px rgba(58, 122, 50, 0.1);
+      opacity: 0;
+      transition: opacity 0.5s ease 0.4s;
+      pointer-events: none;
+    }
+
+    #scene2 .poster-wrap.slam .poster-glow {
+      opacity: 1;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 30px rgba(58, 122, 50, 0.5),
+          0 0 60px rgba(58, 31, 94, 0.3),
+          inset 0 0 30px rgba(58, 122, 50, 0.1);
+      }
+      50% {
+        box-shadow:
+          0 0 50px rgba(58, 122, 50, 0.7),
+          0 0 90px rgba(58, 31, 94, 0.5),
+          inset 0 0 50px rgba(58, 122, 50, 0.2);
+      }
+    }
+
+    /* === SCENE 3: TITLE CARD === */
+    #scene3 .title-text {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(28px, 8vw, 56px);
+      color: var(--blood-red);
+      text-shadow:
+        0 0 20px var(--blood-glow),
+        0 0 40px var(--blood-glow),
+        0 0 80px rgba(204, 51, 51, 0.3);
+      text-align: center;
+      letter-spacing: 4px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    #scene3.active .title-text {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* === SCENES 4-7: DAILY HORRORS === */
+    .horror-scene .timestamp {
+      font-family: 'VT323', monospace;
+      font-size: clamp(20px, 5.5vw, 36px);
+      color: var(--terminal-green);
+      text-shadow: 0 0 15px rgba(51, 255, 51, 0.5);
+      letter-spacing: 4px;
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+
+    .horror-scene.active .timestamp {
+      animation: slideInLeft 0.4s ease forwards;
+    }
+
+    @keyframes slideInLeft {
+      0% { opacity: 0; transform: translateX(-30px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .horror-scene .horror-text {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(22px, 6vw, 42px);
+      color: #ff6633;
+      text-shadow:
+        0 0 15px rgba(255, 102, 51, 0.5),
+        0 0 30px rgba(204, 51, 51, 0.3);
+      text-align: center;
+      line-height: 1.3;
+      max-width: 90vw;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .horror-scene.active .horror-text {
+      animation: slideInUp 0.5s ease 0.4s forwards;
+    }
+
+    @keyframes slideInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === SCENE 8: THE TWIST === */
+    #scene8 .twist-line1,
+    #scene8 .twist-line2 {
+      font-family: 'Creepster', cursive;
+      text-align: center;
+      opacity: 0;
+    }
+
+    #scene8 .twist-line1 {
+      font-size: clamp(30px, 9vw, 60px);
+      color: #fff;
+      text-shadow: 0 0 30px rgba(255,255,255,0.5);
+      margin-bottom: 20px;
+    }
+
+    #scene8 .twist-line2 {
+      font-size: clamp(22px, 6vw, 44px);
+      color: var(--hope-blue);
+      text-shadow:
+        0 0 20px var(--hope-glow),
+        0 0 40px var(--hope-glow);
+      line-height: 1.3;
+    }
+
+    /* === SCENE 9: SOLUTIONS === */
+    #scene9 .solution-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: min(90vw, 500px);
+    }
+
+    #scene9 .solution-item {
+      font-family: 'VT323', monospace;
+      font-size: clamp(18px, 4.5vw, 28px);
+      color: var(--terminal-green);
+      text-shadow: 0 0 10px rgba(51, 255, 51, 0.4);
+      opacity: 0;
+      transform: translateX(-20px);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.3;
+    }
+
+    #scene9 .solution-item .check {
+      color: var(--gold);
+      text-shadow: 0 0 10px var(--gold-glow);
+      font-size: 1.2em;
+      flex-shrink: 0;
+    }
+
+    #scene9 .solution-item.reveal {
+      animation: solutionReveal 0.5s ease forwards;
+    }
+
+    @keyframes solutionReveal {
+      0% { opacity: 0; transform: translateX(-20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    /* === SCENE 10: CTA === */
+    #scene10 { gap: 16px; }
+
+    #scene10 .cta-title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(36px, 10vw, 72px);
+      color: var(--gold);
+      text-shadow:
+        0 0 30px var(--gold-glow),
+        0 0 60px var(--gold-glow),
+        0 0 100px rgba(255, 215, 0, 0.3),
+        3px 3px 0 #b8860b;
+      text-align: center;
+      letter-spacing: 3px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    #scene10.active .cta-title {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #scene10 .cta-sub {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(18px, 5vw, 30px);
+      color: #e0c068;
+      text-shadow: 0 0 15px rgba(224, 192, 104, 0.4);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.3s;
+    }
+
+    #scene10.active .cta-sub { opacity: 1; }
+
+    #scene10 .cta-closer {
+      font-family: 'VT323', monospace;
+      font-size: clamp(16px, 4vw, 24px);
+      color: #a89060;
+      text-shadow: 0 0 10px rgba(168, 144, 96, 0.3);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.6s;
+    }
+
+    #scene10.active .cta-closer { opacity: 1; }
+
+    #scene10 .cta-btn {
+      display: inline-block;
+      font-family: 'Bangers', cursive;
+      font-size: clamp(22px, 6vw, 38px);
+      color: #000;
+      background: linear-gradient(135deg, var(--gold), #ffed4a, var(--gold));
+      padding: 14px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 2px;
+      box-shadow:
+        0 0 30px var(--gold-glow),
+        0 0 60px rgba(255, 215, 0, 0.3),
+        inset 0 -3px 0 #b8860b;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.6s ease 0.9s, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s;
+    }
+
+    #scene10.active .cta-btn {
+      opacity: 1;
+      transform: scale(1);
+      animation: btnPulse 2s ease-in-out infinite 1.5s;
+    }
+
+    @keyframes btnPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 30px var(--gold-glow),
+          0 0 60px rgba(255, 215, 0, 0.3),
+          inset 0 -3px 0 #b8860b;
+        transform: scale(1);
+      }
+      50% {
+        box-shadow:
+          0 0 50px var(--gold-glow),
+          0 0 90px rgba(255, 215, 0, 0.5),
+          0 0 120px rgba(255, 215, 0, 0.2),
+          inset 0 -3px 0 #b8860b;
+        transform: scale(1.05);
+      }
+    }
+
+    #scene10 .replay-text {
+      font-family: 'VT323', monospace;
+      font-size: clamp(14px, 3.5vw, 18px);
+      color: #555;
+      margin-top: 12px;
+      opacity: 0;
+      transition: opacity 0.8s ease 1.5s;
+      cursor: pointer;
+      padding: 10px 20px;
+    }
+
+    #scene10.active .replay-text { opacity: 1; }
+
+    /* === SPARKLE PARTICLES === */
+    .sparkle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 15;
+      box-shadow: 0 0 6px var(--gold), 0 0 12px var(--gold-glow);
+      animation: sparkleFloat linear forwards;
+    }
+
+    @keyframes sparkleFloat {
+      0% { opacity: 0; transform: translateY(0) scale(0); }
+      10% { opacity: 1; transform: translateY(-10px) scale(1); }
+      90% { opacity: 0.8; }
+      100% { opacity: 0; transform: translateY(-120px) scale(0); }
+    }
+
+    /* === EXPLOSION PARTICLES === */
+    .boom-particle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 50;
+      animation: boomFly 0.8s ease-out forwards;
+    }
+
+    @keyframes boomFly {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0); }
+    }
+
+    /* === EXPANDING RINGS === */
+    .expand-ring {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 60px;
+      height: 60px;
+      border: 3px solid var(--lightning);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 49;
+      animation: ringExpand 1s ease-out forwards;
+    }
+
+    @keyframes ringExpand {
+      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(12); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TAP TO BEGIN -->
+  <div id="intro">
+    <div class="intro-icon">&#127909;</div>
+    <div class="intro-text">TAP TO BEGIN</div>
+  </div>
+
+  <div id="bg"></div>
+  <div class="vignette"></div>
+  <div class="scanlines"></div>
+  <div class="vhs-track" id="vhsTrack"></div>
+  <div class="flash" id="flash"></div>
+
+  <div id="wrapper">
+
+    <!-- SCENE 0: VHS STATIC -->
+    <div class="scene" id="scene0">
+      <div class="static-overlay-css"></div>
+      <div class="vhs-bar"></div>
+      <div class="tracking-text">TRACKING...</div>
+    </div>
+
+    <!-- SCENE 1: COLD OPEN -->
+    <div class="scene" id="scene1">
+      <div class="cold-text">Are you sure you<br>want to proceed...?</div>
+    </div>
+
+    <!-- SCENE 2: POSTER REVEAL -->
+    <div class="scene" id="scene2">
+      <div class="poster-wrap" id="posterWrap">
+        <div class="poster-glow"></div>
+        <img src="counting-out-claude.png" alt="COUNTING OUT CLAUDE">
+      </div>
+    </div>
+
+    <!-- SCENE 3: TITLE CARD -->
+    <div class="scene" id="scene3">
+      <div class="title-text">BASED ON<br>A TRUE STORY</div>
+    </div>
+
+    <!-- SCENE 4 -->
+    <div class="scene horror-scene" id="scene4">
+      <div class="timestamp">MONDAY 9:00 AM</div>
+      <div class="horror-text">NetSuite has 47 new errors.<br>None of them make sense.</div>
+    </div>
+
+    <!-- SCENE 5 -->
+    <div class="scene horror-scene" id="scene5">
+      <div class="timestamp">TUESDAY 2:30 PM</div>
+      <div class="horror-text">That coworker did that<br>thing again. You know the thing.</div>
+    </div>
+
+    <!-- SCENE 6 -->
+    <div class="scene horror-scene" id="scene6">
+      <div class="timestamp">WEDNESDAY 11:00 AM</div>
+      <div class="horror-text">14 spreadsheets open.<br>Not one of them agrees.</div>
+    </div>
+
+    <!-- SCENE 7 -->
+    <div class="scene horror-scene" id="scene7">
+      <div class="timestamp">THURSDAY 4:45 PM</div>
+      <div class="horror-text">The report files<br>have multiplied. Again.</div>
+    </div>
+
+    <!-- SCENE 8: THE TWIST -->
+    <div class="scene" id="scene8">
+      <div class="twist-line1">BUT WHAT IF...</div>
+      <div class="twist-line2">...it didn't have to<br>be this way?</div>
+    </div>
+
+    <!-- SCENE 9: SOLUTIONS -->
+    <div class="scene" id="scene9">
+      <div class="solution-list" id="solutionList">
+        <div class="solution-item"><span class="check">&#10003;</span><span>NetSuite integrations — automated.</span></div>
+        <div class="solution-item"><span class="check">&#10003;</span><span>Spreadsheet chaos — sorted.</span></div>
+        <div class="solution-item"><span class="check">&#10003;</span><span>Report files — managed.</span></div>
+        <div class="solution-item"><span class="check">&#10003;</span><span>That coworker — ...let's talk it out.</span></div>
+      </div>
+    </div>
+
+    <!-- SCENE 10: CTA -->
+    <div class="scene" id="scene10">
+      <div class="cta-title">SIGN UP FOR CLAUDE</div>
+      <div class="cta-sub">On your company's dime.</div>
+      <div class="cta-closer">You literally have nothing to lose.</div>
+      <a href="https://claude.ai" target="_blank" rel="noopener" class="cta-btn" id="ctaBtn">SIGN UP NOW</a>
+      <div class="replay-text" id="replayText">&#8634; tap to replay</div>
+    </div>
+
+  </div>
+
+  <script>
+    // ==========================================
+    // WEB AUDIO
+    // ==========================================
+    let audioCtx = null;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function playHorn() {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+
+      // Deep bass drone
+      const osc1 = audioCtx.createOscillator();
+      const gain1 = audioCtx.createGain();
+      osc1.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(55, now);
+      osc1.frequency.exponentialRampToValueAtTime(45, now + 1.5);
+      gain1.gain.setValueAtTime(0, now);
+      gain1.gain.linearRampToValueAtTime(0.35, now + 0.15);
+      gain1.gain.setValueAtTime(0.35, now + 0.8);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 2);
+      osc1.connect(gain1);
+      gain1.connect(audioCtx.destination);
+      osc1.start(now);
+      osc1.stop(now + 2);
+
+      // Mid growl
+      const osc2 = audioCtx.createOscillator();
+      const gain2 = audioCtx.createGain();
+      osc2.type = 'square';
+      osc2.frequency.setValueAtTime(110, now);
+      osc2.frequency.exponentialRampToValueAtTime(90, now + 1.5);
+      gain2.gain.setValueAtTime(0, now);
+      gain2.gain.linearRampToValueAtTime(0.15, now + 0.1);
+      gain2.gain.setValueAtTime(0.15, now + 0.6);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+      osc2.connect(gain2);
+      gain2.connect(audioCtx.destination);
+      osc2.start(now);
+      osc2.stop(now + 1.8);
+
+      // High overtone
+      const osc3 = audioCtx.createOscillator();
+      const gain3 = audioCtx.createGain();
+      osc3.type = 'sine';
+      osc3.frequency.setValueAtTime(220, now);
+      osc3.frequency.exponentialRampToValueAtTime(180, now + 1.2);
+      gain3.gain.setValueAtTime(0, now);
+      gain3.gain.linearRampToValueAtTime(0.08, now + 0.1);
+      gain3.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+      osc3.connect(gain3);
+      gain3.connect(audioCtx.destination);
+      osc3.start(now);
+      osc3.stop(now + 1.5);
+    }
+
+    function playDing() {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1200, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.15);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.3);
+    }
+
+    function playThunder() {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      const bufferSize = audioCtx.sampleRate * 0.6;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (audioCtx.sampleRate * 0.15));
+      }
+      const source = audioCtx.createBufferSource();
+      source.buffer = buffer;
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(400, now);
+      filter.frequency.exponentialRampToValueAtTime(80, now + 0.5);
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.4, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      source.start(now);
+    }
+
+    function playStatic() {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      const bufferSize = audioCtx.sampleRate * 1.5;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1);
+      }
+      const source = audioCtx.createBufferSource();
+      source.buffer = buffer;
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 3000;
+      filter.Q.value = 0.5;
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.05, now);
+      gain.gain.setValueAtTime(0.05, now + 1.0);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      source.start(now);
+    }
+
+    function playHorrorHit() {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(80, now);
+      osc.frequency.exponentialRampToValueAtTime(40, now + 0.3);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.4);
+    }
+
+    function playTriumph() {
+      ensureAudio();
+      const now = audioCtx.currentTime;
+      [523.25, 659.25, 783.99].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + i * 0.15);
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + i * 0.15 + 0.1);
+        gain.gain.setValueAtTime(0.12, now + 1.5);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 3);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + i * 0.15);
+        osc.stop(now + 3);
+      });
+    }
+
+    // ==========================================
+    // EFFECTS
+    // ==========================================
+    const wrapper = document.getElementById('wrapper');
+    const flash = document.getElementById('flash');
+    const vhsTrack = document.getElementById('vhsTrack');
+    const bg = document.getElementById('bg');
+    const intro = document.getElementById('intro');
+
+    function screenShake(hard) {
+      wrapper.classList.remove('shaking', 'shaking-hard');
+      void wrapper.offsetWidth;
+      wrapper.classList.add(hard ? 'shaking-hard' : 'shaking');
+      setTimeout(() => wrapper.classList.remove('shaking', 'shaking-hard'), hard ? 600 : 500);
+    }
+
+    function lightningFlash() {
+      flash.classList.remove('fire');
+      void flash.offsetWidth;
+      flash.classList.add('fire');
+      setTimeout(() => flash.classList.remove('fire'), 400);
+    }
+
+    function vhsGlitch() {
+      vhsTrack.classList.remove('glitch');
+      void vhsTrack.offsetWidth;
+      vhsTrack.classList.add('glitch');
+      setTimeout(() => vhsTrack.classList.remove('glitch'), 200);
+    }
+
+    function haptic(pattern) {
+      if (navigator.vibrate) navigator.vibrate(pattern || [80]);
+    }
+
+    function spawnBoomParticles(count) {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const colors = ['#c8a2ff', '#3a7a32', '#ff6633', '#ffd700', '#fff'];
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'boom-particle';
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
+        const vel = 80 + Math.random() * 200;
+        p.style.setProperty('--tx', `${Math.cos(angle) * vel}px`);
+        p.style.setProperty('--ty', `${Math.sin(angle) * vel}px`);
+        p.style.left = cx + 'px';
+        p.style.top = cy + 'px';
+        p.style.background = colors[i % colors.length];
+        p.style.boxShadow = `0 0 6px ${colors[i % colors.length]}`;
+        document.body.appendChild(p);
+        p.addEventListener('animationend', () => p.remove());
+      }
+    }
+
+    function spawnRings(count) {
+      for (let i = 0; i < count; i++) {
+        const ring = document.createElement('div');
+        ring.className = 'expand-ring';
+        ring.style.animationDelay = `${i * 0.15}s`;
+        document.body.appendChild(ring);
+        ring.addEventListener('animationend', () => ring.remove());
+      }
+    }
+
+    let sparkleInterval = null;
+    function startSparkles() {
+      if (sparkleInterval) return;
+      sparkleInterval = setInterval(() => {
+        const s = document.createElement('div');
+        s.className = 'sparkle';
+        s.style.left = Math.random() * 100 + 'vw';
+        s.style.top = (50 + Math.random() * 50) + 'vh';
+        s.style.animationDuration = (2 + Math.random() * 3) + 's';
+        s.style.width = s.style.height = (2 + Math.random() * 4) + 'px';
+        document.body.appendChild(s);
+        s.addEventListener('animationend', () => s.remove());
+      }, 120);
+    }
+
+    function stopSparkles() {
+      if (sparkleInterval) {
+        clearInterval(sparkleInterval);
+        sparkleInterval = null;
+      }
+    }
+
+    // ==========================================
+    // SCENE MANAGEMENT
+    // ==========================================
+    const scenes = [
+      { id: 'scene0', duration: 1500 },
+      { id: 'scene1', duration: 2500 },
+      { id: 'scene2', duration: 4000 },
+      { id: 'scene3', duration: 2000 },
+      { id: 'scene4', duration: 2500 },
+      { id: 'scene5', duration: 2500 },
+      { id: 'scene6', duration: 2500 },
+      { id: 'scene7', duration: 2500 },
+      { id: 'scene8', duration: 3500 },
+      { id: 'scene9', duration: 5500 },
+      { id: 'scene10', duration: Infinity },
+    ];
+
+    let currentScene = -1;
+    let sceneTimer = null;
+    let isRunning = false;
+    let sceneTimeouts = [];
+
+    const twistLine1 = document.querySelector('#scene8 .twist-line1');
+    const twistLine2 = document.querySelector('#scene8 .twist-line2');
+    const posterWrap = document.getElementById('posterWrap');
+    const solutionItems = document.querySelectorAll('#solutionList .solution-item');
+
+    function clearSceneTimeouts() {
+      sceneTimeouts.forEach(t => clearTimeout(t));
+      sceneTimeouts = [];
+    }
+
+    function showScene(index) {
+      if (index < 0 || index >= scenes.length) return;
+
+      clearSceneTimeouts();
+      clearTimeout(sceneTimer);
+
+      // Deactivate previous
+      if (currentScene >= 0) {
+        document.getElementById(scenes[currentScene].id).classList.remove('active');
+      }
+
+      currentScene = index;
+      document.getElementById(scenes[index].id).classList.add('active');
+
+      enterScene(index);
+
+      if (scenes[index].duration !== Infinity) {
+        sceneTimer = setTimeout(() => advanceScene(), scenes[index].duration);
+      }
+    }
+
+    function enterScene(index) {
+      switch (index) {
+        case 0:
+          playStatic();
+          break;
+
+        case 1:
+          vhsGlitch();
+          break;
+
+        case 2:
+          posterWrap.classList.remove('slam');
+          sceneTimeouts.push(setTimeout(() => {
+            posterWrap.classList.add('slam');
+            lightningFlash();
+            screenShake(true);
+            haptic([100, 50, 200]);
+            spawnBoomParticles(24);
+            spawnRings(3);
+            playHorn();
+            playThunder();
+          }, 200));
+          break;
+
+        case 3:
+          vhsGlitch();
+          playHorrorHit();
+          haptic([50]);
+          break;
+
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+          screenShake(false);
+          vhsGlitch();
+          playHorrorHit();
+          haptic([60]);
+          break;
+
+        case 8:
+          twistLine1.style.transition = 'none';
+          twistLine2.style.transition = 'none';
+          twistLine1.style.opacity = '0';
+          twistLine2.style.opacity = '0';
+
+          sceneTimeouts.push(setTimeout(() => {
+            twistLine1.style.transition = 'opacity 0.8s ease';
+            twistLine1.style.opacity = '1';
+          }, 200));
+
+          sceneTimeouts.push(setTimeout(() => {
+            lightningFlash();
+            playThunder();
+            screenShake(false);
+            haptic([100]);
+          }, 1500));
+
+          sceneTimeouts.push(setTimeout(() => {
+            twistLine2.style.transition = 'opacity 0.8s ease';
+            twistLine2.style.opacity = '1';
+            bg.classList.add('hope');
+          }, 1800));
+          break;
+
+        case 9:
+          bg.classList.remove('hope');
+          bg.classList.add('hope');
+          solutionItems.forEach((item, i) => {
+            item.classList.remove('reveal');
+            sceneTimeouts.push(setTimeout(() => {
+              item.classList.add('reveal');
+              playDing();
+            }, 600 + i * 1000));
+          });
+          break;
+
+        case 10:
+          bg.classList.remove('hope');
+          bg.classList.add('triumph');
+          startSparkles();
+          playTriumph();
+          haptic([50, 30, 50, 30, 100]);
+          break;
+      }
+    }
+
+    function advanceScene() {
+      if (currentScene >= scenes.length - 1) return;
+      showScene(currentScene + 1);
+    }
+
+    function startExperience() {
+      if (isRunning) return;
+      isRunning = true;
+      intro.classList.add('hidden');
+      ensureAudio();
+      showScene(0);
+    }
+
+    function replay() {
+      clearTimeout(sceneTimer);
+      clearSceneTimeouts();
+      stopSparkles();
+      bg.classList.remove('hope', 'triumph');
+
+      posterWrap.classList.remove('slam');
+      solutionItems.forEach(item => item.classList.remove('reveal'));
+
+      twistLine1.style.opacity = '0';
+      twistLine1.style.transition = 'none';
+      twistLine2.style.opacity = '0';
+      twistLine2.style.transition = 'none';
+
+      if (currentScene >= 0) {
+        document.getElementById(scenes[currentScene].id).classList.remove('active');
+      }
+
+      document.querySelectorAll('.sparkle, .boom-particle, .expand-ring').forEach(el => el.remove());
+
+      currentScene = -1;
+      isRunning = false;
+      startExperience();
+    }
+
+    // ==========================================
+    // EVENT LISTENERS
+    // ==========================================
+    function handleTap(e) {
+      // Let the CTA button link work normally
+      if (e.target.id === 'ctaBtn' || e.target.closest('#ctaBtn')) return;
+
+      if (!isRunning) {
+        startExperience();
+        return;
+      }
+
+      // On final scene, tapping replay text triggers replay
+      if (currentScene === scenes.length - 1) {
+        if (e.target.id === 'replayText' || e.target.closest('#replayText')) {
+          replay();
+        }
+        return;
+      }
+
+      // Tap to advance
+      advanceScene();
+    }
+
+    document.addEventListener('click', handleTap);
+    document.addEventListener('touchstart', (e) => {
+      if (e.target.id === 'ctaBtn' || e.target.closest('#ctaBtn')) return;
+      e.preventDefault();
+      handleTap(e);
+    }, { passive: false });
+
+    document.addEventListener('dblclick', (e) => e.preventDefault());
+  </script>
+</body>
+</html>
