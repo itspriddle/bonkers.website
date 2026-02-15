@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#001529">
+
+  <meta property="og:title" content="WHISTLE.">
+  <meta property="og:description" content="WHISTLE. WHIST-LE!!">
+  <meta property="og:image" content="https://bonkers.website/whistle/og.png">
+  <meta property="og:url" content="https://bonkers.website/whistle/">
+
+  <title>WHISTLE.</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700&family=Oswald:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #002B5C;
+      --navy-dark: #001529;
+      --gold: #D4A843;
+      --gold-bright: #FFD700;
+      --pitch-green: #1B5E20;
+      --cream: #F5F0E8;
+      --red-card: #C62828;
+      --yellow-card: #FDD835;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background: var(--navy-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      min-height: 100dvh;
+    }
+
+    /* Background atmosphere */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .bg-gradient {
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(212, 168, 67, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at center, var(--navy) 0%, var(--navy-dark) 70%, #000 100%);
+    }
+
+    /* Stadium floodlights */
+    .floodlights {
+      pointer-events: none;
+    }
+
+    .floodlight {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(255, 248, 220, 0.12) 0%, transparent 70%);
+      animation: floodFlicker 4s ease-in-out infinite;
+    }
+
+    .floodlight:nth-child(1) {
+      width: 40vw;
+      height: 60vh;
+      top: -20vh;
+      left: 5%;
+      animation-delay: 0s;
+    }
+
+    .floodlight:nth-child(2) {
+      width: 35vw;
+      height: 50vh;
+      top: -15vh;
+      right: 10%;
+      animation-delay: 1.5s;
+    }
+
+    .floodlight:nth-child(3) {
+      width: 30vw;
+      height: 45vh;
+      top: -10vh;
+      left: 40%;
+      animation-delay: 3s;
+    }
+
+    @keyframes floodFlicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+      73% { opacity: 0.95; }
+      77% { opacity: 0.75; }
+    }
+
+    /* Pitch lines */
+    .pitch-lines {
+      pointer-events: none;
+    }
+
+    .pitch-lines::before {
+      content: '';
+      position: fixed;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateX(-50%);
+    }
+
+    .pitch-lines::after {
+      content: '';
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 30vw;
+      height: 30vw;
+      max-width: 200px;
+      max-height: 200px;
+      border: 2px solid rgba(255, 255, 255, 0.06);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Floating light motes */
+    .motes {
+      pointer-events: none;
+    }
+
+    .mote {
+      position: fixed;
+      width: 3px;
+      height: 3px;
+      background: rgba(255, 248, 220, 0.4);
+      border-radius: 50%;
+      animation: moteDrift linear infinite;
+    }
+
+    @keyframes moteDrift {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% {
+        transform: translateY(-100vh) translateX(30px);
+        opacity: 0;
+      }
+    }
+
+    /* Vignette */
+    .vignette {
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+    }
+
+    /* Title */
+    .title {
+      position: fixed;
+      top: calc(env(safe-area-inset-top) + 24px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 14vw, 96px);
+      color: var(--gold);
+      text-shadow:
+        0 0 20px rgba(212, 168, 67, 0.6),
+        0 0 40px rgba(212, 168, 67, 0.3),
+        0 0 80px rgba(255, 215, 0, 0.2),
+        3px 3px 0 rgba(0, 0, 0, 0.8);
+      z-index: 100;
+      letter-spacing: 8px;
+      animation: titleGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes titleGlow {
+      0%, 100% {
+        text-shadow:
+          0 0 20px rgba(212, 168, 67, 0.6),
+          0 0 40px rgba(212, 168, 67, 0.3),
+          0 0 80px rgba(255, 215, 0, 0.2),
+          3px 3px 0 rgba(0, 0, 0, 0.8);
+      }
+      50% {
+        text-shadow:
+          0 0 30px rgba(255, 215, 0, 0.8),
+          0 0 60px rgba(212, 168, 67, 0.5),
+          0 0 100px rgba(255, 215, 0, 0.3),
+          3px 3px 0 rgba(0, 0, 0, 0.8);
+      }
+    }
+
+    /* Ambient cycling text */
+    .ambient-text {
+      position: fixed;
+      top: calc(env(safe-area-inset-top) + 100px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(12px, 3vw, 18px);
+      color: var(--cream);
+      opacity: 0;
+      z-index: 100;
+      letter-spacing: 3px;
+      text-align: center;
+      white-space: nowrap;
+      animation: ambientPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes ambientPulse {
+      0%, 100% { opacity: 0; }
+      40%, 60% { opacity: 0.25; }
+    }
+
+    /* Roy Kent image */
+    .kent-container {
+      position: relative;
+      z-index: 10;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .kent-container:hover {
+      transform: scale(1.03);
+    }
+
+    .kent-container:active {
+      transform: scale(0.97);
+    }
+
+    .kent {
+      width: 320px;
+      height: auto;
+      max-width: 80vw;
+      border: 3px solid var(--gold);
+      border-radius: 8px;
+      filter:
+        drop-shadow(0 0 20px rgba(212, 168, 67, 0.4))
+        drop-shadow(0 0 50px rgba(212, 168, 67, 0.2));
+      animation: kentBreathe 3.5s ease-in-out infinite;
+    }
+
+    @keyframes kentBreathe {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.02); }
+    }
+
+    .kent.blowing {
+      animation: kentBlowing 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes kentBlowing {
+      0% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(212, 168, 67, 0.4)) brightness(1) contrast(1); }
+      15% { transform: scale(1.08) rotate(2deg); filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8)) brightness(1.3) contrast(1.2); }
+      30% { transform: scale(1.12) rotate(-3deg); filter: drop-shadow(0 0 60px rgba(255, 215, 0, 1)) brightness(1.4) contrast(1.3); }
+      45% { transform: scale(1.1) rotate(2deg); }
+      60% { transform: scale(1.06) rotate(-1deg); }
+      80% { transform: scale(1.02) rotate(0.5deg); }
+      100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 20px rgba(212, 168, 67, 0.4)) brightness(1) contrast(1); }
+    }
+
+    /* Tap hint */
+    .tap-hint {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom) + 30px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(212, 168, 67, 0.5);
+      opacity: 0.6;
+      animation: hintPulse 2.5s ease-in-out infinite;
+      z-index: 100;
+      letter-spacing: 4px;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Screen shake */
+    .shake {
+      animation: screenShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes screenShake {
+      0%, 100% { transform: translateX(0) translateY(0); }
+      10% { transform: translateX(-12px) translateY(-8px); }
+      20% { transform: translateX(12px) translateY(4px); }
+      30% { transform: translateX(-8px) translateY(-12px); }
+      40% { transform: translateX(8px) translateY(8px); }
+      50% { transform: translateX(-12px) translateY(-4px); }
+      60% { transform: translateX(12px) translateY(12px); }
+      70% { transform: translateX(-8px) translateY(-8px); }
+      80% { transform: translateX(8px) translateY(4px); }
+      90% { transform: translateX(-4px) translateY(-4px); }
+    }
+
+    /* Gold flash overlay */
+    .flash {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .flash.active {
+      animation: goldFlash 0.4s ease-out;
+    }
+
+    @keyframes goldFlash {
+      0% {
+        opacity: 0.8;
+        background: var(--gold-bright);
+      }
+      100% {
+        opacity: 0;
+        background: var(--gold);
+      }
+    }
+
+    /* WHISTLE!! shout text */
+    .shout {
+      position: fixed;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 10vw, 80px);
+      color: var(--gold-bright);
+      text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.8),
+        0 0 30px rgba(212, 168, 67, 0.6),
+        -3px -3px 0 var(--navy),
+        3px -3px 0 var(--navy),
+        -3px 3px 0 var(--navy),
+        3px 3px 0 var(--navy);
+      pointer-events: none;
+      z-index: 50;
+      white-space: nowrap;
+      animation: shoutAppear 1.8s ease-out forwards;
+      letter-spacing: 4px;
+    }
+
+    @keyframes shoutAppear {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.3) rotate(-8deg);
+      }
+      15% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.3) rotate(3deg);
+      }
+      30% {
+        transform: translate(-50%, -50%) scale(1) rotate(-1deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% - 80px)) scale(0.9) rotate(5deg);
+      }
+    }
+
+    /* Sound wave rings */
+    .wave-ring {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 30;
+      transform: translate(-50%, -50%);
+      animation: waveExpand 1.2s ease-out forwards;
+    }
+
+    @keyframes waveExpand {
+      0% {
+        width: 40px;
+        height: 40px;
+        opacity: 0.9;
+        border-width: 3px;
+      }
+      100% {
+        width: 120vw;
+        height: 120vw;
+        opacity: 0;
+        border-width: 1px;
+      }
+    }
+
+    /* Card particles */
+    .card-particle {
+      position: fixed;
+      width: 24px;
+      height: 34px;
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 40;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      animation: cardExplode 2s ease-out forwards;
+    }
+
+    .card-particle.yellow {
+      background: var(--yellow-card);
+      color: #333;
+    }
+
+    .card-particle.red {
+      background: var(--red-card);
+      color: #fff;
+    }
+
+    @keyframes cardExplode {
+      0% {
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+        opacity: 1;
+      }
+      20% {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--tx) * 0.3), calc(-50% + var(--ty) * 0.3)) scale(1.2) rotate(var(--rot-mid));
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty) + 60px)) scale(0.4) rotate(var(--rot-end));
+        }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background layers -->
+  <div class="bg-layer bg-gradient"></div>
+  <div class="bg-layer floodlights">
+    <div class="floodlight"></div>
+    <div class="floodlight"></div>
+    <div class="floodlight"></div>
+  </div>
+  <div class="bg-layer pitch-lines"></div>
+  <div class="bg-layer motes" id="motes"></div>
+  <div class="bg-layer vignette"></div>
+
+  <!-- Title -->
+  <div class="title">WHISTLE.</div>
+  <div class="ambient-text">HE'S HERE. HE'S THERE. HE'S EVERY-F***ING-WHERE.</div>
+
+  <!-- Roy Kent -->
+  <div class="kent-container" id="kentContainer">
+    <img src="kent.png" class="kent" id="kent" alt="Roy Kent">
+  </div>
+
+  <!-- UI -->
+  <div class="tap-hint">[ TAP ROY KENT ]</div>
+
+  <!-- Effects -->
+  <div class="flash" id="flash"></div>
+
+  <!-- Audio -->
+  <audio id="audio" preload="auto">
+    <source src="whistle.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const shoutTexts = ['WHISTLE!!', 'WHIST-LE!!', 'WHISTLE.'];
+
+    let isAnimating = false;
+
+    const kent = document.getElementById('kent');
+    const kentContainer = document.getElementById('kentContainer');
+    const flash = document.getElementById('flash');
+    const audio = document.getElementById('audio');
+
+    // Spawn floating motes
+    function createMotes() {
+      const container = document.getElementById('motes');
+      for (let i = 0; i < 15; i++) {
+        const mote = document.createElement('div');
+        mote.className = 'mote';
+        mote.style.left = `${Math.random() * 100}%`;
+        mote.style.top = `${60 + Math.random() * 40}%`;
+        mote.style.animationDuration = `${8 + Math.random() * 12}s`;
+        mote.style.animationDelay = `${Math.random() * 10}s`;
+        mote.style.width = `${2 + Math.random() * 2}px`;
+        mote.style.height = mote.style.width;
+        container.appendChild(mote);
+      }
+    }
+
+    function triggerChaos() {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      // Play audio
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+
+      // Haptic feedback
+      if (navigator.vibrate) {
+        navigator.vibrate([80, 40, 120, 40, 150]);
+      }
+
+      // Kent image blowing
+      kent.classList.add('blowing');
+
+      // Screen shake
+      document.body.classList.add('shake');
+
+      // Gold flash
+      flash.classList.add('active');
+
+      // Shout texts (staggered)
+      showShout(0);
+      setTimeout(() => showShout(1), 300);
+      setTimeout(() => showShout(2), 500);
+
+      // Sound wave rings (staggered)
+      for (let i = 0; i < 4; i++) {
+        setTimeout(() => spawnWaveRing(), i * 150);
+      }
+
+      // Card particles (staggered)
+      for (let i = 0; i < 12; i++) {
+        setTimeout(() => spawnCard(i, 12), Math.min(i * 80, 500));
+      }
+
+      // Cleanup
+      setTimeout(() => {
+        kent.classList.remove('blowing');
+        document.body.classList.remove('shake');
+        flash.classList.remove('active');
+        isAnimating = false;
+      }, 600);
+    }
+
+    function showShout(index) {
+      const shout = document.createElement('div');
+      shout.className = 'shout';
+      shout.textContent = shoutTexts[index % shoutTexts.length];
+
+      shout.style.left = `${15 + Math.random() * 70}%`;
+      shout.style.top = `${15 + Math.random() * 35}%`;
+
+      document.body.appendChild(shout);
+      shout.addEventListener('animationend', () => shout.remove());
+    }
+
+    function spawnWaveRing() {
+      const ring = document.createElement('div');
+      ring.className = 'wave-ring';
+      document.body.appendChild(ring);
+      ring.addEventListener('animationend', () => ring.remove());
+    }
+
+    function spawnCard(index, total) {
+      const card = document.createElement('div');
+      const isYellow = Math.random() > 0.5;
+      card.className = `card-particle ${isYellow ? 'yellow' : 'red'}`;
+      card.textContent = isYellow ? '!' : '!';
+
+      card.style.left = '50%';
+      card.style.top = '50%';
+
+      // Radial trajectory
+      const angle = (Math.PI * 2 * index) / total + (Math.random() - 0.5) * 0.4;
+      const distance = 120 + Math.random() * 180;
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      const rotMid = (Math.random() - 0.5) * 360;
+      const rotEnd = (Math.random() - 0.5) * 720;
+
+      card.style.setProperty('--tx', `${tx}px`);
+      card.style.setProperty('--ty', `${ty}px`);
+      card.style.setProperty('--rot-mid', `${rotMid}deg`);
+      card.style.setProperty('--rot-end', `${rotEnd}deg`);
+
+      document.body.appendChild(card);
+      card.addEventListener('animationend', () => card.remove());
+    }
+
+    // Event listeners
+    kentContainer.addEventListener('click', triggerChaos);
+
+    kentContainer.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      triggerChaos();
+    }, { passive: false });
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'Enter') {
+        e.preventDefault();
+        triggerChaos();
+      }
+    });
+
+    // Unlock audio on first interaction (mobile)
+    document.addEventListener('touchstart', () => {
+      if (audio.paused) {
+        audio.play().then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        }).catch(() => {});
+      }
+    }, { once: true });
+
+    // Init
+    createMotes();
+
+    console.log('%c WHISTLE. WHIST-LE!! ',
+      'background: linear-gradient(90deg, #002B5C, #D4A843); color: #F5F0E8; font-size: 20px; font-weight: bold; padding: 10px; font-family: sans-serif;');
+  </script>
+</body>
+</html>
