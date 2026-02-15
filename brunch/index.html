@@ -9,8 +9,8 @@
 
   <meta property="og:title" content="Fine. It's Brunch.">
   <meta property="og:description" content="We didn't want to do this either.">
-  <meta property="og:image" content="https://bonkers.website/fine-its-brunch/og.jpg">
-  <meta property="og:url" content="https://bonkers.website/fine-its-brunch/">
+  <meta property="og:image" content="https://bonkers.website/brunch/og.jpg">
+  <meta property="og:url" content="https://bonkers.website/brunch/">
 
   <title>Fine. It's Brunch.</title>
 
@@ -144,9 +144,9 @@
     }
 
     @media (max-width: 767px) {
-      .nav-links { gap: 1rem; }
-      .nav-links a { font-size: 0.65rem; letter-spacing: 0.5px; }
-      nav { padding: 0 1rem; }
+      nav { padding: 0 1rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .nav-links { gap: 0.75rem; flex-shrink: 0; }
+      .nav-links a { font-size: 0.65rem; letter-spacing: 0.5px; white-space: nowrap; }
     }
 
     /* ========== HERO ========== */
@@ -333,7 +333,7 @@
     .story-pullquote {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      font-size: clamp(1.2rem, 3.5vw, 1.8rem);
       color: var(--sage-dark);
       border-left: 3px solid var(--burnt-orange);
       padding-left: 1.5rem;

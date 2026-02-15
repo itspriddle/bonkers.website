@@ -13,7 +13,7 @@ The web used to be fun. Let's bring that back.
 | [big-dog-payroll](https://bonkers.website/big-dog-payroll/)             | Pawsitively the BEST payroll services                       |
 | [counting-out-claude](https://bonkers.website/counting-out-claude/)     | She's not buying the hype. Based on a true story.           |
 | [days-since-it-was-dns](https://bonkers.website/days-since-it-was-dns/) | The counter that never lies                                 |
-| [fine-its-brunch](https://bonkers.website/fine-its-brunch/)             | We didn't want to do this either                            |
+| [brunch](https://bonkers.website/brunch/)                               | We didn't want to do this either                            |
 | [jaws](https://bonkers.website/jaws/)                                   | You're gonna need a bigger boat                             |
 | [mgs](https://bonkers.website/mgs/)                                     | !                                                           |
 | [microwave-hotdog](https://bonkers.website/microwave-hotdog/)           | Great job on that menial task. Here's your reward.          |
