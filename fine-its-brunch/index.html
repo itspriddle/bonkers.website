@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2c2c2c">
+
+  <meta property="og:title" content="Fine. It's Brunch.">
+  <meta property="og:description" content="We didn't want to do this either.">
+  <meta property="og:image" content="https://bonkers.website/fine-its-brunch/og.jpg">
+  <meta property="og:url" content="https://bonkers.website/fine-its-brunch/">
+
+  <title>Fine. It's Brunch.</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --sage: #7a8c6e;
+      --sage-light: #a3b496;
+      --sage-dark: #5a6b50;
+      --cream: #f5f0e8;
+      --cream-dark: #e8e0d0;
+      --burnt-orange: #c4703f;
+      --charcoal: #2c2c2c;
+      --charcoal-light: #4a4a4a;
+      --warm-brown: #8b6914;
+      --gold: #d4a844;
+      --red-star: #c0392b;
+      --green-star: #27ae60;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(44, 44, 44, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 0 1.5rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.3s;
+    }
+
+    .nav-logo {
+      text-decoration: none;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .logo-mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .logo-fine {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .logo-fine .dot {
+      color: var(--burnt-orange);
+    }
+
+    .logo-sub {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .nav-logo .logo-mark {
+      flex-direction: row;
+      gap: 0.4rem;
+      align-items: baseline;
+    }
+
+    .nav-logo .logo-fine {
+      font-size: 1.15rem;
+      color: var(--cream);
+    }
+
+    .nav-logo .logo-sub {
+      font-size: 0.65rem;
+      color: rgba(245, 240, 232, 0.6);
+      letter-spacing: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      color: rgba(245, 240, 232, 0.7);
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--cream); }
+
+    .nav-aside {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.75rem;
+      color: rgba(245, 240, 232, 0.4);
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .nav-aside { display: block; }
+    }
+
+    @media (max-width: 767px) {
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.65rem; letter-spacing: 0.5px; }
+      nav { padding: 0 1rem; }
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('hero.jpg') center/cover no-repeat;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(44, 44, 44, 0.5) 0%,
+        rgba(44, 44, 44, 0.7) 50%,
+        rgba(44, 44, 44, 0.85) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem 1.5rem;
+    }
+
+    .hero .logo-mark {
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .logo-fine {
+      font-size: clamp(3.5rem, 10vw, 6rem);
+      color: var(--cream);
+      text-shadow: 0 2px 30px rgba(0,0,0,0.4);
+    }
+
+    .hero .logo-sub {
+      font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+      color: rgba(245, 240, 232, 0.75);
+      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+      margin-top: 0.25rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    }
+
+    .hero h1 span { color: var(--burnt-orange); }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: rgba(245, 240, 232, 0.85);
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cream);
+      border: 1px solid rgba(245, 240, 232, 0.3);
+      padding: 0.6rem 1.5rem;
+      border-radius: 0;
+    }
+
+    .hero-badge em {
+      font-style: normal;
+      color: rgba(245, 240, 232, 0.5);
+      font-size: 0.65rem;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(245, 240, 232, 0.4);
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: fade-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes fade-bounce {
+      0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 0.8; transform: translateX(-50%) translateY(5px); }
+    }
+
+    /* ========== SECTIONS ========== */
+    section {
+      padding: 5rem 1.5rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--charcoal);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    /* ========== OUR STORY ========== */
+    .story {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (min-width: 768px) {
+      .story-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .story-text p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+      color: var(--charcoal-light);
+    }
+
+    .story-text em {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--charcoal);
+    }
+
+    .story-text .the-number {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--burnt-orange);
+    }
+
+    .story-images {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .story-images img {
+      width: 100%;
+      border-radius: 4px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .story-pullquote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      color: var(--sage-dark);
+      border-left: 3px solid var(--burnt-orange);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      line-height: 1.5;
+    }
+
+    /* ========== PARALLAX BREAK ========== */
+    .parallax-break {
+      position: relative;
+      min-height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      overflow: hidden;
+    }
+
+    .parallax-break .bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      transform: translateZ(0);
+    }
+
+    @media (max-width: 767px) {
+      .parallax-break .bg { background-attachment: scroll; }
+    }
+
+    .parallax-break .bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(44, 44, 44, 0.7);
+    }
+
+    .parallax-break .text {
+      position: relative;
+      z-index: 2;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      color: var(--cream);
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    /* ========== MENU ========== */
+    .menu-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+    }
+
+    .menu-category {
+      margin-bottom: 4rem;
+    }
+
+    .menu-category-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--charcoal);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--sage);
+      margin-bottom: 2rem;
+    }
+
+    .menu-category-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--charcoal-light);
+      margin-top: -1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .menu-item {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .menu-item.has-photo {
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 600px) {
+      .menu-item.has-photo {
+        grid-template-columns: 1fr 200px;
+        gap: 2rem;
+      }
+    }
+
+    .menu-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-item-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--charcoal);
+    }
+
+    .menu-item-price {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--burnt-orange);
+      white-space: nowrap;
+    }
+
+    .menu-item-dots {
+      flex: 1;
+      border-bottom: 1px dotted rgba(0,0,0,0.2);
+      min-width: 30px;
+      margin-bottom: 5px;
+    }
+
+    .menu-item-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--charcoal-light);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-item-previously {
+      font-size: 0.75rem;
+      color: rgba(0,0,0,0.35);
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .menu-item-previously:hover {
+      color: rgba(0,0,0,0.6);
+    }
+
+    .menu-item-photo {
+      width: 100%;
+      max-width: 200px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 599px) {
+      .menu-item-photo {
+        max-width: 100%;
+        aspect-ratio: 16/10;
+      }
+    }
+
+    /* Same food flash */
+    .same-food-flash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(44, 44, 44, 0.92);
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .same-food-flash.show {
+      opacity: 1;
+    }
+
+    .same-food-flash span {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(1.5rem, 6vw, 3rem);
+      color: var(--burnt-orange);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* ========== BEVERAGES BG ========== */
+    .beverages-section {
+      position: relative;
+      padding: 5rem 1.5rem;
+      margin: 0 -1.5rem;
+    }
+
+    .beverages-section .bev-bg {
+      position: absolute;
+      inset: 0;
+      background: url('bar.jpg') center/cover no-repeat;
+      opacity: 0.15;
+    }
+
+    .beverages-section .menu-category {
+      position: relative;
+      z-index: 2;
+    }
+
+    .beverages-section .menu-category-title {
+      border-bottom-color: var(--burnt-orange);
+    }
+
+    /* ========== DIETARY ========== */
+    .dietary {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--cream-dark);
+      border-radius: 4px;
+      padding: 3rem 2.5rem;
+      position: relative;
+    }
+
+    .dietary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--sage);
+    }
+
+    .dietary h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      color: var(--charcoal);
+    }
+
+    .dietary ul {
+      list-style: none;
+    }
+
+    .dietary li {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--charcoal-light);
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .dietary li:last-child { border-bottom: none; }
+
+    /* ========== REVIEWS ========== */
+    .reviews {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: #fff;
+      border-radius: 4px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+    }
+
+    .review-author {
+      font-size: 0.8rem;
+      color: rgba(0,0,0,0.4);
+    }
+
+    .review-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--charcoal-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .review-response {
+      background: var(--cream);
+      border-left: 3px solid var(--sage);
+      padding: 1rem 1.5rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .review-response-label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .review-response-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--charcoal);
+      line-height: 1.6;
+    }
+
+    /* ========== FAQ ========== */
+    .faq {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      padding: 1.5rem 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .faq-question::after {
+      content: '+';
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.5rem;
+      color: var(--sage);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-question::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+
+    .faq-answer-inner {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--charcoal-light);
+      padding-bottom: 1.5rem;
+    }
+
+    /* ========== CTA ========== */
+    .cta {
+      position: relative;
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .cta .cta-bg {
+      position: absolute;
+      inset: 0;
+      background: url('hero-side.jpg') center/cover no-repeat;
+    }
+
+    .cta .cta-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(44, 44, 44, 0.75);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      padding: 3rem 1.5rem;
+    }
+
+    .cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 1.2rem 3rem;
+      background: var(--burnt-orange);
+      color: var(--cream);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 1.5rem 0;
+    }
+
+    .cta-button:hover {
+      background: var(--sage-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .cta-button:active {
+      transform: translateY(0);
+    }
+
+    .cta-subtext {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(245, 240, 232, 0.6);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--charcoal);
+      color: rgba(245, 240, 232, 0.5);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    footer .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+
+    footer .footer-est {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: rgba(245, 240, 232, 0.35);
+      margin-bottom: 1.5rem;
+    }
+
+    footer .footer-hours {
+      margin-bottom: 1.5rem;
+    }
+
+    footer .footer-fine-print {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: rgba(245, 240, 232, 0.25);
+      margin-top: 1.5rem;
+    }
+
+    footer .the-truth {
+      font-size: 0.55rem;
+      color: rgba(245, 240, 232, 0.08);
+      margin-top: 3rem;
+      cursor: default;
+      transition: color 2s;
+    }
+
+    footer .the-truth:hover {
+      color: rgba(245, 240, 232, 0.5);
+    }
+
+    /* ========== CELEBRATION OVERLAY ========== */
+    .celebration-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(44, 44, 44, 0.9);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s;
+    }
+
+    .celebration-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .celebration-message {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .celebration-message h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .celebration-message p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: rgba(245, 240, 232, 0.6);
+    }
+
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10001;
+      font-size: 1.5rem;
+      animation: confetti-fall linear forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translateY(-20px) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg) scale(0.5); opacity: 0; }
+    }
+
+    /* ========== SCREEN SHAKE ========== */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      10% { transform: translateX(-3px) rotate(-0.5deg); }
+      20% { transform: translateX(3px) rotate(0.5deg); }
+      30% { transform: translateX(-2px) rotate(-0.3deg); }
+      40% { transform: translateX(2px) rotate(0.3deg); }
+      50% { transform: translateX(-1px); }
+      60% { transform: translateX(1px); }
+    }
+
+    .shaking { animation: shake 0.4s ease-in-out; }
+
+    /* ========== SCROLL FADE IN ========== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== REGULAR MENU MODAL ========== */
+    .regular-menu-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(44, 44, 44, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      overflow-y: auto;
+    }
+
+    .regular-menu-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .regular-menu-content {
+      background: var(--cream);
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 2.5rem;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .regular-menu-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .regular-menu-content .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--charcoal-light);
+      margin-bottom: 2rem;
+    }
+
+    .regular-menu-content .reg-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      font-size: 0.95rem;
+    }
+
+    .regular-menu-content .reg-item span:last-child {
+      color: var(--sage-dark);
+      font-weight: 700;
+    }
+
+    .regular-menu-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--charcoal-light);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Flash overlay for "same food" -->
+  <div class="same-food-flash" id="sameFood">
+    <span>This is the same food</span>
+  </div>
+
+  <!-- Celebration overlay -->
+  <div class="celebration-overlay" id="celebration">
+    <div class="celebration-message">
+      <h3>The owner has left the building.</h3>
+      <p>Your reservation has been noted. Sincerely, the staff.</p>
+    </div>
+  </div>
+
+  <!-- Regular menu modal -->
+  <div class="regular-menu-overlay" id="regularMenu">
+    <div class="regular-menu-content">
+      <button class="regular-menu-close" onclick="document.getElementById('regularMenu').classList.remove('show')">&times;</button>
+      <h3>The Regular Menu</h3>
+      <p class="subtitle">Available every day, all day. Like it always was.</p>
+      <div class="reg-item"><span>Scrambled Eggs</span><span>$7</span></div>
+      <div class="reg-item"><span>Toast with sides</span><span>$4</span></div>
+      <div class="reg-item"><span>Bacon &amp; Eggs</span><span>$9</span></div>
+      <div class="reg-item"><span>Fruit cup</span><span>$4</span></div>
+      <div class="reg-item"><span>Burger</span><span>$14</span></div>
+      <div class="reg-item"><span>French Toast</span><span>$8</span></div>
+      <div class="reg-item"><span>Veggie Omelette</span><span>$10</span></div>
+      <div class="reg-item"><span>The Full English</span><span>$12</span></div>
+      <div class="reg-item"><span>Lox Bagel</span><span>$11</span></div>
+      <div class="reg-item"><span>Pancakes</span><span>$7</span></div>
+      <div class="reg-item"><span>Waffle</span><span>$8</span></div>
+      <div class="reg-item"><span>Coffee</span><span>$3</span></div>
+      <div class="reg-item"><span>OJ + Champagne</span><span>$6 each</span></div>
+      <div class="reg-item"><span>Home fries</span><span>$3</span></div>
+      <div class="reg-item"><span>Toast</span><span>$2</span></div>
+      <div class="reg-item"><span>Egg (included free)</span><span>$0</span></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-mark">
+        <span class="logo-fine">FINE<span class="dot">.</span></span>
+        <span class="logo-sub">It's Brunch.</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#story">Story</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#reserve">Reserve</a></li>
+    </ul>
+    <div class="nav-aside">Yes, we do brunch now. Congratulations.</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-content">
+      <div class="logo-mark">
+        <span class="logo-fine">FINE<span class="dot">.</span></span>
+        <span class="logo-sub">It's Brunch.</span>
+      </div>
+      <p class="hero-tagline">Because apparently serving breakfast all day wasn't enough.</p>
+      <div class="hero-badge">
+        Brunch Hours: Sat &ndash; Sun &bull; 10am &ndash; 2pm<br>
+        <em>(you're welcome)</em>
+      </div>
+    </div>
+    <div class="scroll-hint">&darr; scroll &darr;</div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section id="story" class="story">
+    <div class="story-grid">
+      <div class="story-text">
+        <div class="section-label fade-in">Our Story</div>
+        <h2 class="section-title fade-in">We Never Asked<br>For This.</h2>
+        <p class="fade-in">We opened in 2019 as a simple neighborhood spot. Breakfast, lunch, dinner. All day. Every day. You could order pancakes at 9pm. A burger at 7am. This was always the deal.</p>
+        <p class="fade-in">Then the questions started. <em>"Do you do brunch?"</em> We'd say, <em>"Everything is available all day."</em> They'd nod, look confused, and ask again: <em>"Yeah but do you do brunch?"</em></p>
+        <div class="story-pullquote fade-in">"Great food but wish they had brunch :("<br>&mdash; An actual 1-star review from someone who ordered breakfast food. At brunch time.</div>
+        <p class="fade-in">After <span class="the-number">847</span> emails, <span class="the-number">312</span> Instagram DMs, and one very passionate letter written on a cloth napkin, we caved.</p>
+        <p class="fade-in">So here it is. Brunch. The same food. New names. Higher prices. Served in a 4-hour window on weekends. <em>You're welcome.</em></p>
+      </div>
+      <div class="story-images fade-in">
+        <img src="chef.jpg" alt="The owner. She's fine.">
+        <img src="patio.jpg" alt="Yes. We do brunch now.">
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERIOR BREAK -->
+  <div class="parallax-break">
+    <div class="bg" style="background-image: url('interior.jpg')"></div>
+    <div class="text fade-in">
+      "The space hasn't changed. We just added Edison bulbs and called it 'ambiance.'"
+    </div>
+  </div>
+
+  <!-- THE MENU -->
+  <section id="menu" class="menu-section">
+    <div class="section-label fade-in">The Menu</div>
+    <h2 class="section-title fade-in">The Brunch Experience</h2>
+    <p class="fade-in" style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--charcoal-light); margin-bottom: 3rem; font-size: 1.05rem;">
+      Same kitchen. Same ingredients. Same chef who's been here since 2019. But now with wooden boards and a 157% markup.
+      <a href="#" onclick="event.preventDefault(); document.getElementById('regularMenu').classList.add('show');" style="color: var(--sage); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; margin-left: 0.5rem;">view the regular menu</a>
+    </p>
+
+    <!-- STARTERS -->
+    <div class="menu-category fade-in">
+      <h3 class="menu-category-title">Starters</h3>
+
+      <div class="menu-item has-photo">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">The Deconstructed Morning</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$18</span>
+          </div>
+          <p class="menu-item-desc">Scrambled eggs. On a board. With microgreens and edible flowers we bought specifically for this menu.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Scrambled Eggs" &mdash; $7</p>
+        </div>
+        <img src="deconstructed-morning.jpg" alt="The Deconstructed Morning" class="menu-item-photo">
+      </div>
+
+      <div class="menu-item has-photo">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Artisanal Toast Flight</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$22</span>
+          </div>
+          <p class="menu-item-desc">Three pieces of toast with different things on them. One has avocado. You will Instagram it.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Toast with sides" &mdash; $4</p>
+        </div>
+        <img src="toast-flight.jpg" alt="Artisanal Toast Flight" class="menu-item-photo">
+      </div>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Heritage Pork Belly Benedict</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$24</span>
+          </div>
+          <p class="menu-item-desc">It's bacon and eggs on an English muffin with hollandaise. We added "heritage" so you'd feel something.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Bacon &amp; Eggs" &mdash; $9</p>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Seasonal Fruit Arrangement</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$16</span>
+          </div>
+          <p class="menu-item-desc">Fruit. Cut up. On a plate. The plate is handmade. You're paying for the plate.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Fruit cup" &mdash; $4</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAINS -->
+    <div class="menu-category fade-in">
+      <h3 class="menu-category-title">Mains</h3>
+
+      <div class="menu-item has-photo">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">The Brioche Situation</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$28</span>
+          </div>
+          <p class="menu-item-desc">A burger. On a brioche bun. At 11am. We respect your journey.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Burger" &mdash; $14</p>
+        </div>
+        <img src="brioche-situation.jpg" alt="The Brioche Situation" class="menu-item-photo">
+      </div>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Pan-Seared French Morning Bread</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$19</span>
+          </div>
+          <p class="menu-item-desc">French toast. We added "pan-seared" because where else would we sear it. But it sounds expensive.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "French Toast" &mdash; $8</p>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Cage-Free Garden Omelette</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$21</span>
+          </div>
+          <p class="menu-item-desc">All our eggs were always cage-free. We just didn't make it a personality trait until now.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Veggie Omelette" &mdash; $10</p>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">The Full English (Deconstructed)</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$26</span>
+          </div>
+          <p class="menu-item-desc">Everything that comes on a full English breakfast, spread across three plates and a wooden board for no reason.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "The Full English" &mdash; $12</p>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Smoked Salmon Showcase</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$27</span>
+          </div>
+          <p class="menu-item-desc">Lox on a bagel. But the bagel is "house-toasted" and the cream cheese is "whipped." It was always whipped. That's what cream cheese is.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Lox Bagel" &mdash; $11</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANCAKES -->
+    <div class="menu-category fade-in">
+      <h3 class="menu-category-title">Pancakes &amp; Waffles</h3>
+      <p class="menu-category-subtitle">Yes, this is its own section now. You're welcome.</p>
+
+      <div class="menu-item has-photo">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Buttermilk Stack with Seasonal Compote</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$17</span>
+          </div>
+          <p class="menu-item-desc">Pancakes with syrup. The syrup is in a tiny pitcher to make it an event.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Pancakes" &mdash; $7</p>
+        </div>
+        <img src="pancake-stack.jpg" alt="Buttermilk Stack" class="menu-item-photo">
+      </div>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Belgian Waffle Experience</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$19</span>
+          </div>
+          <p class="menu-item-desc">A waffle. With whipped cream and berries. The "experience" is paying $19 for a waffle.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Waffle" &mdash; $8</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BEVERAGES -->
+    <div class="beverages-section fade-in">
+      <div class="bev-bg"></div>
+      <div class="menu-category">
+        <h3 class="menu-category-title">Beverages</h3>
+
+        <div class="menu-item has-photo">
+          <div>
+            <div class="menu-item-header">
+              <span class="menu-item-name">The Bottomless Social Construct</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">$35</span>
+            </div>
+            <p class="menu-item-desc">Mimosas. Unlimited. This is why you came. Just admit it.</p>
+            <p class="menu-item-previously" onclick="flashSameFood()">Previously: "OJ + champagne by the glass" &mdash; $6 each</p>
+          </div>
+          <img src="mimosa.jpg" alt="The Bottomless Social Construct" class="menu-item-photo">
+        </div>
+
+        <div class="menu-item">
+          <div>
+            <div class="menu-item-header">
+              <span class="menu-item-name">Single-Origin Drip Experience</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">$8</span>
+            </div>
+            <p class="menu-item-desc">Coffee.</p>
+            <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Coffee" &mdash; $3</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div>
+            <div class="menu-item-header">
+              <span class="menu-item-name">Lavender-Infused Hydration</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">$7</span>
+            </div>
+            <p class="menu-item-desc">Water. With lavender in it. We cannot believe we're doing this.</p>
+            <p class="menu-item-previously" onclick="flashSameFood()">Previously: Not on the menu because we had boundaries</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div>
+            <div class="menu-item-header">
+              <span class="menu-item-name">The Berry Cloud</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">$16</span>
+            </div>
+            <p class="menu-item-desc">A cocktail we invented to justify charging $16 for berries and vodka. It has rosemary on top. You will photograph it.</p>
+            <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Vodka cranberry" &mdash; $8</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div>
+            <div class="menu-item-header">
+              <span class="menu-item-name">Matcha Ceremony</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">$12</span>
+            </div>
+            <p class="menu-item-desc">It's a matcha latte. The ceremony is you watching us make it.</p>
+            <p class="menu-item-previously" onclick="flashSameFood()">Previously: Never served this. The brunch crowd willed it into existence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDES -->
+    <div class="menu-category fade-in">
+      <h3 class="menu-category-title">Sides</h3>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Truffle-Kissed Breakfast Potatoes</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$9</span>
+          </div>
+          <p class="menu-item-desc">Home fries. We waved a truffle near them. The kiss was brief.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Home fries" &mdash; $3</p>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Locally Sourced Sourdough</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$6</span>
+          </div>
+          <p class="menu-item-desc">Bread. From the bakery down the street. It was always from there.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: "Toast" &mdash; $2</p>
+        </div>
+      </div>
+
+      <div class="menu-item has-photo">
+        <div>
+          <div class="menu-item-header">
+            <span class="menu-item-name">Farm Egg, Cast Iron</span>
+            <span class="menu-item-dots"></span>
+            <span class="menu-item-price">$7</span>
+          </div>
+          <p class="menu-item-desc">One egg. In a tiny pan. It is a normal egg.</p>
+          <p class="menu-item-previously" onclick="flashSameFood()">Previously: included free with most plates</p>
+        </div>
+        <img src="farm-egg.jpg" alt="Farm Egg, Cast Iron" class="menu-item-photo">
+      </div>
+    </div>
+  </section>
+
+  <!-- DIETARY ACCOMMODATIONS -->
+  <section style="padding: 0 1.5rem 5rem;">
+    <div class="dietary fade-in">
+      <h3>Dietary Accommodations</h3>
+      <ul>
+        <li>We are happy to accommodate all dietary needs, including ones you diagnosed yourself using a BuzzFeed quiz.</li>
+        <li>Yes, the steak is gluten-free. It always was. It's a steak.</li>
+        <li>We can make anything dairy-free. We can also add extra cheese to your dairy-free order, like last time.</li>
+        <li>Our oat milk comes from oats. We are told this is important.</li>
+        <li>If you have a legitimate allergy, we take that extremely seriously. If you "just feel better without gluten" after reading a blog post, we will nod supportively.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" style="background: var(--cream-dark);">
+    <div class="reviews">
+      <div class="section-label fade-in">Reviews</div>
+      <h2 class="section-title fade-in">What People Are Saying</h2>
+
+      <div class="review-card fade-in">
+        <div class="review-header">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="review-author">Ashley M. &bull; 2 weeks ago</div>
+        </div>
+        <p class="review-text">"OMG finally they do brunch!! The Deconstructed Morning was AMAZING. So much better than just regular scrambled eggs."</p>
+        <div class="review-response">
+          <div class="review-response-label">Owner Response</div>
+          <p class="review-response-text">It is regular scrambled eggs. But thank you. We're glad the wooden board enhanced your experience.</p>
+        </div>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-header">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          <div class="review-author">Jordan T. &bull; 1 week ago</div>
+        </div>
+        <p class="review-text">"Love the vibes! Only 4 stars because the mimosas could be stronger."</p>
+        <div class="review-response">
+          <div class="review-response-label">Owner Response</div>
+          <p class="review-response-text">The ratio is the same as it's always been. The glass is just bigger now.</p>
+        </div>
+      </div>
+
+      <div class="review-card fade-in" id="review3">
+        <div class="review-header">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9734;&#9734;</div>
+          <div class="review-author">Brittany K. &bull; 5 days ago</div>
+        </div>
+        <p class="review-text">"Good but I wish they had more brunch-specific items. The menu felt like regular food?"</p>
+        <div class="review-response">
+          <div class="review-response-label">Owner Response</div>
+          <p class="review-response-text">I need to go for a walk.</p>
+        </div>
+      </div>
+
+      <div class="review-card fade-in" id="review4">
+        <div class="review-header">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="review-author">Madison R. &bull; 3 days ago</div>
+        </div>
+        <p class="review-text">"Brought the girls here for brunch and it was EVERYTHING. The aesthetic, the menu, the mimosas. 10/10."</p>
+        <div class="review-response">
+          <div class="review-response-label">Owner Response</div>
+          <p class="review-response-text">You've been here before. On a Tuesday. You ordered the same thing. It was $40 cheaper. But I'm happy for you.</p>
+        </div>
+      </div>
+
+      <div class="review-card fade-in" id="review5">
+        <div class="review-header">
+          <div class="review-stars">&#9733;&#9734;&#9734;&#9734;&#9734;</div>
+          <div class="review-author">Tyler S. &bull; Yesterday</div>
+        </div>
+        <p class="review-text">"Went on a Wednesday hoping for brunch but they said it's only weekends?? Make it make sense."</p>
+        <div class="review-response">
+          <div class="review-response-label">Owner Response</div>
+          <p class="review-response-text">I will not be taking further questions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="faq">
+      <div class="section-label fade-in">FAQ</div>
+      <h2 class="section-title fade-in">Frequently Asked Questions</h2>
+
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">What are your brunch hours?</div>
+        <div class="faq-answer"><div class="faq-answer-inner">Saturday and Sunday, 10am&ndash;2pm. Every other hour of every other day, we serve the identical food and call it by its real name.</div></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">Do you take reservations for brunch?</div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. You can also just walk in during any other meal and sit right down. But I understand the reservation is part of the experience.</div></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">Is brunch available on weekdays?</div>
+        <div class="faq-answer"><div class="faq-answer-inner">No. On weekdays it's called "eating breakfast" or "eating lunch." Same food. Different social construct.</div></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">Can I have a mimosa outside of brunch hours?</div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. We have orange juice. We have champagne. We have glasses. This technology has existed for some time.</div></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">Why is the brunch menu more expensive?</div>
+        <div class="faq-answer"><div class="faq-answer-inner">Wooden boards aren't free, and apparently neither is my dignity.</div></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">Do you have bottomless mimosas?</div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. They are bottomless because the glass has an open top, which is how all glasses work.</div></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">What's the difference between your regular menu and the brunch menu?</div>
+        <div class="faq-answer"><div class="faq-answer-inner">Fonts, mostly.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="reserve">
+    <div class="cta-bg"></div>
+    <div class="cta-content">
+      <h2>Book Your Brunch Experience</h2>
+      <button class="cta-button" id="reserveBtn">Make a Reservation</button>
+      <p class="cta-subtext">Or just... come in any other time and eat the same food without waiting 45 minutes. But you do you.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">Fine. It's Brunch.</div>
+    <div class="footer-est">est. 2024 &mdash; technically est. 2019, but nobody cared until we added the word brunch</div>
+    <div class="footer-hours">
+      Mon&ndash;Fri: 7am&ndash;10pm <em>(all food available, no label required)</em><br>
+      Sat&ndash;Sun: 7am&ndash;10pm <em>(brunch 10am&ndash;2pm, because you insisted)</em>
+    </div>
+    <div class="footer-fine-print">No food was harmed in the rebranding of this menu. The prices, however, were.</div>
+    <div class="the-truth">brunch is a social construct and you know it</div>
+  </footer>
+
+  <script>
+    // ========== PARALLAX ==========
+    const heroBg = document.getElementById('heroBg');
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          heroBg.style.transform = `translateY(${scrollY * 0.4}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // ========== SCROLL FADE-IN ==========
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    fadeEls.forEach(el => fadeObserver.observe(el));
+
+    // ========== FAQ ACCORDION ==========
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const wasOpen = item.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+
+      // Toggle clicked
+      if (!wasOpen) {
+        item.classList.add('open');
+
+        // Haptic
+        if (navigator.vibrate) navigator.vibrate(10);
+      }
+    }
+
+    // ========== SAME FOOD FLASH ==========
+    let flashTimeout;
+    function flashSameFood() {
+      const el = document.getElementById('sameFood');
+      clearTimeout(flashTimeout);
+      el.classList.add('show');
+
+      // Haptic
+      if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+
+      flashTimeout = setTimeout(() => el.classList.remove('show'), 800);
+    }
+
+    // ========== REVIEW SHAKE ==========
+    const reviewObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && (entry.target.id === 'review4' || entry.target.id === 'review5')) {
+          entry.target.classList.add('shaking');
+          setTimeout(() => entry.target.classList.remove('shaking'), 400);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.review-card[id]').forEach(el => reviewObserver.observe(el));
+
+    // ========== CTA CELEBRATION ==========
+    document.getElementById('reserveBtn').addEventListener('click', triggerCelebration);
+    document.getElementById('reserveBtn').addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      triggerCelebration();
+    }, { passive: false });
+
+    function triggerCelebration() {
+      // Confetti
+      const emojis = [
+        '\u{1F373}', '\u{1F95E}', '\u{1F950}', '\u{1F375}',
+        '\u{1F9C7}', '\u{1F95A}', '\u{1F347}', '\u{1F34A}',
+        '\u{2728}', '\u{1F37E}', '\u{1F942}', '\u{1F952}'
+      ];
+
+      for (let i = 0; i < 40; i++) {
+        setTimeout(() => {
+          const c = document.createElement('div');
+          c.className = 'confetti';
+          c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          c.style.left = Math.random() * 100 + 'vw';
+          c.style.top = '-20px';
+          c.style.animationDuration = (Math.random() * 2 + 2) + 's';
+          c.style.animationDelay = (Math.random() * 0.5) + 's';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 4000);
+        }, i * 40);
+      }
+
+      // Shake
+      document.body.classList.add('shaking');
+      setTimeout(() => document.body.classList.remove('shaking'), 400);
+
+      // Haptic
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+
+      // Show message
+      setTimeout(() => {
+        const overlay = document.getElementById('celebration');
+        overlay.classList.add('show');
+        setTimeout(() => overlay.classList.remove('show'), 3000);
+      }, 800);
+    }
+
+    // Close celebration on click
+    document.getElementById('celebration').addEventListener('click', function() {
+      this.classList.remove('show');
+    });
+
+    // Close regular menu on click outside
+    document.getElementById('regularMenu').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('show');
+    });
+  </script>
+</body>
+</html>
