@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" x-data="widgetApp()" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0d0b1a">
+
+  <title>WIDGET — He's Not a Good Boy.</title>
+  <meta name="description" content="The dog your nightmares warned you about. Now available in hardcover, because paperback couldn't contain him.">
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="WIDGET: He's Not a Good Boy.">
+  <meta property="og:description" content="The #1 book your therapist doesn't want you to read. Now in hardcover, because paperback couldn't contain him.">
+  <meta property="og:image" content="https://bonkers.website/widget/og.png">
+  <meta property="og:url" content="https://bonkers.website/widget/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Code+Pro:wght@400;600;700&family=Permanent+Marker&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <!-- Tailwind v4 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    :root {
+      --void: #0d0b1a;
+      --neon-purple: #a855f7;
+      --neon-green: #84cc16;
+      --neon-pink: #ec4899;
+      --neon-cyan: #22d3ee;
+      --neon-gold: #fbbf24;
+      --blood: #ef4444;
+      --blood-glow: rgba(239, 68, 68, 0.6);
+    }
+
+    html {
+      background: var(--void);
+      color: #c8cad0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Source Code Pro', monospace;
+      overflow-x: hidden;
+      min-height: 100dvh;
+    }
+
+    ::selection {
+      background: var(--blood);
+      color: white;
+    }
+
+    .font-nosifer { font-family: 'Nosifer', system-ui; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-marker { font-family: 'Permanent Marker', cursive; }
+    .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+    .font-mono { font-family: 'Source Code Pro', monospace; }
+
+    /* === GRAIN OVERLAY === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.6;
+    }
+
+    /* === SCANLINES === */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        transparent 0px,
+        rgba(0, 0, 0, 0.06) 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* === VIGNETTE === */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(13, 11, 26, 0.7) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* === HERO === */
+    .hero {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(13, 11, 26, 0) 0%,
+          rgba(13, 11, 26, 0) 50%,
+          rgba(13, 11, 26, 0.7) 75%,
+          rgba(13, 11, 26, 1) 95%
+        ),
+        radial-gradient(ellipse at center, transparent 30%, rgba(13, 11, 26, 0.4) 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      text-align: center;
+      padding: 0 1.5rem 2rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--neon-gold);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      padding: 0.35rem 1rem;
+      background: rgba(251, 191, 36, 0.08);
+      backdrop-filter: blur(4px);
+      animation: badge-flicker 5s ease-in-out infinite;
+    }
+
+    @keyframes badge-flicker {
+      0%, 92%, 94%, 100% { opacity: 1; }
+      93% { opacity: 0.3; }
+    }
+
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    .hero-sub strong {
+      color: var(--blood);
+      font-style: normal;
+    }
+
+    /* === SCROLL INDICATOR === */
+    .scroll-hint {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      animation: hint-bob 2.5s ease-in-out infinite;
+    }
+
+    .scroll-hint span {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(148, 163, 184, 0.4);
+    }
+
+    @keyframes hint-bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.3; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 0.7; }
+    }
+
+    /* === NEON DIVIDER === */
+    .neon-line {
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        var(--neon-purple) 20%,
+        var(--neon-pink) 50%,
+        var(--neon-purple) 80%,
+        transparent
+      );
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.3), 0 0 20px rgba(168, 85, 247, 0.1);
+    }
+
+    /* === CAUTION TAPE === */
+    .caution-tape {
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--neon-gold) 0px,
+        var(--neon-gold) 18px,
+        #111 18px,
+        #111 36px
+      );
+      background-size: 50.91px 50.91px;
+      animation: tape-crawl 1.5s linear infinite;
+    }
+
+    @keyframes tape-crawl {
+      0% { background-position: 0 0; }
+      100% { background-position: 50.91px 0; }
+    }
+
+    /* === BOOK FLOAT === */
+    .book-container { perspective: 800px; }
+
+    .book-hover {
+      animation: book-levitate 6s ease-in-out infinite;
+      transition: transform 0.4s ease;
+    }
+
+    .book-hover:hover {
+      animation-play-state: paused;
+      transform: scale(1.06) rotateY(-4deg);
+    }
+
+    @keyframes book-levitate {
+      0%, 100% { transform: translateY(0) rotateY(0deg); }
+      33% { transform: translateY(-14px) rotateY(1.5deg); }
+      66% { transform: translateY(-8px) rotateY(-1.5deg); }
+    }
+
+    .book-shadow {
+      filter:
+        drop-shadow(0 0 30px rgba(168, 85, 247, 0.35))
+        drop-shadow(0 20px 50px rgba(0, 0, 0, 0.7));
+    }
+
+    /* === STARBURST === */
+    .starburst {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 110px;
+      height: 110px;
+      animation: starburst-spin 12s linear infinite;
+    }
+
+    .starburst::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--neon-gold);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .starburst span {
+      position: relative;
+      z-index: 1;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.7rem;
+      color: #111;
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: 0.05em;
+      animation: starburst-spin-reverse 12s linear infinite;
+    }
+
+    @keyframes starburst-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes starburst-spin-reverse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+
+    /* === REVIEW CARDS === */
+    .review-card {
+      background: linear-gradient(145deg, rgba(20, 18, 35, 0.95) 0%, rgba(13, 11, 26, 0.98) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.12);
+      border-radius: 2px;
+      position: relative;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(168, 85, 247, 0.35);
+      box-shadow: 0 8px 30px rgba(168, 85, 247, 0.08);
+    }
+
+    .review-card::before {
+      content: '\201C';
+      position: absolute;
+      top: -5px;
+      left: 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: rgba(168, 85, 247, 0.1);
+      line-height: 1;
+    }
+
+    .review-rating {
+      display: flex;
+      gap: 3px;
+    }
+
+    .review-rating .paw {
+      font-size: 0.9rem;
+      transition: transform 0.2s ease;
+    }
+
+    .review-rating .paw:hover {
+      transform: scale(1.3);
+    }
+
+    /* === INCIDENT FILE TAB === */
+    .file-tab {
+      display: inline-block;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-bottom: none;
+      padding: 0.3rem 1rem;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--neon-purple);
+      border-radius: 3px 3px 0 0;
+      margin-bottom: -1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* === PRODUCT LISTING === */
+    .product-card {
+      background: linear-gradient(145deg, rgba(20, 18, 35, 0.95), rgba(13, 11, 26, 0.98));
+      border: 1px solid rgba(168, 85, 247, 0.15);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      border-color: rgba(168, 85, 247, 0.35);
+      box-shadow: 0 8px 40px rgba(168, 85, 247, 0.08);
+    }
+
+    .product-img-wrap {
+      position: relative;
+      overflow: hidden;
+      background: #18162a;
+    }
+
+    .product-img-wrap img {
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+    }
+
+    .add-to-cart-sm {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.1em;
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(135deg, var(--neon-purple), #7c3aed);
+      color: white;
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+    }
+
+    .add-to-cart-sm:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
+      background: linear-gradient(135deg, #b366ff, #8b5cf6);
+    }
+
+    /* === CTA BUTTON === */
+    .cta-btn {
+      position: relative;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      letter-spacing: 0.12em;
+      padding: 1rem 3.5rem;
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      color: white;
+      border: 2px solid var(--neon-gold);
+      border-radius: 3px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      box-shadow:
+        0 0 20px rgba(239, 68, 68, 0.4),
+        0 0 50px rgba(239, 68, 68, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      animation: cta-glow 2.5s ease-in-out infinite;
+    }
+
+    .cta-btn:hover {
+      transform: scale(1.06);
+      box-shadow:
+        0 0 30px rgba(239, 68, 68, 0.6),
+        0 0 70px rgba(239, 68, 68, 0.25),
+        0 0 120px rgba(239, 68, 68, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .cta-btn:active {
+      transform: scale(0.96);
+    }
+
+    @keyframes cta-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4), 0 0 50px rgba(239, 68, 68, 0.15); }
+      50% { box-shadow: 0 0 35px rgba(239, 68, 68, 0.6), 0 0 80px rgba(239, 68, 68, 0.25), 0 0 120px rgba(239, 68, 68, 0.1); }
+    }
+
+    /* === SOLD OUT STAMP === */
+    .sold-out-stamp {
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--blood);
+      border: 5px solid var(--blood);
+      transform: rotate(-8deg);
+      text-shadow: 0 0 10px var(--blood-glow);
+      animation: stamp-slam 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes stamp-slam {
+      0% { transform: rotate(-8deg) scale(4); opacity: 0; }
+      60% { transform: rotate(-8deg) scale(0.9); opacity: 1; }
+      100% { transform: rotate(-8deg) scale(1); opacity: 1; }
+    }
+
+    /* === SCREEN EFFECTS === */
+    .screen-flash {
+      position: fixed;
+      inset: 0;
+      background: var(--blood);
+      z-index: 10000;
+      pointer-events: none;
+      animation: flash-die 0.5s ease-out forwards;
+    }
+
+    @keyframes flash-die {
+      0% { opacity: 0.7; }
+      100% { opacity: 0; }
+    }
+
+    .shaking {
+      animation: quake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    @keyframes quake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-6px) translateY(2px); }
+      20%, 40%, 60%, 80% { transform: translateX(6px) translateY(-2px); }
+    }
+
+    /* === SKULL RAIN === */
+    .skull-rain {
+      position: fixed;
+      font-size: 1.8rem;
+      pointer-events: none;
+      z-index: 9997;
+      animation: rain-fall linear forwards;
+    }
+
+    @keyframes rain-fall {
+      0% { transform: translateY(-10vh) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(540deg) scale(0.2); opacity: 0; }
+    }
+
+    /* === RED EYES === */
+    .eye-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--blood);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--blood-glow), 0 0 15px var(--blood-glow);
+      animation: blink 5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 42%, 58%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* === COUNTDOWN DRIP === */
+    .countdown-num {
+      font-family: 'Nosifer', system-ui;
+      color: var(--blood);
+      text-shadow: 0 0 10px var(--blood-glow), 0 0 30px rgba(239, 68, 68, 0.3);
+    }
+
+    /* === FLOATING AMBIENT ORBS === */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(80px);
+      animation: orb-drift linear infinite;
+    }
+
+    @keyframes orb-drift {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(30px, -50px); }
+      50% { transform: translate(-20px, -80px); }
+      75% { transform: translate(40px, -30px); }
+    }
+
+    /* === MISC === */
+    [x-cloak] { display: none !important; }
+
+    .text-glow-purple {
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 30px rgba(168, 85, 247, 0.2);
+    }
+
+    .text-glow-gold {
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.5), 0 0 30px rgba(251, 191, 36, 0.2);
+    }
+
+    /* Smooth reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Atmospheric layers -->
+  <div class="vignette"></div>
+  <div class="orb" style="width: 300px; height: 300px; background: rgba(168, 85, 247, 0.06); top: 20%; left: -100px; animation-duration: 20s;"></div>
+  <div class="orb" style="width: 400px; height: 400px; background: rgba(236, 72, 153, 0.04); top: 50%; right: -150px; animation-duration: 28s; animation-delay: -5s;"></div>
+  <div class="orb" style="width: 250px; height: 250px; background: rgba(132, 204, 22, 0.04); bottom: 10%; left: 30%; animation-duration: 24s; animation-delay: -10s;"></div>
+
+  <!-- ======================================== -->
+  <!-- HERO -->
+  <!-- ======================================== -->
+  <section class="hero">
+    <img src="widget-hero.png" alt="Goosebumps Presents: Widget — a terrifying neon doodle with glowing red eyes" class="hero-img">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge mb-3">Nightmare Book Club&trade;</div>
+      <h1 class="sr-only">Widget</h1>
+      <p class="hero-sub max-w-xl mx-auto">He's not a good boy. <strong>He never was.</strong></p>
+    </div>
+    <div class="scroll-hint">
+      <span>if you dare</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(148,163,184,0.35)" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- ======================================== -->
+  <!-- BOOK SHOWCASE -->
+  <!-- ======================================== -->
+  <section class="relative py-20 md:py-32" style="background: linear-gradient(to bottom, var(--void), #100e22 50%, var(--void));">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+
+      <!-- Book -->
+      <div class="book-container flex-shrink-0 relative">
+        <div class="starburst absolute -top-4 -right-4 md:-top-6 md:-right-8 z-10">
+          <span>BOOK FAIR<br>REJECT</span>
+        </div>
+        <div class="book-hover">
+          <img
+            src="widget-book-sm.png"
+            alt="Widget book cover — a terrifying doodle with glowing red eyes"
+            class="book-shadow rounded-sm w-56 md:w-72 mx-auto"
+          >
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div class="text-center lg:text-left relative z-10 reveal">
+        <div class="file-tab mb-0">Case File #W-1D-G3T</div>
+        <div class="border border-purple-900/30 bg-purple-950/10 p-6 md:p-8 rounded-b-sm rounded-tr-sm">
+          <h2 class="font-playfair text-3xl md:text-4xl lg:text-5xl font-black mb-4" style="color: var(--neon-purple); text-shadow: 0 0 20px rgba(168,85,247,0.3);">
+            The Book They Didn't Want You to Read
+          </h2>
+          <p class="font-mono text-sm md:text-base text-slate-400 mb-5 max-w-lg leading-relaxed">
+            From the depths of a suburban living room comes the single most
+            <span style="color: var(--blood);">psychologically devastating</span>
+            piece of literature since someone's toddler drew "my family" and forgot to include dad.
+          </p>
+          <p class="font-mono text-sm text-slate-500 mb-6 max-w-lg leading-relaxed">
+            324 pages. Zero survivors. Includes a foreword by Widget himself, translated from what the publisher describes as
+            <em>"the most unsettling sustained eye contact we've ever experienced from a quadruped."</em>
+          </p>
+
+          <!-- Price -->
+          <div class="flex items-center justify-center lg:justify-start gap-4 mb-2">
+            <span class="font-bebas text-2xl text-slate-600 line-through">$666.66</span>
+            <span class="font-bebas text-5xl md:text-6xl tracking-wide" style="color: var(--blood); text-shadow: 0 0 10px var(--blood-glow);">$19.99</span>
+          </div>
+          <p class="font-bebas text-base tracking-widest" style="color: var(--neon-gold);">
+            Blood Moon Clearance &mdash; He Wants You to Have It
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- ======================================== -->
+  <!-- SURGEON GENERAL'S WARNING -->
+  <!-- ======================================== -->
+  <section class="relative py-1">
+    <div class="caution-tape py-3 px-4">
+      <div class="bg-black/85 backdrop-blur-sm max-w-4xl mx-auto p-5 md:p-6 text-center">
+        <p class="font-bebas text-lg md:text-2xl tracking-wider text-amber-300 leading-relaxed">
+          <span class="text-2xl md:text-3xl">&#9888;</span>
+          Known side effects include:
+          <span style="color: var(--neon-green);">sleep paralysis</span>,
+          <span style="color: var(--blood);">spontaneous screaming</span>,
+          an irrational fear of <span class="underline decoration-wavy decoration-amber-500/60">anything with a snout</span>,
+          unexplained 3am Google searches for
+          <span style="color: var(--neon-cyan);">"can dogs sense fear through walls"</span>,
+          and the persistent feeling that <span class="italic">something fluffy is watching you</span>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- ======================================== -->
+  <!-- SURVIVOR TESTIMONIALS -->
+  <!-- ======================================== -->
+  <section class="relative py-16 md:py-24" style="background: linear-gradient(to bottom, var(--void), #0f0d1f 50%, var(--void));">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="text-center mb-14 reveal">
+        <h2 class="font-playfair text-3xl md:text-5xl font-black italic mb-3" style="color: var(--neon-purple); text-shadow: 0 0 20px rgba(168,85,247,0.25);">
+          Filed Under: Emotional Damage
+        </h2>
+        <p class="font-mono text-xs md:text-sm text-slate-500 max-w-md mx-auto">
+          The following testimonies were collected under duress. Names kept at Widget's insistence. He wants you to know exactly who to ask.
+        </p>
+      </div>
+
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+
+        <!-- Chrys -->
+        <div class="review-card p-5 reveal">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-playfair text-lg font-bold" style="color: var(--neon-purple);">Chrys</span>
+            <span class="font-mono text-[0.6rem] tracking-widest uppercase text-slate-600 border border-slate-700 px-2 py-0.5 rounded-sm">Verified Shaken</span>
+          </div>
+          <p class="font-marker text-base text-slate-300 leading-relaxed mb-4">
+            "I saw this dog's picture online and he stared into my soul with those unblinking red eyes and I felt my entire personality leave my body. I am not the same. Wait, they wrote a BOOK about him?! WTF?!"
+          </p>
+          <div class="review-rating">
+            <span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span>
+          </div>
+        </div>
+
+        <!-- Shannon -->
+        <div class="review-card p-5 reveal">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-playfair text-lg font-bold" style="color: var(--neon-purple);">Shannon</span>
+            <span class="font-mono text-[0.6rem] tracking-widest uppercase text-slate-600 border border-slate-700 px-2 py-0.5 rounded-sm">Reformed Dog Person</span>
+          </div>
+          <p class="font-marker text-base text-slate-300 leading-relaxed mb-4">
+            "Someone sent me a picture of this dog and I thought I was being cursed. I used to be a dog person. Used to. That thing has the energy of a sleep paralysis demon who also wants belly rubs."
+          </p>
+          <div class="review-rating">
+            <span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw opacity-20">🐾</span>
+          </div>
+        </div>
+
+        <!-- Sarah -->
+        <div class="review-card p-5 reveal">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-playfair text-lg font-bold" style="color: var(--neon-purple);">Sarah</span>
+            <span class="font-mono text-[0.6rem] tracking-widest uppercase text-slate-600 border border-slate-700 px-2 py-0.5 rounded-sm">Emotionally Compromised</span>
+          </div>
+          <p class="font-marker text-base text-slate-300 leading-relaxed mb-4">
+            "I saw ONE photo of this dog on Instagram and now he shows up in every algorithm I have. My Discover page. My dreams. He looks like someone taught a gremlin to smile. I am begging for peace."
+          </p>
+          <div class="review-rating">
+            <span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw opacity-20">🐾</span><span class="paw opacity-20">🐾</span>
+          </div>
+        </div>
+
+        <!-- Marcus -->
+        <div class="review-card p-5 reveal">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-playfair text-lg font-bold" style="color: var(--neon-purple);">Marcus</span>
+            <span class="font-mono text-[0.6rem] tracking-widest uppercase text-slate-600 border border-slate-700 px-2 py-0.5 rounded-sm">Recovering</span>
+          </div>
+          <p class="font-marker text-base text-slate-300 leading-relaxed mb-4">
+            "I read this on a plane and screamed so loud the pilot came out. He saw the cover. He screamed too. We landed in a field."
+          </p>
+          <div class="review-rating">
+            <span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span>
+          </div>
+        </div>
+
+        <!-- Anonymous Bookseller -->
+        <div class="review-card p-5 reveal">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-playfair text-lg font-bold" style="color: var(--neon-purple);">Anonymous Bookseller</span>
+            <span class="font-mono text-[0.6rem] tracking-widest uppercase text-slate-600 border border-slate-700 px-2 py-0.5 rounded-sm">Quit Jan 2026</span>
+          </div>
+          <p class="font-marker text-base text-slate-300 leading-relaxed mb-4">
+            "We shelved this in Fiction. Then Horror. Then True Crime. It keeps moving itself to Self-Help and honestly? Maybe it's right."
+          </p>
+          <div class="review-rating">
+            <span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw opacity-20">🐾</span>
+          </div>
+        </div>
+
+        <!-- Widget -->
+        <div class="review-card p-5 reveal" style="border-color: rgba(239, 68, 68, 0.25); background: linear-gradient(145deg, rgba(40, 10, 10, 0.9), rgba(25, 5, 5, 0.95));">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-nosifer text-base" style="color: var(--blood); text-shadow: 0 0 8px var(--blood-glow);">Widget</span>
+            <span class="font-mono text-[0.6rem] tracking-widest uppercase text-red-800 border border-red-900 px-2 py-0.5 rounded-sm">The Dog</span>
+          </div>
+          <p class="font-marker text-base text-slate-300 leading-relaxed mb-4 italic">
+            "woof, motherfucker."
+          </p>
+          <div class="review-rating flex-wrap">
+            <span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span><span class="paw">🐾</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- ======================================== -->
+  <!-- ALSO AVAILABLE — THE ORIGINAL WIDGETS -->
+  <!-- ======================================== -->
+  <section class="relative py-16 md:py-24" style="background: linear-gradient(to bottom, var(--void), #100e22 50%, var(--void));">
+    <div class="max-w-4xl mx-auto px-6">
+
+      <div class="text-center mb-10 reveal">
+        <div class="file-tab mb-0">Catalog — Aisle 7</div>
+        <div class="border border-purple-900/30 bg-purple-950/10 px-4 py-3 rounded-b-sm rounded-tr-sm inline-block">
+          <h2 class="font-playfair text-2xl md:text-4xl font-black italic" style="color: var(--neon-purple); text-shadow: 0 0 15px rgba(168,85,247,0.25);">
+            Customers Who Survived This Also Bought
+          </h2>
+        </div>
+      </div>
+
+      <div class="product-card max-w-2xl mx-auto reveal">
+        <div class="flex flex-col md:flex-row">
+
+          <!-- Product Image -->
+          <div class="product-img-wrap md:w-2/5 flex-shrink-0">
+            <a href="https://www.amazon.com/s?k=pom+pom+craft+kit+kids" target="_blank" rel="noopener noreferrer" class="block">
+              <img
+                src="widget-widgets-sm.png"
+                alt="The Original Widgets — colorful craft supplies and pom-poms"
+                class="w-full h-full object-cover"
+              >
+            </a>
+            <span class="product-badge bg-green-600/90 text-white">IN STOCK</span>
+          </div>
+
+          <!-- Product Details -->
+          <div class="p-5 md:p-6 flex flex-col justify-between flex-1">
+            <div>
+              <p class="font-mono text-[0.6rem] tracking-widest uppercase text-slate-600 mb-1">SKU: WDG-OG-INNOCENT</p>
+              <h3 class="font-playfair text-xl md:text-2xl font-bold mb-2" style="color: var(--neon-gold); text-shadow: 0 0 10px rgba(251,191,36,0.2);">
+                The Original Widgets&trade;
+              </h3>
+              <p class="font-mono text-xs text-slate-500 mb-3 italic">
+                Assorted Craft Supplies &mdash; Pom-Poms, Erasers, Stickers &amp; More
+              </p>
+              <p class="font-mono text-sm text-slate-400 leading-relaxed mb-4">
+                Before the dog, there were these. Innocent. Colorful. Completely unaware of what their name would become. Widget the dog was named after these craft supplies and we are all paying for that decision now.
+              </p>
+
+              <!-- Fake ratings -->
+              <div class="flex items-center gap-2 mb-4">
+                <div class="flex gap-0.5 text-amber-400 text-sm">
+                  <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
+                </div>
+                <span class="font-mono text-[0.6rem] text-slate-600">(1,247 verified non-traumatized customers)</span>
+              </div>
+            </div>
+
+            <div>
+              <!-- Price -->
+              <div class="flex items-end gap-3 mb-4">
+                <span class="font-bebas text-3xl md:text-4xl" style="color: var(--neon-green); text-shadow: 0 0 8px rgba(132,204,22,0.3);">$12.99</span>
+                <span class="font-mono text-[0.6rem] text-slate-600 mb-1">+ free shipping (they deserve it)</span>
+              </div>
+
+              <!-- Add to Cart -->
+              <a href="https://www.amazon.com/s?k=pom+pom+craft+kit+kids" target="_blank" rel="noopener noreferrer" class="inline-block">
+                <button class="add-to-cart-sm text-base">
+                  Add to Cart &mdash; Save Yourself
+                </button>
+              </a>
+              <p class="font-mono text-[0.55rem] text-slate-600 mt-3">
+                Zero psychological damage guaranteed. Cannot be haunted. We checked.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- ======================================== -->
+  <!-- CTA — YOUR LAST CHANCE -->
+  <!-- ======================================== -->
+  <section class="relative py-20 md:py-32 text-center overflow-hidden" style="background: radial-gradient(ellipse at center, #1a0810, var(--void));">
+    <div class="max-w-3xl mx-auto px-6 reveal">
+
+      <h2 class="font-playfair text-3xl md:text-5xl font-black italic mb-3" style="color: var(--blood); text-shadow: 0 0 20px var(--blood-glow), 0 0 50px rgba(239,68,68,0.15);">
+        Your Last Chance
+      </h2>
+      <p class="font-mono text-xs md:text-sm text-slate-500 mb-10 max-w-sm mx-auto">
+        Look, you've scrolled this far. Widget respects commitment. He's already added you to the list.
+      </p>
+
+      <!-- Countdown -->
+      <div class="mb-8" x-show="!soldOut">
+        <p class="font-mono text-xs text-slate-600 mb-2 tracking-wider uppercase">Copies remaining before containment breach:</p>
+        <div class="flex items-center justify-center gap-1">
+          <span class="countdown-num text-4xl md:text-6xl" x-text="copiesLeft"></span>
+        </div>
+      </div>
+
+      <!-- Buy Button -->
+      <div class="relative inline-block" x-show="!soldOut">
+        <button class="cta-btn" @click="buyBook()">
+          Add to Cart — Accept Your Fate
+        </button>
+        <p class="font-mono text-[0.65rem] text-slate-600 mt-5 max-w-xs mx-auto leading-relaxed">
+          By clicking, you acknowledge that Widget may or may not already be inside your home. Refund policy: lol.
+        </p>
+      </div>
+
+      <!-- Sold Out -->
+      <div x-show="soldOut" x-cloak x-transition>
+        <div class="sold-out-stamp inline-block text-5xl md:text-7xl px-8 py-4 tracking-wider mb-6">
+          TOO LATE
+        </div>
+        <p class="font-playfair text-xl md:text-2xl italic" style="color: var(--neon-purple); text-shadow: 0 0 15px rgba(168,85,247,0.3);">
+          Widget has claimed another one.
+        </p>
+        <p class="font-mono text-sm text-slate-500 mt-4 max-w-sm mx-auto">
+          Your copy is being dispatched from an undisclosed location. Widget knows your address. <br>He has always known your address.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================== -->
+  <!-- FOOTER -->
+  <!-- ======================================== -->
+  <footer class="relative py-10 text-center border-t border-slate-800/30" style="background: var(--void);">
+    <div class="max-w-xl mx-auto px-6">
+      <p class="font-mono text-slate-600 text-xs mb-2">
+        &copy; 2026 Nightmare Book Club. A division of Oh God He's Right Behind Me LLC.
+      </p>
+      <p class="font-mono text-slate-700 text-[0.6rem] mb-6">
+        No dogs were harmed. Several humans remain in therapy.
+      </p>
+
+      <!-- Widget's Eyes -->
+      <div class="flex items-center justify-center gap-4 mb-3">
+        <div class="eye-dot"></div>
+        <div class="eye-dot" style="animation-delay: 0.15s;"></div>
+      </div>
+      <p class="font-mono text-[0.55rem] tracking-[0.3em] uppercase" style="color: rgba(239, 68, 68, 0.3);">
+        widget is always watching
+      </p>
+    </div>
+  </footer>
+
+  <!-- ======================================== -->
+  <!-- ALPINE APP -->
+  <!-- ======================================== -->
+  <script>
+    function widgetApp() {
+      return {
+        copiesLeft: 66,
+        soldOut: false,
+        ticker: null,
+
+        init() {
+          // Countdown ticker
+          this.ticker = setInterval(() => {
+            if (this.copiesLeft > 13 && !this.soldOut) {
+              this.copiesLeft--;
+            }
+          }, 2500 + Math.random() * 5000);
+
+          // Scroll reveal
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+              }
+            });
+          }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+          document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        },
+
+        buyBook() {
+          // Red flash
+          const flash = document.createElement('div');
+          flash.className = 'screen-flash';
+          document.body.appendChild(flash);
+          flash.addEventListener('animationend', () => flash.remove());
+
+          // Screen shake
+          document.body.classList.add('shaking');
+          setTimeout(() => document.body.classList.remove('shaking'), 600);
+
+          // Haptics
+          if (navigator.vibrate) {
+            navigator.vibrate([100, 50, 200, 50, 300]);
+          }
+
+          // Skull rain
+          this.spawnSkulls(25);
+
+          // Sold out
+          setTimeout(() => {
+            this.soldOut = true;
+            this.copiesLeft = 0;
+            clearInterval(this.ticker);
+          }, 900);
+        },
+
+        spawnSkulls(count) {
+          const icons = ['\u{1F480}', '\u{1F436}', '\u{1F47B}', '\u2620\uFE0F', '\u{1F4A0}', '\u{1F53A}'];
+          for (let i = 0; i < count; i++) {
+            const el = document.createElement('div');
+            el.className = 'skull-rain';
+            el.textContent = icons[Math.floor(Math.random() * icons.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.top = '-40px';
+            el.style.animationDuration = (1.2 + Math.random() * 2) + 's';
+            el.style.animationDelay = (Math.random() * 0.6) + 's';
+            document.body.appendChild(el);
+            el.addEventListener('animationend', () => el.remove());
+          }
+        }
+      };
+    }
+  </script>
+
+</body>
+</html>
