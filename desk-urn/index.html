@@ -1,0 +1,778 @@
+---
+layout: null
+permalink: /desk-urn/
+---
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cinco Desk Urn™ — The #1 Monitor-Mounted Memorial System</title>
+  <meta name="description" content="The #1 Monitor-Mounted Memorial System in North America. Why process grief when you can process spreadsheets?">
+  <meta property="og:title" content="Cinco Desk Urn™ — The #1 Monitor-Mounted Memorial System">
+  <meta property="og:description" content="The #1 Monitor-Mounted Memorial System in North America. Why process grief when you can process spreadsheets?">
+  <meta property="og:image" content="https://bonkers.website/desk-urn/assets/images/og-image.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cinco Desk Urn™ — The #1 Monitor-Mounted Memorial System">
+  <meta name="twitter:description" content="Why process grief when you can process spreadsheets? Only $19.99.">
+  <meta name="twitter:image" content="https://bonkers.website/desk-urn/assets/images/og-image.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=VT323&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-beige: #D4C5A9;
+      --color-cream: #F5F0E1;
+      --color-wood: #6B4226;
+      --color-wood-dark: #3D2B1F;
+      --color-wood-panel: #5C3317;
+      --color-crt: #0A0A14;
+      --color-crt-green: #33FF33;
+      --color-crt-amber: #FFB000;
+      --color-tv-red: #CC0000;
+      --color-starburst: #FFD700;
+      --color-win95: #C0C0C0;
+      --color-teal-95: #000080;
+
+      --font-sans: "Comic Neue", cursive;
+      --font-display: "Bangers", cursive;
+      --font-mono: "VT323", monospace;
+      --font-typewriter: "Special Elite", cursive;
+    }
+  </style>
+
+  <style>
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 18s linear infinite;
+    }
+
+    @keyframes vhs-track {
+      0% { top: -5%; opacity: 0; }
+      3% { opacity: 0.6; }
+      97% { opacity: 0.6; }
+      100% { top: 105%; opacity: 0; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .animate-blink {
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { text-shadow: 0 0 8px #33ff33, 0 0 16px #33ff33; }
+      50% { text-shadow: 0 0 16px #33ff33, 0 0 32px #33ff33, 0 0 48px #33ff33; }
+    }
+    .animate-glow {
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.7; }
+      94% { opacity: 1; }
+      97% { opacity: 0.85; }
+      98% { opacity: 1; }
+    }
+    .animate-flicker {
+      animation: flicker 5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes construction {
+      from { background-position: 0 0; }
+      to { background-position: 28px 0; }
+    }
+
+    .btn-95 {
+      background: #c0c0c0;
+      border: none;
+      box-shadow:
+        inset -1px -1px 0 0 #404040,
+        inset 1px 1px 0 0 #ffffff,
+        inset -2px -2px 0 0 #808080,
+        inset 2px 2px 0 0 #dfdfdf;
+      padding: 4px 14px;
+      font-family: "Comic Neue", cursive;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      color: #000;
+      display: inline-block;
+    }
+    .btn-95:active {
+      box-shadow:
+        inset 1px 1px 0 0 #404040,
+        inset -1px -1px 0 0 #ffffff,
+        inset 2px 2px 0 0 #808080,
+        inset -2px -2px 0 0 #dfdfdf;
+    }
+
+    .construction-stripe {
+      height: 10px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #000 0px, #000 7px,
+        #FFD700 7px, #FFD700 14px
+      );
+      background-size: 28px 10px;
+      animation: construction 0.8s linear infinite;
+    }
+
+    .wood-panel-bg {
+      background:
+        repeating-linear-gradient(
+          95deg,
+          rgba(92,51,23,0.95) 0px,
+          rgba(107,66,38,0.9) 3px,
+          rgba(92,51,23,0.95) 6px,
+          rgba(122,69,40,0.88) 10px,
+          rgba(92,51,23,0.95) 14px
+        ),
+        linear-gradient(180deg, #5C3317 0%, #4A2810 100%);
+    }
+
+    ::-webkit-scrollbar { width: 16px; }
+    ::-webkit-scrollbar-track {
+      background: #c0c0c0;
+      border: 1px solid #808080;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c0c0c0;
+      box-shadow: inset -1px -1px 0 0 #404040, inset 1px 1px 0 0 #fff;
+      border: 1px solid #808080;
+    }
+
+    html {
+      scrollbar-color: #c0c0c0 #c0c0c0;
+    }
+  </style>
+</head>
+<body class="bg-cream text-wood-dark overflow-x-hidden">
+  <!-- Scanlines overlay -->
+  <div class="fixed inset-0 pointer-events-none z-[10000]"
+       style="background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);"></div>
+
+  <!-- VHS tracking bar -->
+  <div class="fixed left-0 right-0 h-2 pointer-events-none z-[10001]"
+       style="background: linear-gradient(180deg, transparent, rgba(255,255,255,0.12), transparent); animation: vhs-track 7s linear infinite;"></div>
+
+<!-- ============================================ -->
+<!-- MARQUEE TICKER                               -->
+<!-- ============================================ -->
+<div class="bg-tv-red text-white overflow-hidden whitespace-nowrap py-1.5 font-bold text-sm relative z-50">
+  <div class="animate-marquee inline-block">
+    <span class="mx-8">⚡ FREE SHIPPING ON ALL URNS ⚡</span>
+    <span class="mx-8">CALL 1-800-CINCO-JOY</span>
+    <span class="mx-8">⚡ AS SEEN ON TV ⚡</span>
+    <span class="mx-8">OVER 12 UNITS SOLD</span>
+    <span class="mx-8">⚡ NOW AVAILABLE IN BEIGE ⚡</span>
+    <span class="mx-8">CINCO: WE MAKE YOUR PRODUCTS™</span>
+    <span class="mx-8">⚡ FREE SHIPPING ON ALL URNS ⚡</span>
+    <span class="mx-8">CALL 1-800-CINCO-JOY</span>
+    <span class="mx-8">⚡ AS SEEN ON TV ⚡</span>
+    <span class="mx-8">OVER 12 UNITS SOLD</span>
+    <span class="mx-8">⚡ NOW AVAILABLE IN BEIGE ⚡</span>
+    <span class="mx-8">CINCO: WE MAKE YOUR PRODUCTS™</span>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- NAV — Win95 / Netscape Style                 -->
+<!-- ============================================ -->
+<nav class="sticky top-0 z-50 bg-win95 border-b-2 border-[#808080] shadow-md">
+  <div class="flex items-center px-2 py-0.5 bg-teal-95 text-white text-xs font-bold">
+    <span class="truncate">📁 Cinco Desk Urn™ — Netscape Navigator 4.0</span>
+    <div class="ml-auto flex gap-0.5 shrink-0">
+      <button class="btn-95 text-xs !px-1.5 !py-0 leading-tight">_</button>
+      <button class="btn-95 text-xs !px-1.5 !py-0 leading-tight">□</button>
+      <button class="btn-95 text-xs !px-1.5 !py-0 leading-tight">✕</button>
+    </div>
+  </div>
+  <div class="flex flex-wrap items-center gap-1 px-2 py-1.5">
+    <a href="#home" class="btn-95 text-xs sm:text-sm">🏠 Home</a>
+    <a href="#features" class="btn-95 text-xs sm:text-sm">✨ Features</a>
+    <a href="#how-it-works" class="btn-95 text-xs sm:text-sm">🔧 How It Works</a>
+    <a href="#testimonials" class="btn-95 text-xs sm:text-sm">💬 Testimonials</a>
+    <a href="#faq" class="btn-95 text-xs sm:text-sm">❓ F.A.Q.</a>
+    <a href="#order" class="btn-95 text-xs sm:text-sm bg-starburst !font-extrabold">🛒 Order Now!</a>
+  </div>
+</nav>
+
+<!-- ============================================ -->
+<!-- HERO SECTION                                 -->
+<!-- ============================================ -->
+<section id="home" class="relative bg-crt text-white py-12 md:py-20 overflow-hidden animate-flicker">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+
+      <!-- Product image -->
+      <div class="relative w-full max-w-md lg:max-w-lg shrink-0">
+        <img src="/desk-urn/assets/images/hero-product.jpg"
+             alt="The Cinco Desk Urn mounted on a CRT monitor, displaying a friendly smiley face"
+             class="w-full rounded shadow-2xl shadow-crt-green/20 animate-float">
+        <!-- AS SEEN ON TV badge -->
+        <div class="absolute -top-3 -right-3 md:-top-4 md:-right-4 bg-starburst text-crt font-display text-lg md:text-2xl px-3 py-2 md:px-4 md:py-3 rotate-12 shadow-lg border-3 border-tv-red text-center leading-tight">
+          AS SEEN<br>ON TV!
+        </div>
+      </div>
+
+      <!-- Hero copy -->
+      <div class="text-center lg:text-left">
+        <p class="font-mono text-crt-green text-lg md:text-xl mb-2 animate-glow">Item #7432</p>
+        <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-starburst tracking-wide leading-none mb-4">
+          CINCO<sup class="text-2xl md:text-3xl align-super">®</sup> DESK URN<span class="text-crt-green">™</span>
+        </h1>
+        <p class="font-display text-xl sm:text-2xl md:text-3xl text-white/90 tracking-wider mb-6">
+          The #1 Monitor-Mounted Memorial System in North America
+        </p>
+        <p class="text-lg md:text-xl text-crt-green/80 font-typewriter mb-8 max-w-lg mx-auto lg:mx-0">
+          Why process grief when you can process spreadsheets?
+        </p>
+
+        <!-- Price -->
+        <div class="mb-6">
+          <span class="text-white/50 line-through text-2xl font-bold">$49.99</span>
+          <span class="text-starburst font-display text-5xl md:text-6xl ml-3">$19.99</span>
+        </div>
+
+        <a href="#order" class="inline-block bg-tv-red text-white font-display text-2xl md:text-3xl px-8 py-4 tracking-wider hover:bg-red-700 transition-colors shadow-lg shadow-tv-red/30 animate-blink">
+          ORDER NOW
+        </a>
+        <p class="text-white/30 text-xs mt-4 max-w-sm mx-auto lg:mx-0">
+          *Based on a survey of one Cinco Industries employee (Greg). Greg is no longer with the company.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="construction-stripe"></div>
+
+<!-- ============================================ -->
+<!-- BEFORE / AFTER                               -->
+<!-- ============================================ -->
+<section class="bg-cream py-12 md:py-16">
+  <div class="max-w-5xl mx-auto px-4 text-center">
+    <h2 class="font-display text-4xl md:text-5xl text-tv-red tracking-wider mb-6">
+      IS YOUR CUBICLE MISSING SOMETHING?
+    </h2>
+    <p class="text-lg md:text-xl max-w-2xl mx-auto mb-10 font-bold">
+      Studies* show that 9 out of 10 office workers experience "feelings" during the workday.
+      The Cinco Desk Urn™ transforms your CRT monitor from a simple box of despair into a
+      <span class="text-tv-red">monument of productive grief.</span>
+    </p>
+
+    <img src="/desk-urn/assets/images/before-after.jpg"
+         alt="Before: a sad office worker at her CRT. After: the same worker, still crying, but now with a Cinco Desk Urn"
+         class="w-full max-w-4xl mx-auto rounded shadow-xl border-4 border-wood">
+
+    <p class="text-wood/60 text-xs mt-4">
+      *Studies conducted by Cinco Research Division (a folding table in the break room)
+    </p>
+  </div>
+</section>
+
+<div class="construction-stripe"></div>
+
+<!-- ============================================ -->
+<!-- FEATURES                                     -->
+<!-- ============================================ -->
+<section id="features" class="bg-beige py-12 md:py-16">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="font-display text-4xl md:text-5xl text-center text-wood tracking-wider mb-4">
+      FEATURES &amp; SPECIFICATIONS
+    </h2>
+    <p class="text-center text-lg mb-10 text-wood/70">Everything you need. Nothing you asked for.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="bg-cream border-2 border-wood/30 p-6 shadow-md hover:shadow-lg transition-shadow">
+        <div class="text-4xl mb-3">📎</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">EZ-CLIP™ TECHNOLOGY</h3>
+        <p>Our patented spring-loaded clip attaches to any CRT monitor 13" or larger. Installation takes seconds. Removal&hellip; well, why would you?</p>
+      </div>
+
+      <div class="bg-cream border-2 border-wood/30 p-6 shadow-md hover:shadow-lg transition-shadow">
+        <div class="text-4xl mb-3">💡</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">COMFORT GLOW™ LED</h3>
+        <p>A soothing green LED lets you know they're still there. Watching. Always watching. Just like they did in life, but quieter.</p>
+      </div>
+
+      <div class="bg-cream border-2 border-wood/30 p-6 shadow-md hover:shadow-lg transition-shadow">
+        <div class="text-4xl mb-3">🪵</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">FAUX WOOD GRAIN FINISH</h3>
+        <p>Genuine simulated wood-look vinyl complements any cubicle d&eacute;cor from 1987&ndash;2003. Also available in Beige.</p>
+      </div>
+
+      <div class="bg-cream border-2 border-wood/30 p-6 shadow-md hover:shadow-lg transition-shadow">
+        <div class="text-4xl mb-3">🌬️</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">VENTILATED ASH CHAMBER</h3>
+        <p>Strategic air vents keep your loved one cool during overtime. Because they'd want you to finish that TPS report.</p>
+      </div>
+
+      <div class="bg-cream border-2 border-wood/30 p-6 shadow-md hover:shadow-lg transition-shadow">
+        <div class="text-4xl mb-3">😊</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">DIGITAL SMILEY INTERFACE</h3>
+        <p>A built-in LCD displays a friendly face so your loved one can smile at you while you work. They're proud of you. Probably.</p>
+      </div>
+
+      <div class="bg-cream border-2 border-wood/30 p-6 shadow-md hover:shadow-lg transition-shadow">
+        <div class="text-4xl mb-3">⚖️</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">MONITOR-SAFE™ WEIGHT</h3>
+        <p>At just 2.3 lbs (ashes not included), the Desk Urn won't damage your monitor. Unlike your grief, it's surprisingly light.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="construction-stripe"></div>
+
+<!-- ============================================ -->
+<!-- HOW IT WORKS                                 -->
+<!-- ============================================ -->
+<section id="how-it-works" class="bg-white py-12 md:py-16">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="font-display text-4xl md:text-5xl text-center text-wood tracking-wider mb-12">
+      HOW IT WORKS
+    </h2>
+
+    <!-- Technical diagram -->
+    <div class="max-w-4xl mx-auto mb-12">
+      <img src="/desk-urn/assets/images/technical-diagram.jpg"
+           alt="Technical blueprint diagram showing the Cinco Desk Urn clip mechanism, with labeled callouts for Monitor Grip, Mold Flash, Seam, and Urn Attachment Path"
+           class="w-full rounded shadow-xl border-2 border-wood/20">
+    </div>
+
+    <!-- 3 Steps -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+      <div class="text-center">
+        <div class="w-20 h-20 bg-tv-red text-white font-display text-4xl rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">1</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">CLIP IT</h3>
+        <p>Attach the Cinco Desk Urn™ to your CRT monitor using our patented EZ-Clip™ system. Push until you hear a click. If you hear a crack, that was the monitor. Order a new one.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-20 h-20 bg-tv-red text-white font-display text-4xl rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">2</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">FILL IT</h3>
+        <p>Carefully transfer your loved one's cremains into the Ventilated Ash Chamber™. A small funnel is included. Ashes sold separately by your local crematorium.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-20 h-20 bg-tv-red text-white font-display text-4xl rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">3</div>
+        <h3 class="font-display text-2xl text-wood tracking-wider mb-2">FEEL IT</h3>
+        <p>Return to work. Let the Comfort Glow™ wash over you. That warm feeling isn't grief &mdash; it's productivity. Your loved one is watching you type. They're so proud.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="construction-stripe"></div>
+
+<!-- ============================================ -->
+<!-- TESTIMONIALS                                 -->
+<!-- ============================================ -->
+<section id="testimonials" class="wood-panel-bg text-white py-12 md:py-16 relative">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="font-display text-4xl md:text-5xl text-center text-starburst tracking-wider mb-4">
+      REAL TESTIMONIALS
+    </h2>
+    <p class="text-center text-white/60 text-sm mb-10">From real people* who really purchased* this product*</p>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+      <!-- Testimonial image -->
+      <div class="w-full lg:w-2/5 shrink-0">
+        <img src="/desk-urn/assets/images/testimonial.jpg"
+             alt="A woman in a burgundy blazer, crying at her desk while reaching toward her CRT monitor topped with a Cinco Desk Urn. A 'Hang In There, Baby' cat poster hangs on the wood-paneled wall behind her."
+             class="w-full rounded shadow-2xl border-2 border-starburst/30">
+        <p class="text-center text-starburst/70 text-xs mt-2 font-typewriter italic">"She hasn't stopped crying since we gave her the urn. We think that's good."<br>&mdash; Cinco Customer Satisfaction Dept.</p>
+      </div>
+
+      <!-- Quotes -->
+      <div class="w-full lg:w-3/5 space-y-6">
+
+        <blockquote class="bg-white/10 border-l-4 border-starburst p-5 rounded-r">
+          <p class="font-typewriter text-lg mb-3">"I used to cry in the bathroom on my lunch break. Now I cry at my desk, and Nana's right there with me. It's actually more efficient."</p>
+          <footer class="text-starburst/80 text-sm font-bold">&mdash; Karen T., Accounts Receivable, Omaha NE &nbsp; ⭐⭐⭐⭐⭐</footer>
+        </blockquote>
+
+        <blockquote class="bg-white/10 border-l-4 border-starburst p-5 rounded-r">
+          <p class="font-typewriter text-lg mb-3">"My therapist said I needed to 'process my grief.' I told her I already have &mdash; through Excel. She doesn't return my calls anymore."</p>
+          <footer class="text-starburst/80 text-sm font-bold">&mdash; Dale M., Regional Manager &nbsp; ⭐⭐⭐⭐⭐</footer>
+        </blockquote>
+
+        <blockquote class="bg-white/10 border-l-4 border-starburst p-5 rounded-r">
+          <p class="font-typewriter text-lg mb-3">"The green light blinks sometimes. I choose to believe that's Dad saying he's proud of me. My coworker says it's a 'short circuit.' We don't talk anymore."</p>
+          <footer class="text-starburst/80 text-sm font-bold">&mdash; Jennifer R., Data Entry &nbsp; ⭐⭐⭐⭐½</footer>
+        </blockquote>
+
+        <blockquote class="bg-white/10 border-l-4 border-starburst p-5 rounded-r">
+          <p class="font-typewriter text-lg mb-3">"I bought one for every member of my team. Productivity is up 2%. Morale is&hellip; well, we don't measure that."</p>
+          <footer class="text-starburst/80 text-sm font-bold">&mdash; Steve G., VP of Operations &nbsp; ⭐⭐⭐⭐⭐</footer>
+        </blockquote>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="construction-stripe"></div>
+
+<!-- ============================================ -->
+<!-- LIFESTYLE SCENE                              -->
+<!-- ============================================ -->
+<section class="bg-cream py-12 md:py-16">
+  <div class="max-w-5xl mx-auto px-4 text-center">
+    <h2 class="font-display text-4xl md:text-5xl text-wood tracking-wider mb-4">
+      A THOUGHTFUL ADDITION TO ANY WORKSPACE
+    </h2>
+    <p class="text-lg max-w-2xl mx-auto mb-10">
+      The Cinco Desk Urn™ integrates seamlessly with your existing cubicle environment. Pairs beautifully with
+      floppy disks, dot-matrix printouts, motivational posters, and the quiet desperation of office life.
+    </p>
+    <img src="/desk-urn/assets/images/desk-lifestyle.jpg"
+         alt="A 1990s office desk with a mechanical keyboard, CRT monitor topped with the Cinco Desk Urn, a framed photo of a smiling elderly woman, floppy disks, a sunset mousepad, and a coffee mug"
+         class="w-full rounded shadow-xl border-4 border-wood/30">
+    <p class="text-wood/50 text-sm mt-4 font-typewriter">
+      Desk Urn shown with optional Framed Photo of Grandma™ ($4.99, frame not included, grandma not included).
+    </p>
+  </div>
+</section>
+
+<div class="construction-stripe"></div>
+
+<!-- ============================================ -->
+<!-- PRICING & ORDER                              -->
+<!-- ============================================ -->
+<section id="order" class="bg-crt text-white py-12 md:py-16 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4" x-data="{
+    tier: 'standard',
+    quantity: 1,
+    step: 'form',
+    orderNum: '',
+    get price() {
+      const prices = { standard: 19.99, deluxe: 29.99, executive: 49.99 };
+      return (prices[this.tier] * this.quantity).toFixed(2);
+    },
+    submit() {
+      this.step = 'processing';
+      setTimeout(() => {
+        this.orderNum = 'CINCO-' + Math.floor(Math.random() * 90000 + 10000);
+        this.step = 'complete';
+      }, 3500);
+    }
+  }">
+
+    <h2 class="font-display text-4xl md:text-5xl text-center text-starburst tracking-wider mb-4">
+      ORDER NOW &mdash; OPERATORS ARE STANDING BY
+    </h2>
+    <p class="text-center text-crt-green font-mono text-lg mb-10 animate-glow">
+      Call 1-800-CINCO-JOY or order below!
+    </p>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+      <!-- Box art -->
+      <div class="w-full lg:w-2/5 shrink-0">
+        <img src="/desk-urn/assets/images/box-art.jpg"
+             alt="The Cinco Desk Urn retail box on a store shelf, priced at $19.99, with 'NEW!' and 'As Seen On TV' badges"
+             class="w-full rounded shadow-2xl">
+        <p class="text-center text-crt-green/50 text-xs mt-3 font-mono">
+          Actual packaging may vary. Box contents: 1x urn, 1x clip, 1x funnel, 1x warranty card (expired).
+        </p>
+      </div>
+
+      <!-- Pricing tiers + form -->
+      <div class="w-full lg:w-3/5">
+
+        <!-- Tiers -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8" x-show="step === 'form'">
+          <button @click="tier = 'standard'"
+                  :class="tier === 'standard' ? 'border-starburst bg-starburst/10' : 'border-white/20 hover:border-white/40'"
+                  class="border-2 rounded p-4 text-left transition-colors cursor-pointer">
+            <div class="font-display text-xl text-starburst tracking-wider">STANDARD</div>
+            <div class="font-display text-3xl my-1">$19.99</div>
+            <ul class="text-sm text-white/70 space-y-1 mt-2">
+              <li>✓ Beige finish</li>
+              <li>✓ Single LED</li>
+              <li>✓ Holds 8 oz cremains</li>
+            </ul>
+          </button>
+
+          <button @click="tier = 'deluxe'"
+                  :class="tier === 'deluxe' ? 'border-starburst bg-starburst/10' : 'border-white/20 hover:border-white/40'"
+                  class="border-2 rounded p-4 text-left transition-colors cursor-pointer relative">
+            <div class="absolute -top-3 right-2 bg-tv-red text-white text-xs font-bold px-2 py-0.5 rounded">POPULAR</div>
+            <div class="font-display text-xl text-starburst tracking-wider">DELUXE</div>
+            <div class="font-display text-3xl my-1">$29.99</div>
+            <ul class="text-sm text-white/70 space-y-1 mt-2">
+              <li>✓ Beige <em>or</em> Slightly Different Beige</li>
+              <li>✓ Dual LED</li>
+              <li>✓ Premium faux wood</li>
+              <li>✓ Holds 12 oz cremains</li>
+            </ul>
+          </button>
+
+          <button @click="tier = 'executive'"
+                  :class="tier === 'executive' ? 'border-starburst bg-starburst/10' : 'border-white/20 hover:border-white/40'"
+                  class="border-2 rounded p-4 text-left transition-colors cursor-pointer">
+            <div class="font-display text-xl text-starburst tracking-wider">EXECUTIVE</div>
+            <div class="font-display text-3xl my-1">$49.99</div>
+            <ul class="text-sm text-white/70 space-y-1 mt-2">
+              <li>✓ All Deluxe features</li>
+              <li>✓ Built-in cup holder</li>
+              <li>✓ Nameplate engraving</li>
+              <li>✓ Bonus drawer for supplies or additional cremains</li>
+            </ul>
+          </button>
+        </div>
+
+        <!-- Order form -->
+        <div x-show="step === 'form'" class="bg-white/5 border border-white/20 rounded p-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-sm text-white/70 mb-1 font-bold">Full Name</label>
+              <input type="text" placeholder="e.g. Greg from Accounting"
+                     class="w-full bg-crt border border-white/30 text-crt-green font-mono px-3 py-2 rounded focus:border-crt-green focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-sm text-white/70 mb-1 font-bold">Loved One's Name</label>
+              <input type="text" placeholder="e.g. Nana"
+                     class="w-full bg-crt border border-white/30 text-crt-green font-mono px-3 py-2 rounded focus:border-crt-green focus:outline-none">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div>
+              <label class="block text-sm text-white/70 mb-1 font-bold">Monitor Size</label>
+              <select class="w-full bg-crt border border-white/30 text-crt-green font-mono px-3 py-2 rounded focus:border-crt-green focus:outline-none">
+                <option>13" CRT</option>
+                <option>15" CRT</option>
+                <option selected>17" CRT (Most Popular)</option>
+                <option>19" CRT</option>
+                <option>21" CRT (Executive)</option>
+                <option>Flat Panel (NOT SUPPORTED)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm text-white/70 mb-1 font-bold">Quantity</label>
+              <div class="flex items-center gap-2">
+                <button @click="quantity = Math.max(1, quantity - 1)" class="btn-95 text-lg !px-3">&minus;</button>
+                <span class="font-mono text-crt-green text-2xl w-12 text-center" x-text="quantity"></span>
+                <button @click="quantity = Math.min(99, quantity + 1)" class="btn-95 text-lg !px-3">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 pt-4">
+            <div>
+              <span class="text-white/50 text-sm">Total:</span>
+              <span class="font-display text-4xl text-starburst ml-2">$<span x-text="price"></span></span>
+            </div>
+            <button @click="submit()" class="bg-tv-red text-white font-display text-2xl px-8 py-3 tracking-wider hover:bg-red-700 transition-colors shadow-lg cursor-pointer w-full sm:w-auto">
+              PLACE ORDER
+            </button>
+          </div>
+          <p class="text-white/30 text-xs mt-3">
+            By clicking "Place Order" you acknowledge that grief is just an unresolved workflow issue.
+          </p>
+        </div>
+
+        <!-- Processing -->
+        <div x-show="step === 'processing'" class="text-center py-12 bg-white/5 border border-white/20 rounded">
+          <div class="font-mono text-crt-green text-2xl mb-4 animate-glow">PROCESSING YOUR GRIEF...</div>
+          <div class="font-mono text-crt-green/70 space-y-1 text-sm">
+            <p>Validating cremain compatibility... ✓</p>
+            <p class="animate-blink">Calibrating Comfort Glow™...</p>
+          </div>
+        </div>
+
+        <!-- Confirmation -->
+        <div x-show="step === 'complete'" class="text-center py-8 bg-white/5 border border-crt-green/50 rounded px-6">
+          <div class="font-display text-4xl text-starburst mb-4">ORDER CONFIRMED!</div>
+          <p class="font-mono text-crt-green text-lg mb-2">
+            Order #<span x-text="orderNum"></span>
+          </p>
+          <p class="text-white/80 mb-4">
+            Your Cinco Desk Urn™ will arrive in 4&ndash;6 business weeks. In the meantime, please prepare a
+            suitable workspace for your loved one. We recommend clearing at least 6 inches of monitor space
+            and having a brief conversation with your coworkers about what's coming.
+          </p>
+          <p class="text-white/50 text-sm mb-4">Your grief counselor has been notified.*</p>
+          <p class="text-white/30 text-xs">*Cinco Industries does not employ grief counselors.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="construction-stripe"></div>
+
+<!-- ============================================ -->
+<!-- F.A.Q.                                       -->
+<!-- ============================================ -->
+<section id="faq" class="bg-beige py-12 md:py-16">
+  <div class="max-w-3xl mx-auto px-4" x-data="{ open: null }">
+    <h2 class="font-display text-4xl md:text-5xl text-center text-wood tracking-wider mb-10">
+      FREQUENTLY ASKED QUESTIONS
+    </h2>
+
+    <div class="space-y-3">
+
+      <div class="border-2 border-wood/20 bg-cream rounded overflow-hidden">
+        <button @click="open === 0 ? open = null : open = 0"
+                class="w-full text-left p-4 font-bold text-lg flex justify-between items-center gap-4 cursor-pointer hover:bg-wood/5 transition-colors">
+          <span>Is the Cinco Desk Urn™ a replacement for therapy?</span>
+          <span class="font-mono text-xl shrink-0 text-wood" x-text="open === 0 ? '▼' : '▶'">▶</span>
+        </button>
+        <div x-show="open === 0" x-transition class="px-4 pb-4 text-wood/80 border-t border-wood/10">
+          <p class="pt-3">The Cinco Desk Urn™ is not intended as a replacement for licensed professional therapy. However, at $19.99 versus $200/hour, you do the math. We're not saying it's better. We're just saying it's cheaper. And it clips to your monitor.</p>
+        </div>
+      </div>
+
+      <div class="border-2 border-wood/20 bg-cream rounded overflow-hidden">
+        <button @click="open === 1 ? open = null : open = 1"
+                class="w-full text-left p-4 font-bold text-lg flex justify-between items-center gap-4 cursor-pointer hover:bg-wood/5 transition-colors">
+          <span>Can I use the Desk Urn with a flat-panel monitor?</span>
+          <span class="font-mono text-xl shrink-0 text-wood" x-text="open === 1 ? '▼' : '▶'">▶</span>
+        </button>
+        <div x-show="open === 1" x-transition class="px-4 pb-4 text-wood/80 border-t border-wood/10">
+          <p class="pt-3">No. And frankly, we're concerned about your priorities. CRT monitors provide the warmth, weight, and radiation that your loved one deserves. Flat-panel monitors are cold, lifeless rectangles &mdash; much like the cubicle you already work in. Upgrade to a CRT today.</p>
+        </div>
+      </div>
+
+      <div class="border-2 border-wood/20 bg-cream rounded overflow-hidden">
+        <button @click="open === 2 ? open = null : open = 2"
+                class="w-full text-left p-4 font-bold text-lg flex justify-between items-center gap-4 cursor-pointer hover:bg-wood/5 transition-colors">
+          <span>What if my loved one hasn't... you know...?</span>
+          <span class="font-mono text-xl shrink-0 text-wood" x-text="open === 2 ? '▼' : '▶'">▶</span>
+        </button>
+        <div x-show="open === 2" x-transition class="px-4 pb-4 text-wood/80 border-t border-wood/10">
+          <p class="pt-3">The Cinco Desk Urn™ also works as a decorative monitor caddy! Fill it with paperclips, candy, or hopes and dreams. When the time comes, you'll be ready. That's called planning ahead. Cinco: Helping You Prepare For The Inevitable™.</p>
+        </div>
+      </div>
+
+      <div class="border-2 border-wood/20 bg-cream rounded overflow-hidden">
+        <button @click="open === 3 ? open = null : open = 3"
+                class="w-full text-left p-4 font-bold text-lg flex justify-between items-center gap-4 cursor-pointer hover:bg-wood/5 transition-colors">
+          <span>Is the urn waterproof?</span>
+          <span class="font-mono text-xl shrink-0 text-wood" x-text="open === 3 ? '▼' : '▶'">▶</span>
+        </button>
+        <div x-show="open === 3" x-transition class="px-4 pb-4 text-wood/80 border-t border-wood/10">
+          <p class="pt-3">No, and we cannot stress this enough. Do NOT bring the Cinco Desk Urn™ near liquids of any kind. We learned this the hard way. The incident report is sealed by court order.</p>
+        </div>
+      </div>
+
+      <div class="border-2 border-wood/20 bg-cream rounded overflow-hidden">
+        <button @click="open === 4 ? open = null : open = 4"
+                class="w-full text-left p-4 font-bold text-lg flex justify-between items-center gap-4 cursor-pointer hover:bg-wood/5 transition-colors">
+          <span>How many ashes does it hold?</span>
+          <span class="font-mono text-xl shrink-0 text-wood" x-text="open === 4 ? '▼' : '▶'">▶</span>
+        </button>
+        <div x-show="open === 4" x-transition class="px-4 pb-4 text-wood/80 border-t border-wood/10">
+          <p class="pt-3">The Standard model holds up to 8 oz of cremains, suitable for a small-to-medium loved one. For larger loved ones, consider our Executive model or multiple Standard units arranged in a tasteful row.</p>
+        </div>
+      </div>
+
+      <div class="border-2 border-wood/20 bg-cream rounded overflow-hidden">
+        <button @click="open === 5 ? open = null : open = 5"
+                class="w-full text-left p-4 font-bold text-lg flex justify-between items-center gap-4 cursor-pointer hover:bg-wood/5 transition-colors">
+          <span>Has anyone actually bought this?</span>
+          <span class="font-mono text-xl shrink-0 text-wood" x-text="open === 5 ? '▼' : '▶'">▶</span>
+        </button>
+        <div x-show="open === 5" x-transition class="px-4 pb-4 text-wood/80 border-t border-wood/10">
+          <p class="pt-3">We have sold over 12 units to date. Greg from accounting bought 9 of them. We are very proud of these numbers and do not consider this a cause for concern regarding Greg.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="construction-stripe"></div>
+
+<!-- ============================================ -->
+<!-- DISCLAIMERS                                  -->
+<!-- ============================================ -->
+<section class="bg-cream py-6">
+  <div class="max-w-4xl mx-auto px-4">
+    <p class="text-wood/40 text-[10px] leading-relaxed text-center">
+      Cinco Industries™ is not responsible for: workplace interventions resulting from conversations with the urn;
+      emotional breakdowns during quarterly reviews; thermal expansion of cremains near CRT heat vents; perceived
+      "haunting" of Microsoft Office applications; IT tickets regarding "the urn is looking at me"; relationships
+      ended due to urn-related disagreements; decreased workplace morale (we don't measure that); increased workplace
+      morale (we don't measure that either); or any existential crises triggered by prolonged eye contact with the
+      Digital Smiley Interface™. The Cinco Desk Urn™ has not been approved by the FDA, FCC, EPA, OSHA, or any
+      regulatory body in any country. Not a medical device. Not a toy. Not suitable for children under 47. Any
+      resemblance to actual grief counseling is purely coincidental. By purchasing this product you acknowledge that
+      grief is just an unresolved workflow issue. Cinco Desk Urn™ is not compatible with Macintosh computers, and
+      we're not sorry about that. Do not taunt the Cinco Desk Urn™. Do not make direct eye contact with the
+      Digital Smiley Interface™ for more than 45 consecutive minutes. If the Comfort Glow™ LED begins flashing red,
+      evacuate the building immediately and contact Cinco Emergency Services at 1-800-CINCO-911. Cinco: We Make Your
+      Products™. &copy; 1997 Cinco Industries, a division of Cinco Enterprises, a subsidiary of Cinco Holdings, a Cinco
+      Company. All rights reserved. Patent pending (we forgot to file the patent).
+    </p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- FOOTER                                       -->
+<!-- ============================================ -->
+<footer class="bg-teal-95 text-white py-6 text-center" x-data="{
+  visitors: 0,
+  seconds: 0,
+  init() {
+    this.visitors = Math.floor(Math.random() * 800) + 12847;
+    setInterval(() => this.seconds++, 1000);
+  }
+}">
+  <div class="max-w-4xl mx-auto px-4 space-y-3">
+
+    <!-- Grief timer -->
+    <p class="font-mono text-crt-green text-sm animate-glow">
+      You have been grieving productively for
+      <span x-text="Math.floor(seconds / 60)">0</span>m
+      <span x-text="String(seconds % 60).padStart(2, '0')">00</span>s
+    </p>
+
+    <div class="h-px bg-white/20"></div>
+
+    <!-- Visitor counter -->
+    <p class="font-mono text-sm text-white/70">
+      📊 You are visitor #<span class="text-crt-green" x-text="visitors.toLocaleString()"></span> to this webpage
+    </p>
+
+    <p class="font-display text-xl text-starburst tracking-wider">
+      📞 1-800-CINCO-JOY <span class="text-white/40 text-sm font-sans">(Not a real number)</span>
+    </p>
+
+    <div class="text-white/40 text-xs space-y-1">
+      <p>🖥️ Best viewed in Netscape Navigator 4.0 at 800&times;600 resolution</p>
+      <p>🚧 This site is permanently under construction 🚧</p>
+      <p>&copy; 1997 Cinco Industries, a division of Cinco Enterprises, a subsidiary of Cinco Holdings, a Cinco Company.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
